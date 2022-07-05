@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java比较器小结 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、说明Java中基本数据类型可以使用 &#x3D;&#x3D; 、!&#x3D;、&gt;、&lt;来比较，但是对象之间的比较只能用&#x3D;&#x3D; 或者 !&#x3D;。不能使用&lt;、&gt;比较。 那么如何比较对象的大小的，如何对多个对象进行排序呢？ 这就引出了我们今天的主角，两个接口:  自然排序：java.lang.Comparable    定制排序：java.lang.Comparator   二、自然排序：Comparable接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java比较器小结">
+<meta property="og:url" content="http://example.com/2022/05/03/Java%E6%AF%94%E8%BE%83%E5%99%A8%E5%B0%8F%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、说明Java中基本数据类型可以使用 &#x3D;&#x3D; 、!&#x3D;、&gt;、&lt;来比较，但是对象之间的比较只能用&#x3D;&#x3D; 或者 !&#x3D;。不能使用&lt;、&gt;比较。 那么如何比较对象的大小的，如何对多个对象进行排序呢？ 这就引出了我们今天的主角，两个接口:  自然排序：java.lang.Comparable    定制排序：java.lang.Comparator   二、自然排序：Comparable接">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-03T09:40:34.000Z">
+<meta property="article:modified_time" content="2022-05-03T10:10:26.430Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java比较器小结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/03/Java%E6%AF%94%E8%BE%83%E5%99%A8%E5%B0%8F%E7%BB%93/" class="article-date">
+  <time class="dt-published" datetime="2022-05-03T09:40:34.000Z" itemprop="datePublished">2022-05-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java%E7%9F%A5%E8%AF%86%E7%82%B9/">Java知识点</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java比较器小结
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、说明"><a href="#一、说明" class="headerlink" title="一、说明"></a>一、说明</h2><p>Java中基本数据类型可以使用 <code>==</code> 、<code>!=</code>、<code>&gt;</code>、<code>&lt;</code>来比较，但是对象之间的比较只能用<code>==</code> 或者<code> !=</code>。不能使用<code>&lt;</code>、<code>&gt;</code>比较。</p>
+<p>那么如何比较对象的大小的，如何对多个对象进行排序呢？</p>
+<p>这就引出了我们今天的主角，两个接口:</p>
+<ul>
+<li><p><code>自然排序：java.lang.Comparable</code>  </p>
+</li>
+<li><p><code>定制排序：java.lang.Comparator</code></p>
+</li>
+</ul>
+<h2 id="二、自然排序：Comparable接口"><a href="#二、自然排序：Comparable接口" class="headerlink" title="二、自然排序：Comparable接口"></a>二、自然排序：Comparable接口</h2><h5 id="基本介绍："><a href="#基本介绍：" class="headerlink" title="基本介绍："></a>基本介绍：</h5><ul>
+<li>Comparable接口强行对实现它的每个类的对象进行整体排序。这种排序被称为类的自然排序。</li>
+<li>实现 Comparable 的类必须重写该接口的 compareTo(Object obj) 方法，两个对象通过 compareTo(Object obj) 方法的返回值来比较大小。<ul>
+<li>如果当前对象this大于形参对象obj，则返回正整数。</li>
+<li>如果当前对象this小于形参对象obj，则返回负整数。</li>
+<li>如果当前对象this等于形参对象obj，则返回零。</li>
+</ul>
+</li>
+<li>实现Comparable接口的对象列表（和数组）可以通过 Collections.sort 或者Arrays.sort进行自动排序。实现此接口的对象可以用作有序映射中的键或有序集合中的元素，无需指定比较器。</li>
+</ul>
+<h5 id="典型实现：（默认都是从小到大排列）"><a href="#典型实现：（默认都是从小到大排列）" class="headerlink" title="典型实现：（默认都是从小到大排列）"></a>典型实现：（默认都是从小到大排列）</h5><ul>
+<li><p>String：按照字符串中字符的Unicode值进行比较</p>
+</li>
+<li><p>Character：按照字符的Unicode值来进行比较</p>
+</li>
+<li><p>数值类型对应的包装类以及BigInteger、BigDecimal：按照它们对应的数值大小进行比较</p>
+</li>
+<li><p>Boolean：true 对应的包装类实例大于 false 对应的包装类实例</p>
+</li>
+<li><p>Date、Time等：后面的日期时间比前面的日期时间大</p>
+<p><strong>代码演示：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//商品类，实现Comparable接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Goods</span> <span class="keyword">implements</span> <span class="title class_">Comparable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> price;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getPrice</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Goods&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, price=&quot;</span> + price +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPrice</span><span class="params">(<span class="type">double</span> price)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Goods</span><span class="params">(String name, <span class="type">double</span> price)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//商品比较大小的方式：按照价格从低到高排序,再按照商品名称从高到低排序</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compareTo</span><span class="params">(Object o)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (o <span class="keyword">instanceof</span> Goods) &#123;</span><br><span class="line">            <span class="type">Goods</span> <span class="variable">goods</span> <span class="operator">=</span> (Goods) o;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">this</span>.price &gt; goods.price) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">this</span>.price &lt; goods.price) &#123;</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> -<span class="built_in">this</span>.name.compareTo(goods.name);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;传入的数据类型不一致！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试类</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test2</span><span class="params">()</span> &#123;</span><br><span class="line">        Goods[] arr = <span class="keyword">new</span> <span class="title class_">Goods</span>[<span class="number">5</span>];</span><br><span class="line">        arr[<span class="number">0</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;罗技&quot;</span>,<span class="number">299</span>);</span><br><span class="line">        arr[<span class="number">1</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;雷蛇&quot;</span>,<span class="number">399</span>);</span><br><span class="line">        arr[<span class="number">2</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;小米&quot;</span>,<span class="number">99</span>);</span><br><span class="line">        arr[<span class="number">3</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;戴尔&quot;</span>,<span class="number">169</span>);</span><br><span class="line">        arr[<span class="number">4</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;联想&quot;</span>,<span class="number">99</span>);</span><br><span class="line"></span><br><span class="line">        Arrays.sort(arr);</span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="3-定制排序：java-util-Comparator"><a href="#3-定制排序：java-util-Comparator" class="headerlink" title="3.定制排序：java.util.Comparator"></a>3.定制排序：java.util.Comparator</h2><ul>
+<li><strong>当元素的类型没有实现java.lang.Comparable接口而又不方便修改代码，或者实现了java.lang.Comparable接口的排序规则不适合当前的操作，那么可以考虑使用Comparator的对象来排序</strong>，强行对多个对象进行整体排序的比较。</li>
+<li>重写compare(Object o1,Object o2)方法，比较o1和o2的大小：<ul>
+<li>如果方法返回正整数，则表示o1大于o2</li>
+<li>如果方法返回0，则表示o1等于o2</li>
+<li>如果方法返回负整数，则表示o1小于o2</li>
+</ul>
+</li>
+<li>可以将 Comparator 传递给 sort 方法（如 Collections.sort 或 Arrays.sort），从而允许在排序顺序上实现精确控制。</li>
+</ul>
+<p><strong>代码演示：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test4</span><span class="params">()</span> &#123;</span><br><span class="line">    Goods[] arr = <span class="keyword">new</span> <span class="title class_">Goods</span>[<span class="number">6</span>];</span><br><span class="line">    arr[<span class="number">0</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;l罗技&quot;</span>,<span class="number">299</span>);</span><br><span class="line">    arr[<span class="number">1</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;l雷蛇&quot;</span>,<span class="number">399</span>);</span><br><span class="line">    arr[<span class="number">2</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;x小米&quot;</span>,<span class="number">99</span>);</span><br><span class="line">    arr[<span class="number">3</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;d戴尔&quot;</span>,<span class="number">169</span>);</span><br><span class="line">    arr[<span class="number">4</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;l联想&quot;</span>,<span class="number">99</span>);</span><br><span class="line">    arr[<span class="number">5</span>] = <span class="keyword">new</span> <span class="title class_">Goods</span>(<span class="string">&quot;l雷蛇&quot;</span>,<span class="number">199</span>);</span><br><span class="line"></span><br><span class="line">    Arrays.sort(arr, <span class="keyword">new</span> <span class="title class_">Comparator</span>&lt;Goods&gt;() &#123;</span><br><span class="line">        <span class="comment">//商品比较大小的方式：按照商品名称从低到高,再按照商品价格从高到低排序</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compare</span><span class="params">(Goods o1, Goods o2)</span> &#123;</span><br><span class="line">            <span class="comment">//名字一样，比较价格</span></span><br><span class="line">            <span class="keyword">if</span> (o1.getName().equals(o2.getName()))&#123;</span><br><span class="line">                <span class="keyword">return</span> -Double.compare(o1.getPrice(),o2.getPrice());</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> o1.getName().compareTo(o2.getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    System.out.println(Arrays.toString(arr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不得不说，<strong>康师傅yyds！</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/05/03/Java%E6%AF%94%E8%BE%83%E5%99%A8%E5%B0%8F%E7%BB%93/" data-id="cl57y2bbt0006y4w11495e986" data-title="Java比较器小结" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/05/04/Leecode-1823-%E6%89%BE%E5%87%BA%E6%B8%B8%E6%88%8F%E7%9A%84%E8%8E%B7%E8%83%9C%E8%80%85/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Leecode 1823 找出游戏的获胜者
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/03/Leecode-937-%E9%87%8D%E6%96%B0%E6%8E%92%E5%88%97%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Leecode 937 重新排列日志文件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E7%9F%A5%E8%AF%86%E7%82%B9/">Java知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leecode%E5%88%B7%E9%A2%98%E8%AE%A1%E5%88%92/">Leecode刷题计划</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/">爬虫学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/">踩坑日记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F%E9%97%AE%E9%A2%98%E7%A7%AF%E7%B4%AF/">面经问题积累</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E7%A7%AF%E7%B4%AF/">面试问题积累</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E4%BA%AB/" rel="tag">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%BC%E8%88%AA/" rel="tag">导航</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 10px;">JavaWeb</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/%E5%88%86%E4%BA%AB/" style="font-size: 10px;">分享</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 13.33px;">动态规划</a> <a href="/tags/%E5%AF%BC%E8%88%AA/" style="font-size: 10px;">导航</a> <a href="/tags/%E6%A0%91/" style="font-size: 16.67px;">树</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/05/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%94%E6%9C%88%E8%AE%A1%E5%88%92%EF%BC%9A/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/22/Communications-link-failure/">Communications link failure</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/VUE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">VUE学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/SpringMVC%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">SpringMVC常用注解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/16/SSM%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/">SSM整合笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

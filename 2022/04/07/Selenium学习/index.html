@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Selenium学习 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. Selenium1.1 什么是selenium？ Selenium是一个用于Web应用程序测试的工具。   Selenium 测试直接运行在浏览器中，就像真正的用户在操作一样。   支持通过各种driver（FirfoxDriver，IternetExplorerDriver，OperaDriver，ChromeDriver）驱动 真实浏览器完成测试。   selenium也是支持无界面浏览">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Selenium学习">
+<meta property="og:url" content="http://example.com/2022/04/07/Selenium%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. Selenium1.1 什么是selenium？ Selenium是一个用于Web应用程序测试的工具。   Selenium 测试直接运行在浏览器中，就像真正的用户在操作一样。   支持通过各种driver（FirfoxDriver，IternetExplorerDriver，OperaDriver，ChromeDriver）驱动 真实浏览器完成测试。   selenium也是支持无界面浏览">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-07T11:25:13.000Z">
+<meta property="article:modified_time" content="2022-04-07T13:27:00.022Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Selenium学习" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/04/07/Selenium%E5%AD%A6%E4%B9%A0/" class="article-date">
+  <time class="dt-published" datetime="2022-04-07T11:25:13.000Z" itemprop="datePublished">2022-04-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/">爬虫学习</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Selenium学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-Selenium"><a href="#1-Selenium" class="headerlink" title="1. Selenium"></a>1. Selenium</h1><h2 id="1-1-什么是selenium？"><a href="#1-1-什么是selenium？" class="headerlink" title="1.1 什么是selenium？"></a>1.1 什么是selenium？</h2><ol>
+<li><p>Selenium是一个用于Web应用程序测试的工具。 </p>
+</li>
+<li><p>Selenium 测试直接运行在浏览器中，就像真正的用户在操作一样。 </p>
+</li>
+<li><p>支持通过各种driver（FirfoxDriver，IternetExplorerDriver，OperaDriver，ChromeDriver）驱动 真实浏览器完成测试。 </p>
+</li>
+<li><p>selenium也是支持无界面浏览器操作的。</p>
+</li>
+</ol>
+<h2 id="1-2-为什么使用Selenium"><a href="#1-2-为什么使用Selenium" class="headerlink" title="1.2 为什么使用Selenium?"></a>1.2 为什么使用Selenium?</h2><p>模拟浏览器功能，自动执行网页中的js代码，实现动态加载。</p>
+<h2 id="1-3-使用步骤"><a href="#1-3-使用步骤" class="headerlink" title="1.3 使用步骤"></a>1.3 使用步骤</h2><ol>
+<li>导包： form selenium import webdriver</li>
+<li>创建谷歌浏览器操作对象：<ol>
+<li>path &#x3D; 浏览器驱动文件路径</li>
+<li>browser &#x3D; webdriver.Chrome(path)</li>
+</ol>
+</li>
+<li>访问网址<ol>
+<li>url &#x3D; “所要访问的网址”</li>
+<li>browser.get(url)</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">path = <span class="string">&#x27;D:\chromedriver\chromedriver.exe&#x27;</span></span><br><span class="line">browser = webdriver.Chrome(path)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://www.baidu.com&#x27;</span></span><br><span class="line">browser.get(url)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-1-元素定位"><a href="#1-3-1-元素定位" class="headerlink" title="1.3.1 元素定位"></a>1.3.1 元素定位</h3><p>元素定位：自动化要做的就是模拟鼠标和键盘来操作来操作这些元素，点击、输入等等。操作这些元素前首先 </p>
+<p>要找到它们，WebDriver提供很多定位元素的方法。</p>
+<p><strong>方法：</strong></p>
+<pre><code>1. find_element(By.ID,&#39;标签id&#39;)
+1. find_element(By.CLASS_NAME,&#39;标签类名&#39;)
+1. find_element(By.TAG_NAME,&#39;标签名&#39;)
+1. find_element(By.CSS_SELECTOR,&#39;根据选择器进行定位&#39;)
+1. find_element(By.XPATH,&#39;根据XPATH进行定位&#39;)
+</code></pre>
+<h3 id="1-3-2-访问元素信息"><a href="#1-3-2-访问元素信息" class="headerlink" title="1.3.2 访问元素信息"></a>1.3.2 访问元素信息</h3><ol>
+<li>获取元素属性: .get_attribute(‘class’)</li>
+<li>获取元素文本：.text</li>
+<li>获取标签名：.tag_name</li>
+</ol>
+<h3 id="1-3-3-交互"><a href="#1-3-3-交互" class="headerlink" title="1.3.3 交互"></a>1.3.3 交互</h3><ul>
+<li><p>点击:click() </p>
+</li>
+<li><p>输入:send_keys() </p>
+</li>
+<li><p>-后退操作:browser.back() </p>
+</li>
+<li><p>前进操作:browser.forword() </p>
+</li>
+<li><p>模拟JS滚动: </p>
+<ul>
+<li><p>js&#x3D;’document.documentElement.scrollTop&#x3D;100000’ </p>
+</li>
+<li><p>browser.execute_script(js) 执行js代码</p>
+</li>
+</ul>
+</li>
+<li><p>获取网页代码：page_source </p>
+</li>
+<li><p>退出：browser.quit()</p>
+</li>
+</ul>
+<h1 id="2-Phantomjs-（已废弃）"><a href="#2-Phantomjs-（已废弃）" class="headerlink" title="2.Phantomjs （已废弃）"></a>2.<strong>Phantomjs</strong> （已废弃）</h1><h2 id="2-1-什么是Phantomjs？"><a href="#2-1-什么是Phantomjs？" class="headerlink" title="2.1 什么是Phantomjs？"></a>2.1 什么是Phantomjs？</h2><ol>
+<li>是一个无界面的浏览器</li>
+<li>支持页面元素查找，js的执行等</li>
+<li>由于不进行css和gui渲染，运行效率要比真实的浏览器要快很多</li>
+</ol>
+<h2 id="2-2-如何使用Phantomjs？"><a href="#2-2-如何使用Phantomjs？" class="headerlink" title="2.2 如何使用Phantomjs？"></a>2.2 如何使用Phantomjs？</h2><ol>
+<li>获取PhantomJS.exe文件路径path</li>
+<li>browser &#x3D; webdriver.PhantomJS(path)</li>
+<li>browser.get(url)</li>
+</ol>
+<p>扩展：保存屏幕快照:browser.save_screenshot(‘图片.png’) </p>
+<h1 id="3-Chrome-handless"><a href="#3-Chrome-handless" class="headerlink" title="3. Chrome handless"></a>3. <strong>Chrome handless</strong></h1><p>Chrome-headless 模式，是Google 针对 Chrome 浏览器 59版 新增加的一种模式，可以让你<strong>不打开UI界面的情况下</strong>使用 Chrome 浏览器，所以运行效果与 Chrome 保持完美一致。</p>
+<h2 id="3-1-配置"><a href="#3-1-配置" class="headerlink" title="3.1 配置"></a>3.1 配置</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.chrome.options <span class="keyword">import</span> Options</span><br><span class="line"></span><br><span class="line">chrome_options = Options()</span><br><span class="line">chrome_options.add_argument(<span class="string">&#x27;‐‐headless&#x27;</span>)</span><br><span class="line">chrome_options.add_argument(<span class="string">&#x27;‐‐disable‐gpu&#x27;</span>)</span><br><span class="line"></span><br><span class="line">path = <span class="string">r&#x27;&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot;&#x27;</span></span><br><span class="line">chrome_options.binary_location = path</span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome(chrome_options=chrome_options)</span><br><span class="line"></span><br><span class="line">browser.get(<span class="string">&#x27;http://www.baidu.com/&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-配置封装"><a href="#3-2-配置封装" class="headerlink" title="3.2 配置封装"></a>3.2 配置封装</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="comment">#这个是浏览器自带的 不需要我们再做额外的操作</span></span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.chrome.options <span class="keyword">import</span> Options </span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">share_browser</span>():</span><br><span class="line"><span class="comment">#初始化</span></span><br><span class="line">    chrome_options = Options()</span><br><span class="line">    chrome_options.add_argument(<span class="string">&#x27;‐‐headless&#x27;</span>)</span><br><span class="line">    chrome_options.add_argument(<span class="string">&#x27;‐‐disable‐gpu&#x27;</span>)</span><br><span class="line">    <span class="comment">#浏览器的安装路径 打开文件位置</span></span><br><span class="line">    <span class="comment"># #这个路径是你谷歌浏览器的路径</span></span><br><span class="line">    path = <span class="string">r&#x27;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&#x27;</span></span><br><span class="line">    chrome_options.binary_location = path</span><br><span class="line">    browser = webdriver.Chrome(chrome_options=chrome_options)</span><br><span class="line">    <span class="keyword">return</span> browser</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/04/07/Selenium%E5%AD%A6%E4%B9%A0/" data-id="cl57y2bdo0068y4w1d7a8c70m" data-title="Selenium学习" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/08/Leecode-136-%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Leecode 136 只出现一次的数字
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/07/%E7%BC%96%E7%A0%81%E9%9B%86%E5%B0%8F%E8%AF%BE%E7%B3%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">编码集小课糖</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E7%9F%A5%E8%AF%86%E7%82%B9/">Java知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leecode%E5%88%B7%E9%A2%98%E8%AE%A1%E5%88%92/">Leecode刷题计划</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/">爬虫学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/">踩坑日记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F%E9%97%AE%E9%A2%98%E7%A7%AF%E7%B4%AF/">面经问题积累</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E7%A7%AF%E7%B4%AF/">面试问题积累</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E4%BA%AB/" rel="tag">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%BC%E8%88%AA/" rel="tag">导航</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 10px;">JavaWeb</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/%E5%88%86%E4%BA%AB/" style="font-size: 10px;">分享</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 13.33px;">动态规划</a> <a href="/tags/%E5%AF%BC%E8%88%AA/" style="font-size: 10px;">导航</a> <a href="/tags/%E6%A0%91/" style="font-size: 16.67px;">树</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/05/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%94%E6%9C%88%E8%AE%A1%E5%88%92%EF%BC%9A/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/22/Communications-link-failure/">Communications link failure</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/VUE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">VUE学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/SpringMVC%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">SpringMVC常用注解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/16/SSM%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/">SSM整合笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

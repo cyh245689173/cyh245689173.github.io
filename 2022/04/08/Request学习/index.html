@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Request学习 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. 基本使用一个类型六个属性  类型：models.Response 属性： r.text：获取网站源码 r.encoding：访问或定制编码方式 r.url：获取请求的url r.content：获取响应的字节类型 r.status_code：响应的状态码 r.headers：相应的头信息    1234567891011121314151617181920212223242526import">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Request学习">
+<meta property="og:url" content="http://example.com/2022/04/08/Request%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. 基本使用一个类型六个属性  类型：models.Response 属性： r.text：获取网站源码 r.encoding：访问或定制编码方式 r.url：获取请求的url r.content：获取响应的字节类型 r.status_code：响应的状态码 r.headers：相应的头信息    1234567891011121314151617181920212223242526import">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-08T07:52:02.000Z">
+<meta property="article:modified_time" content="2022-04-10T01:36:07.210Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Request学习" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/04/08/Request%E5%AD%A6%E4%B9%A0/" class="article-date">
+  <time class="dt-published" datetime="2022-04-08T07:52:02.000Z" itemprop="datePublished">2022-04-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/">爬虫学习</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Request学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="1. 基本使用"></a>1. 基本使用</h1><p>一个类型六个属性</p>
+<ul>
+<li>类型：models.Response</li>
+<li>属性：<ul>
+<li>r.text：获取网站源码</li>
+<li>r.encoding：访问或定制编码方式</li>
+<li>r.url：获取请求的url</li>
+<li>r.content：获取响应的字节类型</li>
+<li>r.status_code：响应的状态码</li>
+<li>r.headers：相应的头信息</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://baidu.com/&#x27;</span></span><br><span class="line"></span><br><span class="line">response = requests.get(url)</span><br><span class="line"></span><br><span class="line"><span class="comment">#一个类型:Response类型</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(response))</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置响应的编码格式</span></span><br><span class="line">response.encoding = <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#以字符串的形式来返回网页的源码</span></span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#返回当前url地址</span></span><br><span class="line"><span class="built_in">print</span>(response.url)</span><br><span class="line"></span><br><span class="line"><span class="comment">#返回二进制的网页数据</span></span><br><span class="line"><span class="built_in">print</span>(response.content)</span><br><span class="line"></span><br><span class="line"><span class="comment">#返回响应的状态码</span></span><br><span class="line"><span class="built_in">print</span>(response.status_code)</span><br><span class="line"></span><br><span class="line"><span class="comment">#返回响应头</span></span><br><span class="line"><span class="built_in">print</span>(response.headers)</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-get请求"><a href="#2-get请求" class="headerlink" title="2. get请求"></a>2. get请求</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://www.baidu.com/s&#x27;</span></span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&#x27;wd&#x27;</span>:<span class="string">&#x27;黑子的篮球&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line"><span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response = requests.get(url=url,params=data,headers=headers)</span><br><span class="line">response.encoding = <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">content = response.text</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
+
+<p><strong>总结：</strong></p>
+<ul>
+<li>参数用params传递</li>
+<li>参数无需urlencode编码</li>
+<li>不需要请求对象的定制</li>
+<li>请求资源路径中的<code>?</code>可加可不加</li>
+</ul>
+<h2 id="3-Post请求"><a href="#3-Post请求" class="headerlink" title="3. Post请求"></a>3. Post请求</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://fanyi.youdao.com/translate_o?smartresult=dict&amp;smartresult=rule&#x27;</span></span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&#x27;i&#x27;</span>: <span class="string">&#x27;love&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;from&#x27;</span>: <span class="string">&#x27;AUTO&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;to&#x27;</span>: <span class="string">&#x27;AUTO&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;smartresult&#x27;</span>: <span class="string">&#x27;dict&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;client&#x27;</span>: <span class="string">&#x27;fanyideskweb&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;salt&#x27;</span>: <span class="string">&#x27;16494072793394&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sign&#x27;</span>: <span class="string">&#x27;58f09b7d5c54bad3cf13f284d1ad11eb&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;lts&#x27;</span>: <span class="string">&#x27;1649407279339&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;bv&#x27;</span>: <span class="string">&#x27;cf0f0924f577526ad20c2e2b01510b6f&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;doctype&#x27;</span>: <span class="string">&#x27;json&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;version&#x27;</span>: <span class="number">2.1</span>,</span><br><span class="line">    <span class="string">&#x27;keyfrom&#x27;</span>: <span class="string">&#x27;fanyi.web&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;action&#x27;</span>: <span class="string">&#x27;FY_BY_REALTlME&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;cookie&#x27;</span>:<span class="string">&#x27;OUTFOX_SEARCH_USER_ID=394345011@10.169.0.102; OUTFOX_SEARCH_USER_ID_NCOO=1734306557.6906822; _ntes_nnid=ed414fcfa561a8574af03795d7aacf0f,1645673021070; fanyi-ad-id=305426; fanyi-ad-closed=1; JSESSIONID=aaaaPSk8l2vvngf7zviay; ___rl__test__cookies=1649407279337&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response = requests.post(url=url, data=data, headers=headers)</span><br><span class="line"></span><br><span class="line">content = response.text</span><br><span class="line"><span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
+
+<h4 id="get方式和post方式的区别和相同点？"><a href="#get方式和post方式的区别和相同点？" class="headerlink" title="get方式和post方式的区别和相同点？"></a>get方式和post方式的区别和相同点？</h4><ol>
+<li>区别：<ol>
+<li>get请求方式的参数名字是params，post请求方式的参数的名字是data。</li>
+</ol>
+</li>
+<li>相同点：<ol>
+<li>都不需要手动编解码</li>
+<li>都不需要请求对象的定制</li>
+</ol>
+</li>
+</ol>
+<h2 id="4-代理"><a href="#4-代理" class="headerlink" title="4. 代理"></a>4. 代理</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8-*-</span></span><br><span class="line"><span class="comment"># @Time:2022/4/108:14</span></span><br><span class="line"><span class="comment"># @Author:陈 玉 皓</span></span><br><span class="line"><span class="comment"># @File:代理.py</span></span><br><span class="line"><span class="comment"># @Sofeware:PyCharm</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">proxy定制：</span></span><br><span class="line"><span class="string">        在请求中设置proxies参数</span></span><br><span class="line"><span class="string">        参数类型是一个字典类型</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://www.baidu.com/s&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;user-agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line">proxy = &#123;</span><br><span class="line">    <span class="string">&#x27;http&#x27;</span>:<span class="string">&#x27;115.218.4.207:9000&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&#x27;wd&#x27;</span>: <span class="string">&#x27;ip&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response = requests.get(url=url, headers=headers, params=data, proxies=proxy)</span><br><span class="line"></span><br><span class="line">content = response.text</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;daili.html&quot;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(content)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-cookie定制"><a href="#5-cookie定制" class="headerlink" title="5.cookie定制"></a>5.cookie定制</h2><p>案例：登录古诗文网</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8-*-</span></span><br><span class="line"><span class="comment"># @Time:2022/4/108:33</span></span><br><span class="line"><span class="comment"># @Author:陈 玉 皓</span></span><br><span class="line"><span class="comment"># @File:古诗文网登录案例.py</span></span><br><span class="line"><span class="comment"># @Sofeware:PyCharm</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过登录  进入到主页面</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">__VIEWSTATE: 0jT+rlrbIVk5b2Vr9nfiJmkUQYCGOce8pRTotC5+WcuisZmBp0mHcX6f4IDi0J+B4yfNb0ABTvwFnP0r4uNpYGZUFyT51SAOpg9mS/iReKe81zr8fRay9e3aXqM=</span></span><br><span class="line"><span class="string">__VIEWSTATEGENERATOR: C93BE1AE</span></span><br><span class="line"><span class="string">from: http://so.gushiwen.cn/user/collect.aspx</span></span><br><span class="line"><span class="string">email: 1772302265@qq.com</span></span><br><span class="line"><span class="string">pwd: 15632453</span></span><br><span class="line"><span class="string">code: NBAO</span></span><br><span class="line"><span class="string">denglu: 登录</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="comment">#一般情况下，看不到的数据都是在页面的源码中</span></span><br><span class="line"><span class="comment"># 观察到__VIEWSTATE __VIEWSTATEGENERATOR 和 code是变化的</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 难点：（1）__VIEWSTATE __VIEWSTATEGENERATOR</span></span><br><span class="line">                <span class="comment">#观察到这两个数据在页面的源码中，所以只需要获取页面的源码，然后进行解析就可以获取了</span></span><br><span class="line"><span class="comment">#      （2）验证码code</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"><span class="comment">#登录页面</span></span><br><span class="line">url = <span class="string">&#x27;https://so.gushiwen.cn/user/login.aspx?from=http://so.gushiwen.cn/user/collect.aspx&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;user-agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response = requests.get(url=url,headers=headers)</span><br><span class="line"></span><br><span class="line">content = response.text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#解析数据</span></span><br><span class="line">soup = BeautifulSoup(content,<span class="string">&#x27;lxml&#x27;</span>)</span><br><span class="line"><span class="comment">#获取viewstate</span></span><br><span class="line">viewstate = soup.select(<span class="string">&#x27;#__VIEWSTATE&#x27;</span>)[<span class="number">0</span>].attrs.get(<span class="string">&#x27;value&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#获取viewstategenerator</span></span><br><span class="line">viewstategenerator = soup.select(<span class="string">&#x27;#__VIEWSTATEGENERATOR&#x27;</span>)[<span class="number">0</span>].attrs.get(<span class="string">&#x27;value&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(viewstate)</span><br><span class="line"><span class="built_in">print</span>(viewstategenerator)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#获取验证码图片</span></span><br><span class="line">code = soup.select(<span class="string">&#x27;#imgCode&#x27;</span>)[<span class="number">0</span>].attrs.get(<span class="string">&#x27;src&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#验证码地址</span></span><br><span class="line">code_url = <span class="string">&#x27;https://so.gushiwen.cn&#x27;</span>+code</span><br><span class="line"><span class="comment">#print(code_url)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#session()方法的返回值可以使请求变成同一个对象</span></span><br><span class="line"></span><br><span class="line">session = requests.session()</span><br><span class="line"><span class="comment">#验证码的url的内容</span></span><br><span class="line">response_code = session.get(code_url)</span><br><span class="line"><span class="comment"># 注意：此事要使用二进制的形式，因为图片的下载使用的是二进制</span></span><br><span class="line">content_code = response_code.content</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;code.jpg&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(content_code)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#获取验证码的图片，下载到本地，然后观察验证码，在控制台输入，</span></span><br><span class="line"><span class="comment">#将输入的值传给code的参数就可以进行登录</span></span><br><span class="line">code_name = <span class="built_in">input</span>(<span class="string">&quot;请输入验证码：&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#登录</span></span><br><span class="line">url_post = <span class="string">&#x27;https://so.gushiwen.cn/user/login.aspx?from=http%3a%2f%2fso.gushiwen.cn%2fuser%2fcollect.aspx&#x27;</span></span><br><span class="line"></span><br><span class="line">data_post = &#123;</span><br><span class="line"><span class="string">&#x27;__VIEWSTATE&#x27;</span>: viewstate,</span><br><span class="line"><span class="string">&#x27;__VIEWSTATEGENERATOR&#x27;</span>: viewstategenerator,</span><br><span class="line"><span class="string">&#x27;from&#x27;</span>:<span class="string">&#x27; http://so.gushiwen.cn/user/collect.aspx&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;email&#x27;</span>: <span class="string">&#x27;1772302265@qq.com&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;pwd&#x27;</span>: <span class="string">&#x27;wodemaa520....&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;code&#x27;</span>: code_name,</span><br><span class="line"><span class="string">&#x27;denglu&#x27;</span>: <span class="string">&#x27;登录&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response_post  = session.post(url=url_post,headers=headers,data=data_post)</span><br><span class="line"></span><br><span class="line">content_post = response_post.text</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;gushiwen.html&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(content_post)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/04/08/Request%E5%AD%A6%E4%B9%A0/" data-id="cl57y2bdk005xy4w1a4tta8g6" data-title="Request学习" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/10/Leecode-222-%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E8%8A%82%E7%82%B9%E4%B8%AA%E6%95%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Leecode 222 完全二叉树的节点个数
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/08/Leecode-15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Leecode 15 三数之和</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E7%9F%A5%E8%AF%86%E7%82%B9/">Java知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leecode%E5%88%B7%E9%A2%98%E8%AE%A1%E5%88%92/">Leecode刷题计划</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/">爬虫学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/">踩坑日记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F%E9%97%AE%E9%A2%98%E7%A7%AF%E7%B4%AF/">面经问题积累</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E7%A7%AF%E7%B4%AF/">面试问题积累</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E4%BA%AB/" rel="tag">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%BC%E8%88%AA/" rel="tag">导航</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 10px;">JavaWeb</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/%E5%88%86%E4%BA%AB/" style="font-size: 10px;">分享</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 13.33px;">动态规划</a> <a href="/tags/%E5%AF%BC%E8%88%AA/" style="font-size: 10px;">导航</a> <a href="/tags/%E6%A0%91/" style="font-size: 16.67px;">树</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/05/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%94%E6%9C%88%E8%AE%A1%E5%88%92%EF%BC%9A/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/22/Communications-link-failure/">Communications link failure</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/VUE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">VUE学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/SpringMVC%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">SpringMVC常用注解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/16/SSM%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/">SSM整合笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

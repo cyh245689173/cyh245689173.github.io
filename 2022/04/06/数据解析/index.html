@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>数据解析 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. XPath1.1 XPath简介XPath，全称是XML Path Language，即XML路径语言，是一门在XML文档中查找信息的语言，也同样适用于HTML文档的搜索。 1.2 XPath使用 安装lxml库 pip install lxml -i https:&#x2F;&#x2F;pypi.douban.com&#x2F;simple  导入lxml.etree from lxml import etree  e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据解析">
+<meta property="og:url" content="http://example.com/2022/04/06/%E6%95%B0%E6%8D%AE%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. XPath1.1 XPath简介XPath，全称是XML Path Language，即XML路径语言，是一门在XML文档中查找信息的语言，也同样适用于HTML文档的搜索。 1.2 XPath使用 安装lxml库 pip install lxml -i https:&#x2F;&#x2F;pypi.douban.com&#x2F;simple  导入lxml.etree from lxml import etree  e">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-06T06:06:00.000Z">
+<meta property="article:modified_time" content="2022-04-07T09:09:46.667Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-数据解析" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/04/06/%E6%95%B0%E6%8D%AE%E8%A7%A3%E6%9E%90/" class="article-date">
+  <time class="dt-published" datetime="2022-04-06T06:06:00.000Z" itemprop="datePublished">2022-04-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/">爬虫学习</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      数据解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-XPath"><a href="#1-XPath" class="headerlink" title="1. XPath"></a>1. XPath</h1><h2 id="1-1-XPath简介"><a href="#1-1-XPath简介" class="headerlink" title="1.1 XPath简介"></a>1.1 XPath简介</h2><p>XPath，全称是<code>XML Path Language</code>，即XML路径语言，是一门在XML文档中查找信息的语言，也同样适用于HTML文档的搜索。</p>
+<h2 id="1-2-XPath使用"><a href="#1-2-XPath使用" class="headerlink" title="1.2 XPath使用"></a>1.2 XPath使用</h2><ol>
+<li><p>安装lxml库</p>
+<p>pip install lxml -i <a target="_blank" rel="noopener" href="https://pypi.douban.com/simple">https://pypi.douban.com/simple</a></p>
+</li>
+<li><p>导入lxml.etree</p>
+<p>from lxml import etree</p>
+</li>
+<li><p>etree.parse()             解析本地文件</p>
+<p>html_tree &#x3D; etree.parse(‘XX.html’)</p>
+</li>
+<li><p>etree.HTML()            解析服务器响应的文件</p>
+<p>html_tree &#x3D; etree.HTML(response.read().decode(‘utf-8’))</p>
+</li>
+<li><p>html_tree.xpath(‘xpath路径’)</p>
+</li>
+</ol>
+<h2 id="1-2-XPath基本语法"><a href="#1-2-XPath基本语法" class="headerlink" title="1.2 XPath基本语法"></a>1.2 XPath基本语法</h2><ul>
+<li>路径查询<ul>
+<li>&#x2F;&#x2F;：从当前节点选取子孙节点，不考虑层级关系</li>
+<li>&#x2F;：从当前节点选取直接子节点</li>
+<li><strong>.</strong> ：选取当前节点</li>
+<li><strong>..</strong> :选取当前节点的父节点</li>
+</ul>
+</li>
+<li>谓词查询(<strong>注意单引号和双引号的问题</strong>)<ul>
+<li>&#x2F;&#x2F;div[@id]</li>
+<li>&#x2F;&#x2F;div[@id &#x3D; “box”]</li>
+</ul>
+</li>
+<li>属性查询<ul>
+<li>&#x2F;&#x2F;@class</li>
+</ul>
+</li>
+<li>模糊查询<ul>
+<li>&#x2F;&#x2F;div[contains(@id，”he”)]，表示id中包含关键字he的的div标签</li>
+<li>&#x2F;&#x2F;div[starts-with(@id，“he”)]，表示id开头是he的的div标签</li>
+</ul>
+</li>
+<li>内容查询<ul>
+<li>&#x2F;&#x2F;div&#x2F;h1&#x2F;text()，查看标签内容</li>
+</ul>
+</li>
+<li>逻辑运算<ul>
+<li>&#x2F;&#x2F;div[@id &#x3D;”head” and @class &#x3D; “s_down”] </li>
+<li>&#x2F;&#x2F;div[@id &#x3D;”head” or @class &#x3D; “s_down”]</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-3-实践案例"><a href="#1-3-实践案例" class="headerlink" title="1.3 实践案例"></a>1.3 实践案例</h2><p><strong>获取百度网站的百度一下</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding:utf-8-*-</span></span><br><span class="line"><span class="comment">#@Time:2022/4/614:32</span></span><br><span class="line"><span class="comment">#@Author:陈 玉 皓</span></span><br><span class="line"><span class="comment">#@File:解析_百度一下.py</span></span><br><span class="line"><span class="comment">#@Sofeware:PyCharm</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="comment">#（1）获取网页的源码</span></span><br><span class="line">url = <span class="string">&#x27;https://www.baidu.com/&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">   <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#定制请求对象</span></span><br><span class="line">request = urllib.request.Request(url=url,headers=headers)</span><br><span class="line"><span class="comment">#模拟浏览器访问服务器</span></span><br><span class="line">response = urllib.request.urlopen(request)</span><br><span class="line"><span class="comment">#获取网页源码</span></span><br><span class="line">content = response.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(content)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#（2）解析服务器响应的文件</span></span><br><span class="line">tree = etree.HTML(content)</span><br><span class="line"></span><br><span class="line">result = tree.xpath(<span class="string">&#x27;//span/input[@id=&quot;su&quot;]/@value&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#（3）打印</span></span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取站长素材前十页的老虎图片"><a href="#获取站长素材前十页的老虎图片" class="headerlink" title="获取站长素材前十页的老虎图片"></a>获取站长素材前十页的老虎图片</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding:utf-8-*-</span></span><br><span class="line"><span class="comment"># @Time:2022/4/614:54</span></span><br><span class="line"><span class="comment"># @Author:陈 玉 皓</span></span><br><span class="line"><span class="comment"># @File:获取站长素材前十页的老虎图片.py</span></span><br><span class="line"><span class="comment"># @Sofeware:PyCharm</span></span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_request</span>(<span class="params">page</span>):</span><br><span class="line">    <span class="keyword">if</span> page == <span class="number">1</span>:</span><br><span class="line">        url = <span class="string">&#x27;https://sc.chinaz.com/tupian/laohutupian.html&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="number">1</span> &lt; page &lt; <span class="number">7</span>:</span><br><span class="line">        url = <span class="string">&#x27;https://sc.chinaz.com/tupian/laohutupian_&#x27;</span> + <span class="built_in">str</span>(page) + <span class="string">&#x27;.html&#x27;</span></span><br><span class="line"></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    request = urllib.request.Request(url=url, headers=headers)</span><br><span class="line">    <span class="keyword">return</span> request</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_content</span>(<span class="params">request</span>):</span><br><span class="line">    response = urllib.request.urlopen(request)</span><br><span class="line">    content = response.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> content</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">down_load</span>(<span class="params">content</span>):</span><br><span class="line">    <span class="comment"># 下载图片</span></span><br><span class="line">    tree = etree.HTML(content)</span><br><span class="line">    <span class="comment"># 图片名称列表</span></span><br><span class="line">    name_list = tree.xpath(<span class="string">&#x27;//div[@id= &quot;container&quot;]//a/img/@alt&#x27;</span>)</span><br><span class="line">    <span class="comment"># 图片地址列表</span></span><br><span class="line">    src_list = tree.xpath(<span class="string">&#x27;//div[@id= &quot;container&quot;]/div/div/a/img/@src2&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(name_list)):</span><br><span class="line">        name = name_list[i]</span><br><span class="line">        src = src_list[i]</span><br><span class="line">        <span class="comment">#去掉_s就是下的高清图</span></span><br><span class="line">        url = <span class="string">&quot;https:&quot;</span> + src.replace(<span class="string">&quot;_s&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">        urllib.request.urlretrieve(url=url, filename=<span class="string">&quot;./tigers/&quot;</span> + name + <span class="string">&quot;.jpg&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Think_pwd：214115</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    start_page = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入起始页码:&#x27;</span>))</span><br><span class="line">    end_page = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入结束页码:&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> end_page &gt; <span class="number">6</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;您输入的页数大于总页数，请输入小于7的数字！&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">for</span> page <span class="keyword">in</span> <span class="built_in">range</span>(start_page, end_page + <span class="number">1</span>):</span><br><span class="line">            <span class="comment"># (1) 定制请求对象</span></span><br><span class="line">            request = create_request(page)</span><br><span class="line">            <span class="comment"># (2) 获取响应对象</span></span><br><span class="line">            content = get_content(request)</span><br><span class="line">            <span class="comment"># (3) 下载</span></span><br><span class="line">            down_load(content)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;下载完成！&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-Beautiful-Soup"><a href="#2-Beautiful-Soup" class="headerlink" title="2. Beautiful Soup"></a>2. Beautiful Soup</h1><h2 id="2-1-BeautifulSoup简介"><a href="#2-1-BeautifulSoup简介" class="headerlink" title="2.1 BeautifulSoup简介"></a>2.1 BeautifulSoup简介</h2><ol>
+<li><p>BeautifulSoup简称： </p>
+<ol>
+<li>bs4</li>
+</ol>
+</li>
+<li><p>什么是BeatifulSoup？ </p>
+<ol>
+<li>BeautifulSoup，和lxml一样，是一个html的解析器，主要功能也是解析和提取数据</li>
+</ol>
+</li>
+<li><p>优缺点？ </p>
+<ol>
+<li>缺点：效率没有lxml的效率高 </li>
+<li>优点：接口设计人性化，使用方便</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-2-安装以及创建"><a href="#2-2-安装以及创建" class="headerlink" title="2.2 安装以及创建"></a>2.2 安装以及创建</h2><ol>
+<li><p>安装</p>
+<ol>
+<li>pip install bs4</li>
+</ol>
+</li>
+<li><p>导入</p>
+<ol>
+<li>from bs4 import BeautifulSoup</li>
+</ol>
+</li>
+<li><p>创建对象 </p>
+<ol>
+<li><p>服务器响应的文件生成对象 </p>
+<p>soup &#x3D; BeautifulSoup(response.read().decode(), ‘lxml’) </p>
+</li>
+<li><p>本地文件生成对象 </p>
+<p>soup &#x3D; BeautifulSoup(open(‘1.html’), ‘lxml’)</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><code>注意：默认打开文件的编码格式gbk所以需要指定打开编码格式</code></p>
+<h2 id="2-3-节点定位"><a href="#2-3-节点定位" class="headerlink" title="2.3 节点定位"></a>2.3 节点定位</h2><ul>
+<li>方法选择器：<ul>
+<li><code>find_all()</code>，查询符合条件的所有元素的一个列表。<ul>
+<li><code>name</code>：根据节点名来查询元素。例：<code>find_all(name = &#39;ul&#39;)</code></li>
+<li><code>attrs</code>：根据属性来查询元素。例：<code>find_all(attrs = &#123;&#39;id&#39;：&#39;h1&#39;&#125;)</code></li>
+<li><code>text</code>：根据传入的字符串或者正则表达式对象来匹配文本。例：<code>find_all(text = re.compile(&#39;link&#39;))</code></li>
+</ul>
+</li>
+<li><code>find()</code>，查询符合条件的所有元素，只返回第一个元素。</li>
+</ul>
+</li>
+<li>CSS选择器<ul>
+<li><code>select(根据选择器的到节点对象)【推荐】</code><ul>
+<li>根据标签获取节点：<code>select(标签名)</code></li>
+<li>根据class获取节点：<code>select(.class)</code></li>
+<li>根据id获取节点：<code>select(#id)</code></li>
+<li>根据属性获取节点：<code>select(&#39;li[class]&#39;)</code></li>
+<li>层级选择器：<ul>
+<li>后代选择器：<code>element element</code>：div p</li>
+<li>子代选择器：<code>element&gt;element</code>：div &gt; p</li>
+<li>同级选择器：<code>element,element</code>：div , p</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>节点信息<ul>
+<li>获取节点内容：<ul>
+<li>obj.get_text()</li>
+<li>obj.string</li>
+</ul>
+</li>
+<li>节点属性：<ul>
+<li>tag.name 获取标签名<ul>
+<li>tag.name</li>
+</ul>
+</li>
+<li>tag.attrs 将标签属性值作为一个字典返回</li>
+</ul>
+</li>
+<li>获取节点属性<ul>
+<li>obj.attr.get(‘title’)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-4-Demo"><a href="#2-4-Demo" class="headerlink" title="2.4 Demo"></a>2.4 Demo</h2><h4 id="获取星巴克菜单中的的菜品名称"><a href="#获取星巴克菜单中的的菜品名称" class="headerlink" title="获取星巴克菜单中的的菜品名称"></a>获取星巴克菜单中的的菜品名称</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://www.starbucks.com.cn/menu/&#x27;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">request = urllib.request.Request(url=url, headers=headers)</span><br><span class="line"></span><br><span class="line">response = urllib.request.urlopen(request)</span><br><span class="line"></span><br><span class="line">content = response.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">soup = BeautifulSoup(content,<span class="string">&#x27;lxml&#x27;</span>)</span><br><span class="line"><span class="comment">#//ul[@class=&quot;grid padded-3 product&quot;]//strong</span></span><br><span class="line"><span class="comment">#获取食品名称列表</span></span><br><span class="line">name_list = soup.select(<span class="string">&#x27;ul[class=&quot;grid padded-3 product&quot;] strong&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> name_list:</span><br><span class="line">    <span class="comment">#获取节点内容</span></span><br><span class="line">    <span class="built_in">print</span>(name.get_text())</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/04/06/%E6%95%B0%E6%8D%AE%E8%A7%A3%E6%9E%90/" data-id="cl57y2bdw0072y4w1e0mb7zoh" data-title="数据解析" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/06/Leecode-111-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%B0%8F%E6%B7%B1%E5%BA%A6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Leecode 111 二叉树的最小深度
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/06/Leecode-98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Leecode 98 验证二叉搜索树</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E7%9F%A5%E8%AF%86%E7%82%B9/">Java知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leecode%E5%88%B7%E9%A2%98%E8%AE%A1%E5%88%92/">Leecode刷题计划</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/">爬虫学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/">踩坑日记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E7%BB%8F%E9%97%AE%E9%A2%98%E7%A7%AF%E7%B4%AF/">面经问题积累</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E7%A7%AF%E7%B4%AF/">面试问题积累</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E4%BA%AB/" rel="tag">分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%BC%E8%88%AA/" rel="tag">导航</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91/" rel="tag">树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/JavaWeb/" style="font-size: 10px;">JavaWeb</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/%E5%88%86%E4%BA%AB/" style="font-size: 10px;">分享</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 13.33px;">动态规划</a> <a href="/tags/%E5%AF%BC%E8%88%AA/" style="font-size: 10px;">导航</a> <a href="/tags/%E6%A0%91/" style="font-size: 16.67px;">树</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/05/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%94%E6%9C%88%E8%AE%A1%E5%88%92%EF%BC%9A/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/22/Communications-link-failure/">Communications link failure</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/VUE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">VUE学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/06/16/SpringMVC%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">SpringMVC常用注解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/16/SSM%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/">SSM整合笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
