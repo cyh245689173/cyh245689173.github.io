@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="丸了鸭"><meta name="copyright" content="丸了鸭"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>操作系统面试题整理 | 丸了鸭的博客</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="/images/32x32.ico"><link rel="mask-icon" href="/images/32x32.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"cyh245689173.github.io","root":"/","title":"丸了鸭的小站","version":"1.10.4","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"想要搜些什么？","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"fireworks":{"colors":null},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="一、操作系统基础1.什么是操作系统？ 操作系统本质上是一个运行在计算机上的软件程序，用于管理计算机硬件和软件资源。 操作系统的存在屏蔽了硬件的复杂性，它像是硬件使用的负责人，统筹着各种相关事项。 操作系统的内核(Kernel)是操作系统的核心部分，主要负责系统内存、软件设备、文件系统和应用程序的管理。内核是连接应用程序和硬件的桥梁，决定着系统的性能和稳定性。  2.什么是系统调用？根据进程访问资源">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统面试题整理">
+<meta property="og:url" content="https://cyh245689173.github.io/2022/08/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/index.html">
+<meta property="og:site_name" content="丸了鸭的博客">
+<meta property="og:description" content="一、操作系统基础1.什么是操作系统？ 操作系统本质上是一个运行在计算机上的软件程序，用于管理计算机硬件和软件资源。 操作系统的存在屏蔽了硬件的复杂性，它像是硬件使用的负责人，统筹着各种相关事项。 操作系统的内核(Kernel)是操作系统的核心部分，主要负责系统内存、软件设备、文件系统和应用程序的管理。内核是连接应用程序和硬件的桥梁，决定着系统的性能和稳定性。  2.什么是系统调用？根据进程访问资源">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-03T01:03:42.000Z">
+<meta property="article:modified_time" content="2022-08-03T02:57:25.176Z">
+<meta property="article:author" content="丸了鸭">
+<meta name="twitter:card" content="summary"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="丸了鸭"><img width="96" loading="lazy" src="/images/touxiang.jpg" alt="丸了鸭"></a><div class="site-author-name"><a href="/about/">丸了鸭</a></div><span class="site-name">丸了鸭的博客</span><sub class="site-subtitle">记录学习生活的点点滴滴</sub><div class="site-description">信手拈来的从容，都是厚积薄发的沉淀。</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">109</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">7</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">7</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://www.kdy.icu/" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/cyh245689173" title="GayHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=1696797616" title="网抑云音乐" target="_blank" style="color:#C20C0C"><span class="icon iconify" data-icon="ri:netease-cloud-music-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/248628386" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729090533.jpg" title="加我微信" target="_blank" style="color:#1AAD19"><span class="icon iconify" data-icon="ri:wechat-2-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的日常" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80"><span class="toc-text">一、操作系统基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%9F"><span class="toc-text">1.什么是操作系统？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%EF%BC%9F"><span class="toc-text">2.什么是系统调用？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%EF%BC%9A"><span class="toc-text">系统调用：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="toc-text">二、进程与线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%BA%BF%E7%A8%8B%E3%80%81%E7%A8%8B%E5%BA%8F%E3%80%81%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%82%E4%BB%A5%E5%8F%8A%E4%BB%96%E4%BB%AC%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E3%80%82"><span class="toc-text">1.线程、程序、进程的基本概念。以及他们之间的关系。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BF%9B%E7%A8%8B%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="toc-text">2.进程有哪几种状态?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%BF%9B%E7%A8%8B%E9%97%B4%E5%B8%B8%E8%A7%81%E7%9A%84%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="toc-text">3.进程间常见的通信方式？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">进程通信概念：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%BA%BF%E7%A8%8B%E9%97%B4%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">4.线程间同步的方式有哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%BF%9B%E7%A8%8B%E7%9A%84%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">5.进程的调度算法有哪些？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">三、内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%98%AF%E5%81%9A%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-text">1.操作系统的内存管理是做什么的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%B8%B8%E8%A7%81%E7%9A%84%E5%87%A0%E7%A7%8D%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6"><span class="toc-text">2.常见的几种内存管理机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%BF%AB%E8%A1%A8%E5%92%8C%E5%A4%9A%E7%BA%A7%E9%A1%B5%E8%A1%A8"><span class="toc-text">3.快表和多级页表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BF%AB%E8%A1%A8%EF%BC%9A"><span class="toc-text">快表：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E7%BA%A7%E9%A1%B5%E8%A1%A8%EF%BC%9A"><span class="toc-text">多级页表：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-text">总结：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6%E5%92%8C%E5%88%86%E6%AE%B5%E6%9C%BA%E5%88%B6%E7%9A%84%E5%85%B1%E5%90%8C%E7%82%B9%E5%92%8C%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">4.分页机制和分段机制的共同点和区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%80%BB%E8%BE%91%EF%BC%88%E8%99%9A%E6%8B%9F%EF%BC%89%E5%9C%B0%E5%9D%80%E5%92%8C%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%EF%BC%9F"><span class="toc-text">5.逻辑（虚拟）地址和物理地址？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%EF%BC%9F"><span class="toc-text">6.为什么要有虚拟地址？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-text">四、虚拟内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%EF%BC%9F"><span class="toc-text">1.什么是虚拟内存？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="toc-text">2.什么是局部性原理？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-text">3.虚拟存储器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%9A%84%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0"><span class="toc-text">4.虚拟内存的技术实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%88%86%E9%A1%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%92%8C%E5%88%86%E9%A1%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">请求分页存储管理和分页存储管理的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-text">5.页面置换算法</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://cyh245689173.github.io/2022/08/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="丸了鸭"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="丸了鸭的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">操作系统面试题整理</h1><div class="post-meta"><div class="post-time"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <span class="post-meta-icon-text">发表于</span> <time title="创建时间：2022-08-03 09:03:42" itemprop="dateCreated datePublished" datetime="2022-08-03T09:03:42+08:00">2022-08-03</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E9%9D%A2%E8%AF%95/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">面试</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="一、操作系统基础"><a href="#一、操作系统基础" class="headerlink" title="一、操作系统基础"></a>一、操作系统基础</h2><h3 id="1-什么是操作系统？"><a href="#1-什么是操作系统？" class="headerlink" title="1.什么是操作系统？"></a>1.什么是操作系统？</h3><ul>
+<li>操作系统本质上是一个运行在计算机上的软件程序，用于管理计算机硬件和软件资源。</li>
+<li>操作系统的存在屏蔽了硬件的复杂性，它像是硬件使用的负责人，统筹着各种相关事项。</li>
+<li>操作系统的内核(Kernel)是操作系统的核心部分，主要负责系统内存、软件设备、文件系统和应用程序的管理。内核是连接应用程序和硬件的桥梁，决定着系统的性能和稳定性。</li>
+</ul>
+<h3 id="2-什么是系统调用？"><a href="#2-什么是系统调用？" class="headerlink" title="2.什么是系统调用？"></a>2.什么是系统调用？</h3><p>根据进程访问资源的特点，可以把进程在系统上的运行分为两个级别：</p>
+<ul>
+<li><strong>用户态：</strong>用户态运行的进程只可以读取用户程序的数据。</li>
+<li><strong>系统态：</strong>系统态运行的进程或者程序几乎可以访问计算机的任何资源，不受限制。</li>
+</ul>
+<h5 id="系统调用："><a href="#系统调用：" class="headerlink" title="系统调用："></a>系统调用：</h5><p>我们运行的程序基本都是运行在用户态，如果我们调用操作系统提供的系统态级别的子功能，就需要进行系统调用。</p>
+<p>也就是说我们运行的用户程序中，凡是和系统态级别的资源有关的操作(比如文件管理、进程控制、内存管理等)，都必须<strong>通过系统调用的方式向操作系统提出服务请求</strong>，并且由操作系统代为完成。</p>
+<p>系统调用按照功能大致可以分为以下几类：</p>
+<ul>
+<li><strong>设备管理：</strong>完成设备的请求或释放，以及设备启动等功能。</li>
+<li><strong>文件管理：</strong>完成文件的读、写、创建及删除等功能。</li>
+<li><strong>进程控制：</strong>完成进程的创建、撤销、阻塞及唤醒等功能。</li>
+<li><strong>进程通信：</strong>完成进程之间的消息传递或信号传递等功能。</li>
+<li><strong>内存管理：</strong>完成内存的分配、回收以及获取作业占用内存区大小及地址等功能。</li>
+</ul>
+<hr>
+<h2 id="二、进程与线程"><a href="#二、进程与线程" class="headerlink" title="二、进程与线程"></a>二、进程与线程</h2><h3 id="1-线程、程序、进程的基本概念。以及他们之间的关系。"><a href="#1-线程、程序、进程的基本概念。以及他们之间的关系。" class="headerlink" title="1.线程、程序、进程的基本概念。以及他们之间的关系。"></a>1.线程、程序、进程的基本概念。以及他们之间的关系。</h3><ul>
+<li><p><strong>程序：</strong>是为了完成特定任务、用某种语言编写的一组指令的集合，是静态的代码</p>
+</li>
+<li><p><strong>进程：</strong></p>
+</li>
+<li><ul>
+<li>进程是<strong>程序的一次执行过程</strong>，或者说是<strong>正在运行的一个程序，</strong>是系统运行程序的基本单位，比如我们使用QQ，就启动了一个进程，操作系统会为该进程分配内存空间。进程是动态的，有创建、运行、和销毁的过程。</li>
+</ul>
+</li>
+<li><p><strong>线程：</strong></p>
+</li>
+<li><ul>
+<li><strong>概念：</strong></li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li>线程是由进程创建出来的，是进程的一个实体</li>
+<li>一个进程可以拥有多个线程，比如迅雷同时下载多个文件，QQ打开多个聊天窗口，可将这些看为进程里的线程。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>线程是进程划分的更小的单位。<strong>线程与进程最大的不同在于不同的进程是相互独立的，而同一进程中的线程是有极大的可能会相互影响的。</strong></p>
+</li>
+<li><p>与进程不同的是同类的<strong>多个线程共享进程的堆和方法区资源</strong>，但是每个线程都有自己的<strong>程序计数器</strong>、<strong>虚拟机栈</strong>和<strong>本地方法栈</strong>，所以系统在产生一个线程或者在各个线程之间做切换工作时，负担要比进程小的多，也正因为如此，线程也被称为<strong>轻量级进程</strong>。</p>
+</li>
+<li><p><strong>总结：</strong> </p>
+<ul>
+<li>线程是进程划分成的更小的运行单位，一个进程在其执行的过程中可以产生多个线程。</li>
+<li>线程和进程最大的不同在于基本上各进程是独立的，而各线程则不一定，因为同一进程中的线程极有可能会相互影响。</li>
+<li>线程执行开销小，但不利于资源的管理和保护；而进程正相反。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-进程有哪几种状态"><a href="#2-进程有哪几种状态" class="headerlink" title="2.进程有哪几种状态?"></a>2.进程有哪几种状态?</h3><ul>
+<li><strong>创建状态(new)</strong> ：进程正在被创建，尚未到就绪状态。</li>
+<li><strong>就绪状态(ready)</strong> ：进程已处于准备运行状态，即进程获得了除了处理器之外的一切所需资源，一旦得到处理器资源(处理器分配的时间片)即可运行。</li>
+<li><strong>运行状态(running)</strong> ：进程正在处理器上上运行(单核 CPU 下任意时刻只有一个进程处于运行状态)。</li>
+<li><strong>阻塞状态(waiting)</strong> ：又称为等待状态，进程正在等待某一事件而暂停运行如等待某资源为可用或等待 IO 操作完成。即使处理器空闲，该进程也不能运行。</li>
+<li><strong>结束状态(terminated)</strong> ：进程正在从系统中消失。可能是进程正常结束或其他原因中断退出运行。</li>
+</ul>
+<h3 id="3-进程间常见的通信方式？"><a href="#3-进程间常见的通信方式？" class="headerlink" title="3.进程间常见的通信方式？"></a>3.进程间常见的通信方式？</h3><h4 id="进程通信概念："><a href="#进程通信概念：" class="headerlink" title="进程通信概念："></a>进程通信概念：</h4><p>每个进程各自有不同的用户地址空间，任何一个进程的全局变量在另一个进程中都看不到，所以进程之间要交换数据必须通过内核，在内核中开辟一块缓冲区，进程1把数据从用户空间拷到内核缓冲区，进程2再从内核缓冲区把数据读走，内核提供的这种机制称为<strong>进程间通信（IPC，InterProcess Communication）</strong>。</p>
+<p>常见的七种进程间通信方式：</p>
+<ol>
+<li><strong>管道&#x2F;匿名管道(Pipes)</strong> ：管道的实质是一个内核缓冲区，进程以先进先出的方式从缓冲区存取数据，管道一端的进程顺序的将数据写入缓冲区，另一端的进程则顺序的读出数据。只能用于具有亲缘关系的父子进程间或者兄弟进程之间的通信。并且管道是半双工的，数据只能单向流动；需要双方通信时，需要建立起两个管道。</li>
+<li><strong>有名管道(Names Pipes)</strong> : 匿名管道由于没有名字，只能用于亲缘关系的进程间通信。为了克服这个缺点，提出了有名管道。有名管道严格遵循**先进先出(first in first out)**。有名管道以磁盘文件的方式存在，可以实现本机任意两个进程之间的通信。</li>
+<li><strong>信号(Signal)</strong> ：信号是Linux系统中用于进程间互相通信或者操作的一种机制，信号可以在任何时候发给某一进程，而无需知道该进程的状态。</li>
+<li><strong>消息队列(Message Queuing)</strong> ：<ol>
+<li>消息队列是消息的链表，具有特定的格式，存放在内存中并由消息队列标识符标识。</li>
+<li>管道和消息队列的通信数据都是先进先出的原则。</li>
+<li>与管道（无名管道：只存在于<strong>内存</strong>中的文件；有名管道：存在于实际的<strong>磁盘</strong>介质或者文件系统）不同的是消息队列存放在<strong>内核</strong>中，只有在内核重启(即，操作系统重启)或者显示地删除一个消息队列时，该消息队列才会被真正的删除。</li>
+<li>消息队列可以实现消息的随机查询，消息不一定要以先进先出的次序读取，也可以按消息的类型读取.比 FIFO 更有优势。</li>
+<li><strong>消息队列克服了信号承载信息量少，管道只能承载无格式字 节流以及缓冲区大小受限等缺点。</strong></li>
+</ol>
+</li>
+<li><strong>信号量(Semaphores)</strong> ：信号量是一个计数器，用于多进程对共享数据的访问，信号量的意图在于进程间同步。这种通信方式主要用于解决与同步相关的问题并避免竞争条件。</li>
+<li><strong>共享内存(Shared memory)</strong> ：使得多个进程可以访问同一块内存空间，不同进程可以及时看到对方进程中对共享内存中数据的更新，是最快的可用IPC形式。是针对其他通信机制运行效率较低而设计的。这种方式需要依靠某种同步操作，如互斥锁和信号量等。</li>
+<li><strong>套接字(Sockets)</strong> : 此方法主要用于在客户端和服务器之间通过网络进行通信。套接字是支持 TCP&#x2F;IP 的网络通信的基本操作单元，可以看做是不同主机之间的进程进行双向通信的端点，简单的说就是通信的两方的一种约定，用套接字中的相关函数来完成通信过程。</li>
+</ol>
+<h3 id="4-线程间同步的方式有哪些？"><a href="#4-线程间同步的方式有哪些？" class="headerlink" title="4.线程间同步的方式有哪些？"></a>4.线程间同步的方式有哪些？</h3><p>线程同步是指两个或多个<strong>共享关键资源</strong>的线程的并发执行。应该同步线程以避免关键的资源使用冲突。</p>
+<p>操作系统中一般有三种线程同步的方式：</p>
+<ol>
+<li><strong>互斥量（Mutex）</strong>：采用互斥对象机制，只有拥有互斥对象的线程才能有访问公共资源的权限。因为互斥对象只有一个，所以可以保证公共资源不会被多个线程同时访问。比如 Java 中的 synchronized 关键字和各种锁都是这种机制。</li>
+<li>**信号量(Semphares)**：允许同一时刻多个线程访问同一资源，但是需要控制同一时刻访问此资源的最大线程数量。</li>
+<li>**事件(Event)**：通过wait()和notify()的通知操作的方式来保持多线程同步，还可以方便的实现多线程优先级的比较操作。</li>
+</ol>
+<h3 id="5-进程的调度算法有哪些？"><a href="#5-进程的调度算法有哪些？" class="headerlink" title="5.进程的调度算法有哪些？"></a>5.进程的调度算法有哪些？</h3><p>为了确定首先执行哪个进程以及最后执行哪个进程以实现最大 CPU 利用率，计算机科学家已经定义了一些算法，它们是：</p>
+<ul>
+<li><strong>先到先服务(FCFS)调度算法</strong> : 从就绪队列中选择一个<strong>最先进入该队列的进程</strong>为之分配资源，使它立即执行并一直执行到完成或发生某事件而被阻塞放弃占用 CPU 时再重新调度。</li>
+<li><strong>短作业优先(SJF)的调度算法</strong> : 从就绪队列中选出一个<strong>估计运行时间最短的进程</strong>为之分配资源，使它立即执行并一直执行到完成或发生某事件而被阻塞放弃占用 CPU 时再重新调度。</li>
+<li><strong>时间片轮转调度算法</strong> : 时间片轮转调度是一种最古老，最简单，<strong>最公平且使用最广的算法</strong>，又称 RR(Round robin)调度。每个进程被分配一个时间段，称作它的时间片，即该进程允许运行的时间。</li>
+<li><strong>多级反馈队列调度算法</strong> ：<ul>
+<li>前面介绍的几种进程调度的算法都有一定的局限性。如<strong>短作业优先的调度算法，仅照顾了短进程而忽略了长进程</strong> 。</li>
+<li>多级反馈队列调度算法是一种根据先来先服务原则给就绪队列排序，为就绪队列赋予不同的优先级数，不同的时间片，按照优先级抢占CPU的调度算法。</li>
+<li>多级反馈队列调度算法既能使高优先级的作业得到响应又能使短作业（进程）迅速完成。，因而它是目前<strong>被公认的一种较好的进程调度算法</strong>，UNIX 操作系统采取的便是这种调度算法。</li>
+</ul>
+</li>
+<li><strong>优先级调度</strong> ： 为每个进程分配优先级，首先执行具有最高优先级的进程，依此类推。具有相同优先级的进程以先到先服务的方式执行。也可以根据内存要求，时间要求或任何其他资源要求来确定优先级。</li>
+</ul>
+<hr>
+<h2 id="三、内存管理"><a href="#三、内存管理" class="headerlink" title="三、内存管理"></a>三、内存管理</h2><h3 id="1-操作系统的内存管理是做什么的？"><a href="#1-操作系统的内存管理是做什么的？" class="headerlink" title="1.操作系统的内存管理是做什么的？"></a>1.操作系统的内存管理是做什么的？</h3><p>操作系统的内存管理主要负责内存的分配与回收（malloc 函数：申请内存，free 函数：释放内存），另外地址转换也就是将逻辑地址转换成相应的物理地址等功能也是操作系统内存管理做的事情。</p>
+<h3 id="2-常见的几种内存管理机制"><a href="#2-常见的几种内存管理机制" class="headerlink" title="2.常见的几种内存管理机制"></a>2.常见的几种内存管理机制</h3><p>内存管理方式简单分为<strong>连续分配管理方式</strong>和<strong>非连续分配管理方式</strong>这两种。连续分配管理方式是指为一个用户程序分配一个连续的内存空间，常见的如 <strong>块式管理</strong> 。同样地，非连续分配管理方式允许一个用户程序使用的内存分布在离散或者说不相邻的内存中，常见的如<strong>页式管理</strong> 和 <strong>段式管理</strong>和<strong>段页式管理</strong>。</p>
+<ol>
+<li><strong>块式管理</strong> ：将内存分为几个固定大小的块，每个块中只包含一个进程。如果程序运行需要内存的话，操作系统就分配给它一块，如果程序运行只需要很小的空间的话，分配的这块内存很大一部分几乎被浪费了。这些在每个块中未被利用的空间，我们称之为碎片。</li>
+<li><strong>页式管理</strong> ：把主存分为大小相等且固定的一页一页的形式，页较小，相对相比于块式管理的划分力度更大，提高了内存利用率，减少了碎片。页式管理通过页表对应逻辑地址和物理地址。</li>
+<li><strong>段式管理</strong> ： 页式管理虽然提高了内存利用率，但是页式管理其中的页实际并无任何实际意义。 段式管理把主存分为一段段的，每一段的空间又要比一页的空间小很多 。<strong>但是，最重要的是段是有实际意义的，每个段定义了一组逻辑信息</strong>，例如，有主程序段 MAIN、子程序段 X、数据段 D 及栈段 S 等。 段式管理通过段表对应逻辑地址和物理地址。</li>
+<li><strong>段页式管理机制</strong> 。段页式管理机制结合了段式管理和页式管理的优点。简单来说段页式管理机制就是把主存先分成若干段，每个段又分成若干页，也就是说 <strong>段页式管理机制</strong> 中段与段之间以及段的内部的都是离散的。</li>
+</ol>
+<h3 id="3-快表和多级页表"><a href="#3-快表和多级页表" class="headerlink" title="3.快表和多级页表"></a>3.快表和多级页表</h3><p>在页式内存管理中有很重要的两点需要解决：</p>
+<ol>
+<li>虚拟地址到物理地址的转换速度的问题。</li>
+<li>虚拟地址空间大，页表也会很大的问题。</li>
+</ol>
+<h4 id="快表："><a href="#快表：" class="headerlink" title="快表："></a>快表：</h4><p>为了解决虚拟地址到物理地址的转换速度，操作系统才页式管理方案的基础上引入了快表来加速虚拟地址到物理地址的转换。可以把快表理解为一种特殊的高速缓冲存储器（Cache），其中的内容是页表的一部分或者全部内容。作为页表的 Cache，它的作用与页表相似，但是提高了访问速率。由于采用页表做地址转换，读写内存数据时 CPU 要访问两次主存。有了快表，有时只要访问一次高速缓冲存储器，一次主存，这样可加速查找并提高指令执行速度。</p>
+<p><strong>使用快表之后的地址转换流程：</strong></p>
+<ol>
+<li>根据虚拟地址中的页号查快表；</li>
+<li>如果该页在快表中，直接从快表中读取相应的物理地址；</li>
+<li>如果该页不在快表中，就访问内存中的页表，再从页表中得到物理地址，同时将页表中的该映射表项添加到快表中；</li>
+<li>当快表填满后，又要登记新页时，就按照一定的淘汰策略淘汰掉快表中的一个页。</li>
+</ol>
+<p>我们平时开发系统使用的缓存（比如 Redis）就是根据这个思想做的。</p>
+<h4 id="多级页表："><a href="#多级页表：" class="headerlink" title="多级页表："></a>多级页表：</h4><p>为了解决解决虚拟地址空间大，页表也会很大的问题，操作系统引入了多节页表。</p>
+<p>引入多级页表的主要目的是为了避免把全部页表一直放在内存中占用过多空间，特别是那些根本就不需要的页表就不需要保留在内存中。多级页表属于时间换空间的典型场景。</p>
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p>为了提高内存的空间性能，提出了多级页表的概念；但是提到空间性能是以浪费时间性能为基础的，因此为了补充损失的时间性能，提出了快表（即 TLB）的概念。 </p>
+<h3 id="4-分页机制和分段机制的共同点和区别？"><a href="#4-分页机制和分段机制的共同点和区别？" class="headerlink" title="4.分页机制和分段机制的共同点和区别？"></a>4.分页机制和分段机制的共同点和区别？</h3><ol>
+<li><strong>共同点</strong><ul>
+<li>分页机制和分段机制都是为了提高内存利用率，较少内存碎片。</li>
+<li>页和段都是离散存储的，所以两者都是离散分配内存的方式。但是，每个页和段中的内存是连续的。</li>
+</ul>
+</li>
+<li><strong>区别</strong><ul>
+<li>页的大小是固定的，由操作系统决定；而段的大小不固定，取决于我们当前运行的程序。</li>
+<li>分页仅仅是为了满足操作系统内存管理的需求，而段是逻辑信息的单位，在程序中可以体现为代码段，数据段，能够更好满足用户的需要。</li>
+</ul>
+</li>
+</ol>
+<h3 id="5-逻辑（虚拟）地址和物理地址？"><a href="#5-逻辑（虚拟）地址和物理地址？" class="headerlink" title="5.逻辑（虚拟）地址和物理地址？"></a>5.逻辑（虚拟）地址和物理地址？</h3><p>我们编程一般只可能和逻辑地址打交道，比如在 C 语言中，指针里面存储的数值就可以理解成为内存里的一个地址，这个地址也就是我们说的逻辑地址，<strong>逻辑地址由操作系统决定</strong>。物理地址指的是真实物理内存中地址，更具体一点来说就是内存地址寄存器中的地址。<strong>物理地址是内存单元真正的地址</strong>。</p>
+<h3 id="6-为什么要有虚拟地址？"><a href="#6-为什么要有虚拟地址？" class="headerlink" title="6.为什么要有虚拟地址？"></a>6.为什么要有虚拟地址？</h3><p>如果没有虚拟地址空间的时候，<strong>程序都是直接访问和操作的都是物理内存</strong> 。</p>
+<p>这样就会产生很多问题：</p>
+<ol>
+<li>用户程序可以访问任意内存，寻址内存的每个字节，这样就很容易（有意或者无意）破坏操作系统，造成操作系统崩溃。</li>
+<li>想要同时运行多个程序特别困难，比如你想同时运行一个微信和一个 QQ 音乐都不行。为什么呢？举个简单的例子：微信在运行的时候给内存地址 1xxx 赋值后，QQ 音乐也同样给内存地址 1xxx 赋值，那么 QQ 音乐对内存的赋值就会覆盖微信之前所赋的值，这就造成了微信这个程序就会崩溃。</li>
+</ol>
+<p><strong>总结来说：如果直接把物理地址暴露出来的话会带来严重问题，比如可能对操作系统造成伤害以及给同时运行多个程序造成困难。</strong></p>
+<p>通过虚拟地址访问内存有以下<strong>优势：</strong></p>
+<ul>
+<li>程序可以使用一系列相邻的虚拟地址来访问物理内存中不相邻的内存缓冲区。</li>
+<li>程序可以使用一系列虚拟地址来访问大于可用物理内存的内存缓冲区。当物理内存的供应量变小时，内存管理器会将物理内存页（通常大小为 4 KB）保存到磁盘文件。数据或代码页会根据需要在物理内存与磁盘之间进行传输。<strong>相当于用时间换空间。</strong></li>
+<li>不同进程使用的虚拟地址彼此隔离。一个进程中的代码无法更改正在由另一进程或操作系统使用的物理内存。</li>
+</ul>
+<hr>
+<h2 id="四、虚拟内存"><a href="#四、虚拟内存" class="headerlink" title="四、虚拟内存"></a>四、虚拟内存</h2><h3 id="1-什么是虚拟内存？"><a href="#1-什么是虚拟内存？" class="headerlink" title="1.什么是虚拟内存？"></a>1.什么是虚拟内存？</h3><p><strong>虚拟内存</strong>是计算机系统内存管理的一种技术，虚拟内存不只是“使用硬盘空间来扩展内存“的技术。<strong>虚拟内存的重要意义是它定义了一个连续的虚拟地址空间</strong>，并且 <strong>把内存扩展到硬盘空间</strong>。</p>
+<p><strong>虚拟内存</strong> 使得应用程序认为它拥有连续的可用的内存（一个连续完整的地址空间），而实际上，它通常是被分隔成多个物理内存碎片，还有部分暂时存储在外部磁盘存储器上，在需要时进行数据交换。</p>
+<p>与没有使用虚拟内存技术的系统相比，使用这种技术的系统使得大型程序的编写变得更容易，对真正的物理内存（例如 RAM）的使用也更有效率。</p>
+<p>目前，大多数操作系统都使用了虚拟内存，如 Windows 家族的“虚拟内存”；Linux 的“交换空间”等。</p>
+<h3 id="2-什么是局部性原理？"><a href="#2-什么是局部性原理？" class="headerlink" title="2.什么是局部性原理？"></a>2.什么是局部性原理？</h3><p>局部性原理是虚拟内存技术的基础，正是因为程序运行具有局部性原理，才可以只装入部分程序到内存就开始运行。</p>
+<p>局部性原理表现在以下两个方面：</p>
+<ol>
+<li><strong>时间局部性</strong> ：如果程序中的某条指令一旦执行，不久以后该指令可能再次执行；如果某数据被访问过，不久以后该数据可能再次被访问。产生时间局部性的典型原因，是由于在程序中存在着大量的循环操作。</li>
+<li><strong>空间局部性</strong> ：一旦程序访问了某个存储单元，在不久之后，其附近的存储单元也将被访问，即程序在一段时间内所访问的地址，可能集中在一定的范围之内，这是因为指令通常是顺序存放、顺序执行的，数据也一般是以向量、数组、表等形式簇聚存储的。</li>
+</ol>
+<p>时间局部性是通过将近来使用的指令和数据保存到高速缓存存储器中，并使用高速缓存的层次结构实现。</p>
+<p>空间局部性通常是使用较大的高速缓存，并将预取机制集成到高速缓存控制逻辑中实现。</p>
+<p>虚拟内存技术实际上就是建立了 “内存一外存”的两级存储器的结构，利用局部性原理实现髙速缓存。</p>
+<h3 id="3-虚拟存储器"><a href="#3-虚拟存储器" class="headerlink" title="3.虚拟存储器"></a>3.虚拟存储器</h3><p>基于局部性原理，在程序装入时，可以将程序的一部分装入内存，而将其他部分留在外存，就可以启动程序执行。</p>
+<p>由于外存往往比内存大很多，所以我们运行的软件的内存大小实际上是可以比计算机系统实际的内存大小大的。</p>
+<p>在程序执行过程中，当所访问的信息不在内存时，由操作系统将所需要的部分调入内存，然后继续执行程序。</p>
+<p>另一方面，操作系统将内存中暂时不使用的内容换到外存上，从而腾出空间存放将要调入内存的信息。</p>
+<p>这样，计算机好像为用户提供了一个比实际内存大的多的存储器——<strong>虚拟存储器</strong>。</p>
+<p><strong>实际上，我觉得虚拟内存同样是一种时间换空间的策略，你用 CPU 的计算时间，页的调入调出花费的时间，换来了一个虚拟的更大的空间来支持程序的运行。不得不感叹，程序世界几乎不是时间换空间就是空间换时间。</strong></p>
+<h3 id="4-虚拟内存的技术实现"><a href="#4-虚拟内存的技术实现" class="headerlink" title="4.虚拟内存的技术实现"></a>4.虚拟内存的技术实现</h3><p><strong>虚拟内存的实现需要建立在离散分配的内存管理方式的基础上。</strong> </p>
+<p>虚拟内存的实现有以下三种方式：</p>
+<ol>
+<li><strong>请求分页存储管理</strong> ：建立在分页管理之上，为了支持虚拟存储器功能而增加了请求调页功能和页面置换功能。请求分页是目前最常用的一种实现虚拟存储器的方法。请求分页存储管理系统中，在作业开始运行之前，仅装入当前要执行的部分段即可运行。假如在作业运行的过程中发现要访问的页面不在内存，则由处理器通知操作系统按照对应的页面置换算法将相应的页面调入到主存，同时操作系统也可以将暂时不用的页面置换到外存中。</li>
+<li><strong>请求分段存储管理</strong> ：建立在分段存储管理之上，增加了请求调段功能、分段置换功能。请求分段储存管理方式就如同请求分页储存管理方式一样，在作业开始运行之前，仅装入当前要执行的部分段即可运行；在执行过程中，可使用请求调入中断动态装入要访问但又不在内存的程序段；当内存空间已满，而又需要装入新的段时，根据置换功能适当调出某个段，以便腾出空间而装入新的段。</li>
+<li><strong>请求段页式存储管理</strong></li>
+</ol>
+<h4 id="请求分页存储管理和分页存储管理的区别"><a href="#请求分页存储管理和分页存储管理的区别" class="headerlink" title="请求分页存储管理和分页存储管理的区别"></a>请求分页存储管理和分页存储管理的区别</h4><p>它们之间的根本区别在于是否将一作业的全部地址空间同时装入主存。</p>
+<p>请求分页存储管理不要求将作业全部地址空间同时装入主存。</p>
+<p>基于这一点，请求分页存储管理可以提供虚存，而分页存储管理却不能提供虚存。</p>
+<p>不管是上面那种实现方式，我们一般都需要：</p>
+<ol>
+<li>一定容量的内存和外存：在载入程序的时候，只需要将程序的一部分装入内存，而将其他部分留在外存，然后程序就可以执行了；</li>
+<li><strong>缺页中断</strong>：如果<strong>需执行的指令或访问的数据尚未在内存</strong>（称为缺页或缺段），则由处理器通知操作系统将相应的页面或段<strong>调入到内存</strong>，然后继续执行程序；</li>
+<li><strong>虚拟地址空间</strong> ：逻辑地址到物理地址的变换。</li>
+</ol>
+<h3 id="5-页面置换算法"><a href="#5-页面置换算法" class="headerlink" title="5.页面置换算法"></a>5.页面置换算法</h3><p>地址映射过程中，若在页面中发现所要访问的页面不在内存中，则称为发生了缺页中断 。</p>
+<blockquote>
+<p><strong>缺页中断</strong> 就是要访问的<strong>页</strong>不在主存，需要操作系统将其调入主存后再进行访问。 在这个时候，被内存映射的文件实际上成了一个分页交换文件。</p>
+</blockquote>
+<p>当发生缺页中断时，如果当前内存中并没有空闲的页面，操作系统就必须在内存选择一个页面将其移出内存，以便为即将调入的页面让出空间。</p>
+<p>用来选择淘汰哪一页的规则叫做页面置换算法，我们<strong>可以把页面置换算法看成是淘汰页面的规则。</strong></p>
+<ul>
+<li><strong>OPT 页面置换算法（最佳页面置换算法）</strong> ：最佳(Optimal， OPT)置换算法所选择的被淘汰页面将是以后永不使用的，或者是在最长时间内不再被访问的页面，这样可以保证获得最低的缺页率。但由于人们目前无法预知进程在内存下的若千页面中哪个是未来最长时间内不再被访问的，因而该算法无法实现。一般作为衡量其他置换算法的方法。</li>
+<li><strong>FIFO（First In First Out） 页面置换算法（先进先出页面置换算法）</strong> : 总是淘汰最先进入内存的页面，即选择在内存中驻留时间最久的页面进行淘汰。</li>
+<li><strong>LRU （Least Currently Used）页面置换算法（最近最久未使用页面置换算法）</strong> ：LRU算法赋予每个页面一个访问字段，用来记录一个页面自上次被访问以来所经历的时间 T，当须淘汰一个页面时，选择现有页面中其 T 值最大的，即最近最久未使用的页面予以淘汰。</li>
+<li><strong>LFU （Least Frequently Used）页面置换算法（最少使用页面置换算法）</strong> : 该置换算法选择在之前时期使用最少的页面作为淘汰页。</li>
+</ul>
+<p>参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://snailclimb.gitee.io/javaguide-interview/#/">JavaGuide哥的面试突击版</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c1015f5ffa74">进程间通信</a></p>
+</div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://cyh245689173.github.io/2022/08/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/" title="操作系统面试题整理">https://cyh245689173.github.io/2022/08/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2022/08/03/Leecode-216-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CIII/" rel="next" title="Leecode 216 组合总和III"><span class="post-nav-text">Leecode 216 组合总和III</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> 丸了鸭</span></div><div class="live-time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'?'●)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2021-01-03T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} 天 ${passHour} 小时 ${passMinute} 分 ${passSecond} 秒`;
+}
+blog_live_time();
+</script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a></body></html>
