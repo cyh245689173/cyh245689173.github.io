@@ -11236,4 +11236,908 @@ public class sendEmail &#123;
         <category>Linux</category>
       </categories>
   </entry>
+  <entry>
+    <title>瑞吉外卖项目day06笔记</title>
+    <url>/2022/08/09/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96%E9%A1%B9%E7%9B%AEday06%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="一、用户地址簿功能"><a href="#一、用户地址簿功能" class="headerlink" title="一、用户地址簿功能"></a>一、用户地址簿功能</h1><h2 id="1-1-需求分析"><a href="#1-1-需求分析" class="headerlink" title="1.1 需求分析"></a>1.1 需求分析</h2><p>地址簿，指的是移动端消费者用户的地址信息，用户登录成功后可以维护自己的地址信息。同一个用户可以有多个地址信息，但是只能有一个<strong>默认地址</strong>。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809092710410.png" alt="image-20220809092710410" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809092720600.png" alt="image-20220809092720600" loading="lazy"></p>
+<p>对于地址簿管理，需要实现以下几个功能： </p>
+<ul>
+<li>新增地址</li>
+<li>地址列表查询</li>
+<li>设置默认地址</li>
+<li>编辑地址</li>
+<li>删除地址</li>
+</ul>
+<h2 id="1-2-数据模型"><a href="#1-2-数据模型" class="headerlink" title="1.2 数据模型"></a>1.2 数据模型</h2><p>用户的地址信息会存储在address_book表，即地址簿表中。具体表结构如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809092756949.png" alt="image-20220809092756949" loading="lazy"></p>
+<p>这里面有一个字段is_default，实际上我们在设置默认地址时，只需要更新这个字段就可以了。</p>
+<h2 id="1-3-功能实现"><a href="#1-3-功能实现" class="headerlink" title="1.3 功能实现"></a>1.3 功能实现</h2><p><strong>1). 实体类 AddressBook</strong></p>
+<p>所属包: com.itheima.reggie.entity</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.annotation.FieldFill;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.annotation.TableField;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"><span class="keyword">import</span> java.time.LocalDateTime;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 地址簿</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AddressBook</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//用户id</span></span><br><span class="line">    <span class="keyword">private</span> Long userId;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//收货人</span></span><br><span class="line">    <span class="keyword">private</span> String consignee;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//手机号</span></span><br><span class="line">    <span class="keyword">private</span> String phone;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//性别 0 女 1 男</span></span><br><span class="line">    <span class="keyword">private</span> String sex;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//省级区划编号</span></span><br><span class="line">    <span class="keyword">private</span> String provinceCode;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//省级名称</span></span><br><span class="line">    <span class="keyword">private</span> String provinceName;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//市级区划编号</span></span><br><span class="line">    <span class="keyword">private</span> String cityCode;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//市级名称</span></span><br><span class="line">    <span class="keyword">private</span> String cityName;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//区级区划编号</span></span><br><span class="line">    <span class="keyword">private</span> String districtCode;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//区级名称</span></span><br><span class="line">    <span class="keyword">private</span> String districtName;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//详细地址</span></span><br><span class="line">    <span class="keyword">private</span> String detail;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//标签</span></span><br><span class="line">    <span class="keyword">private</span> String label;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//是否默认 0 否 1是</span></span><br><span class="line">    <span class="keyword">private</span> Integer isDefault;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//创建时间</span></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime createTime;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//更新时间</span></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime updateTime;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建人</span></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> Long createUser;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//修改人</span></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> Long updateUser;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//是否删除</span></span><br><span class="line">    <span class="keyword">private</span> Integer isDeleted;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>2). Mapper接口 AddressBookMapper（直接从课程资料中导入即可）</strong></p>
+<p>所属包: com.itheima.reggie.mapper</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.mapper.BaseMapper;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.entity.AddressBook;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Mapper;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Select;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">AddressBookMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;AddressBook&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>3). 业务层接口 AddressBookService</strong></p>
+<p>所属包: com.itheima.reggie.service</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.extension.service.IService;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.entity.AddressBook;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">AddressBookService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;AddressBook&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>**4). 业务层实现类 AddressBookServiceImpl</p>
+<p>所属包: com.itheima.reggie.service.impl</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.entity.AddressBook;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.mapper.AddressBookMapper;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.service.AddressBookService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AddressBookServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;AddressBookMapper, AddressBook&gt; <span class="keyword">implements</span> <span class="title class_">AddressBookService</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>5). 控制层 AddressBookController</strong></p>
+<p>所属包: com.itheima.reggie.controller</p>
+<p><strong>controller主要开发的功能:</strong> </p>
+<p>A. 新增地址逻辑说明： </p>
+<ul>
+<li>需要记录当前是哪个用户的地址(关联当前登录用户)</li>
+</ul>
+<p>B. 设置默认地址 </p>
+<ul>
+<li><p>每个用户可以有很多地址，但是默认地址只能有一个 ；</p>
+</li>
+<li><p>先将该用户所有地址的is_default更新为0 , 然后将当前的设置的默认地址的is_default设置为1</p>
+</li>
+</ul>
+<p>C. 根据ID查询地址</p>
+<p>D. 查询默认地址</p>
+<ul>
+<li>根据当前登录用户ID 以及 is_default进行查询，查询当前登录用户is_default为1的地址信息</li>
+</ul>
+<p>E. 查询指定用户的全部地址</p>
+<ul>
+<li>根据当前登录用户ID，查询所有的地址列表</li>
+</ul>
+<p><strong>代码实现如下：</strong> </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.common.BaseContext;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.common.R;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.entity.AddressBook;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.service.AddressBookService;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 地址簿管理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/addressBook&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AddressBookController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AddressBookService addressBookService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新增</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;AddressBook&gt; <span class="title function_">save</span><span class="params">(<span class="meta">@RequestBody</span> AddressBook addressBook)</span> &#123;</span><br><span class="line">        addressBook.setUserId(BaseContext.getCurrentId());</span><br><span class="line">        log.info(<span class="string">&quot;addressBook:&#123;&#125;&quot;</span>, addressBook);</span><br><span class="line">        addressBookService.save(addressBook);</span><br><span class="line">        <span class="keyword">return</span> R.success(addressBook);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置默认地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PutMapping(&quot;default&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;AddressBook&gt; <span class="title function_">setDefault</span><span class="params">(<span class="meta">@RequestBody</span> AddressBook addressBook)</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;addressBook:&#123;&#125;&quot;</span>, addressBook);</span><br><span class="line">        LambdaUpdateWrapper&lt;AddressBook&gt; wrapper = <span class="keyword">new</span> <span class="title class_">LambdaUpdateWrapper</span>&lt;&gt;();</span><br><span class="line">        wrapper.eq(AddressBook::getUserId, BaseContext.getCurrentId());</span><br><span class="line">        wrapper.set(AddressBook::getIsDefault, <span class="number">0</span>);</span><br><span class="line">        <span class="comment">//SQL:update address_book set is_default = 0 where user_id = ?</span></span><br><span class="line">        addressBookService.update(wrapper);</span><br><span class="line"></span><br><span class="line">        addressBook.setIsDefault(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">//SQL:update address_book set is_default = 1 where id = ?</span></span><br><span class="line">        addressBookService.updateById(addressBook);</span><br><span class="line">        <span class="keyword">return</span> R.success(addressBook);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据id查询地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R <span class="title function_">get</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">        <span class="type">AddressBook</span> <span class="variable">addressBook</span> <span class="operator">=</span> addressBookService.getById(id);</span><br><span class="line">        <span class="keyword">if</span> (addressBook != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.success(addressBook);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> R.error(<span class="string">&quot;没有找到该对象&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询默认地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;default&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;AddressBook&gt; <span class="title function_">getDefault</span><span class="params">()</span> &#123;</span><br><span class="line">        LambdaQueryWrapper&lt;AddressBook&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">        queryWrapper.eq(AddressBook::getUserId, BaseContext.getCurrentId());</span><br><span class="line">        queryWrapper.eq(AddressBook::getIsDefault, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//SQL:select * from address_book where user_id = ? and is_default = 1</span></span><br><span class="line">        <span class="type">AddressBook</span> <span class="variable">addressBook</span> <span class="operator">=</span> addressBookService.getOne(queryWrapper);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">null</span> == addressBook) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.error(<span class="string">&quot;没有找到该对象&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> R.success(addressBook);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询指定用户的全部地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/list&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;List&lt;AddressBook&gt;&gt; <span class="title function_">list</span><span class="params">(AddressBook addressBook)</span> &#123;</span><br><span class="line">        addressBook.setUserId(BaseContext.getCurrentId());</span><br><span class="line">        log.info(<span class="string">&quot;addressBook:&#123;&#125;&quot;</span>, addressBook);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//条件构造器</span></span><br><span class="line">        LambdaQueryWrapper&lt;AddressBook&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">        queryWrapper.eq(<span class="literal">null</span> != addressBook.getUserId(), AddressBook::getUserId, addressBook.getUserId());</span><br><span class="line">        queryWrapper.orderByDesc(AddressBook::getUpdateTime);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//SQL:select * from address_book where user_id = ? order by update_time desc</span></span><br><span class="line">        <span class="keyword">return</span> R.success(addressBookService.list(queryWrapper));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="1-4-功能测试"><a href="#1-4-功能测试" class="headerlink" title="1.4 功能测试"></a>1.4 功能测试</h2><p>地址簿新增成功，且可以设为默认地址</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809092929068.png" alt="image-20220809092929068" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809092637429.png" alt="image-20220809092637429" loading="lazy"></p>
+<h1 id="二、菜品展示"><a href="#二、菜品展示" class="headerlink" title="二、菜品展示"></a>二、菜品展示</h1><h2 id="2-1-需求分析"><a href="#2-1-需求分析" class="headerlink" title="2.1 需求分析"></a>2.1 需求分析</h2><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809102153193.png" alt="image-20220809102153193" loading="lazy"></p>
+<h2 id="2-2-前端页面分析"><a href="#2-2-前端页面分析" class="headerlink" title="2.2 前端页面分析"></a>2.2 前端页面分析</h2><p>前端页面和服务端的交互过程：</p>
+<p><strong>1). 页面(front&#x2F;index.html)发送ajax请求，获取分类数据（菜品分类和套餐分类）</strong></p>
+<p><strong>2). 页面发送ajax请求，获取第一个分类下的菜品或者套餐</strong></p>
+<p>开发菜品展示功能，其实就是在服务端编写代码去处理前端页面发送的这2次请求即可。</p>
+<p><strong>注意:首页加载完成后，还发送了一次ajax请求用于加载购物车数据，此处可以将这次请求的地址暂时修改一下，从静态json文件获取数据，等后续开发购物车功能时再修改回来，如下:</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809102344655.png" alt="image-20220809102344655" loading="lazy"></p>
+<p><strong>cartData.json:</strong></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;code&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;msg&quot;</span><span class="punctuation">:</span><span class="keyword">null</span><span class="punctuation">,</span><span class="attr">&quot;data&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span><span class="attr">&quot;map&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>虚晃一枪，先给前端一个假数据。</p>
+<h2 id="2-3-代码实现"><a href="#2-3-代码实现" class="headerlink" title="2.3 代码实现"></a>2.3 代码实现</h2><h3 id="1-查询菜品方法修改"><a href="#1-查询菜品方法修改" class="headerlink" title="1. 查询菜品方法修改"></a>1. 查询菜品方法修改</h3><p>由于之前实现的根据分类查询菜品列表，仅仅查询了菜品的基本信息，未查询菜品口味信息，而移动端用户在点餐时，是需要选择口味信息的，所以需要对之前的代码实现进行完善.</p>
+<p>我们需要修改DishController的list方法，原来此方法的返回值类型为：R&lt;List<Dish>&gt;。</p>
+<p>为了满足移动端对数据的要求(菜品基本信息和菜品对应的口味信息)，现在需要将方法的返回值类型改为：R&lt;List<DishDto>&gt; ，因为在DishDto中封装了菜品对应的口味信息： </p>
+<p>这是原来的list方法</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809102617478.png" alt="image-20220809102617478" loading="lazy"></p>
+<p><strong>代码逻辑:</strong> </p>
+<p>A. 根据分类ID查询，查询目前正在启售的菜品列表 (已实现)</p>
+<p>B. 遍历菜品列表，并查询菜品的分类信息及菜品的口味列表</p>
+<p>C. 组装数据DishDto，并返回</p>
+<p><strong>修改后代码如下：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//根据条件查询对应菜品数据</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/list&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;List&lt;DishDto&gt;&gt; <span class="title function_">list</span><span class="params">(Dish dish)</span> &#123;</span><br><span class="line">    <span class="comment">//构造查询条件</span></span><br><span class="line">    LambdaQueryWrapper&lt;Dish&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(dish.getCategoryId() != <span class="literal">null</span>, Dish::getCategoryId, dish.getCategoryId());</span><br><span class="line">    <span class="comment">//添加条件，查询状态为1（起售状态）的菜品</span></span><br><span class="line">    queryWrapper.eq(Dish::getStatus, <span class="number">1</span>);</span><br><span class="line">    <span class="comment">//添加排序条件</span></span><br><span class="line">    queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);</span><br><span class="line"></span><br><span class="line">    List&lt;Dish&gt; list = dishService.list(queryWrapper);</span><br><span class="line"></span><br><span class="line">    List&lt;DishDto&gt; dishDtoList = list.stream().map((item) -&gt; &#123;</span><br><span class="line">        <span class="type">DishDto</span> <span class="variable">dishDto</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DishDto</span>();</span><br><span class="line">        <span class="comment">//对象拷贝</span></span><br><span class="line">        BeanUtils.copyProperties(item, dishDto);</span><br><span class="line">        <span class="comment">//菜品分类id</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">categoryId</span> <span class="operator">=</span> item.getCategoryId();</span><br><span class="line">        <span class="comment">//根据id查询分类对象</span></span><br><span class="line">        <span class="type">Category</span> <span class="variable">category</span> <span class="operator">=</span> categoryService.getById(categoryId);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (category != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">categoryName</span> <span class="operator">=</span> category.getName();</span><br><span class="line">            dishDto.setCategoryName(categoryName);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//当前菜品的id</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">dishId</span> <span class="operator">=</span> item.getId();</span><br><span class="line">        LambdaQueryWrapper&lt;DishFlavor&gt; lambdaQueryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">        lambdaQueryWrapper.eq(DishFlavor::getDishId, dishId);</span><br><span class="line">        <span class="comment">//SQL:select * from dish_flavor where dish_id = ?</span></span><br><span class="line">        <span class="comment">//根据当前菜品的id查询口味表</span></span><br><span class="line">        List&lt;DishFlavor&gt; dishFlavorList = dishFlavorService.list(lambdaQueryWrapper);</span><br><span class="line">        dishDto.setFlavors(dishFlavorList);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dishDto;</span><br><span class="line">    &#125;).collect(Collectors.toList());</span><br><span class="line">    <span class="comment">//返回带有口味表的结果集合</span></span><br><span class="line">    <span class="keyword">return</span> R.success(dishDtoList);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-根据分类ID查询套餐"><a href="#2-根据分类ID查询套餐" class="headerlink" title="2. 根据分类ID查询套餐"></a>2. 根据分类ID查询套餐</h3><p>之前的方法只能用来查询菜品，但是没有实现对套餐的方法。</p>
+<p>在SetmealController中创建list方法，根据条件查询套餐数据。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据条件查询套餐数据</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> setmeal</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/list&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;List&lt;Setmeal&gt;&gt; <span class="title function_">list</span><span class="params">(Setmeal setmeal)</span>&#123;</span><br><span class="line">    LambdaQueryWrapper&lt;Setmeal&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(setmeal.getCategoryId() != <span class="literal">null</span>,Setmeal::getCategoryId,setmeal.getCategoryId());</span><br><span class="line">    queryWrapper.eq(setmeal.getStatus() != <span class="literal">null</span>,Setmeal::getStatus,setmeal.getStatus());</span><br><span class="line">    queryWrapper.orderByDesc(Setmeal::getUpdateTime);</span><br><span class="line"></span><br><span class="line">    List&lt;Setmeal&gt; list = setmealService.list(queryWrapper);</span><br><span class="line">    <span class="keyword">return</span> R.success(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-功能测试"><a href="#2-4-功能测试" class="headerlink" title="2.4 功能测试"></a>2.4 功能测试</h2><p><code>注意：这里测试的时候记得后端Maven执行一遍clean然后install，前端清理一下浏览器缓存，在这卡了半天。</code></p>
+<p>菜品口味展示成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809103505669.png" alt="image-20220809103505669" loading="lazy"></p>
+<p>套餐展示成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809103523279.png" alt="image-20220809103523279" loading="lazy"></p>
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>用户中心项目前端笔记</title>
+    <url>/2022/04/09/%E7%94%A8%E6%88%B7%E4%B8%AD%E5%BF%83%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="1-初始化前端项目"><a href="#1-初始化前端项目" class="headerlink" title="1.初始化前端项目"></a>1.初始化前端项目</h1><h2 id="1-1-安装Node-js"><a href="#1-1-安装Node-js" class="headerlink" title="1.1 安装Node.js"></a>1.1 安装Node.js</h2><p>Node.js中文网域名：<a href="http://nodejs.cn/">http://nodejs.cn/</a></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657852435623-798e2277-e1e7-42d6-8170-1875cb8a2005.png" alt="img" loading="lazy"></p>
+<p>安装这个长期支持版本即可。</p>
+<h2 id="1-2-开始使用Ant-Design-Pro"><a href="#1-2-开始使用Ant-Design-Pro" class="headerlink" title="1.2 开始使用Ant Design Pro"></a>1.2 开始使用Ant Design Pro</h2><p>官网：<a href="https://pro.ant.design/zh-CN/">https://pro.ant.design/zh-CN/</a></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657852570758-1d271922-8f44-4a77-895c-6aa6fb9a82f9.png" alt="img" loading="lazy"></p>
+<p>Ant Design Pro可以看做是一个开箱即用的管理系统。</p>
+<h3 id="1-点击开始使用"><a href="#1-点击开始使用" class="headerlink" title="1.点击开始使用"></a>1.点击开始使用</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657852910425-69a7a925-2542-4948-9782-3553a7c72b60.png" alt="img" loading="lazy"></p>
+<p>好像官网更新了，也可以使用yarn来初始化脚手架，命令如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yarn create umi myapp</span><br></pre></td></tr></table></figure>
+
+<p>yarn是一个包管理器，可以极大地减少 install 的时间和失败的概率，并且完全兼容 npm。</p>
+<h3 id="2-初始化项目"><a href="#2-初始化项目" class="headerlink" title="2. 初始化项目"></a>2. 初始化项目</h3><ol>
+<li>win+R 输入cmd打开命令提示符并定位到自己项目想要放置的位置（根据个人喜好来）</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657853183599-161336da-b894-4914-a514-7e6cef09c947.png" alt="img" loading="lazy"></p>
+<ol>
+<li>按照官网的指示一步步来</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657866838855-d67fd295-055d-4ffa-a391-6c3597bbc0ad.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657866818851-68bc93be-852e-42cd-80b0-3285d2c28956.png" alt="img" loading="lazy"></p>
+<ol>
+<li>在终端输入yarn，就可以自动安装依赖</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657866903049-5d0ed75e-8281-4544-981e-fb1d1216dbbf.png" alt="img" loading="lazy"></p>
+<ol>
+<li>先把项目跑起来，点击package.json中的start</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657867030708-a296535e-1d46-434f-9dd8-a6668a3406b4.png" alt="img" loading="lazy"></p>
+<ol>
+<li>当当当当，效果展示！</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657867080648-01d6a90d-a969-4c10-8515-77f447c38a76.png" alt="img" loading="lazy"></p>
+<h3 id="3-项目瘦身"><a href="#3-项目瘦身" class="headerlink" title="3.项目瘦身"></a>3.项目瘦身</h3><ol>
+<li>找到src下的locals，这个文件夹是针对国际化不同国家访问该页面对应的不同国家的语言。</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657867878888-0b4c15a9-fd3f-43d7-be10-b93b7354b6fd.png" alt="img" loading="lazy">2. 找到package.json中的这行代码，点击运行，移除国际化，这样我们的项目就只支持中文了。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657868015047-c7900aac-ea8f-4741-9bb8-9febda315e97.png" alt="img" loading="lazy"></p>
+<ol>
+<li>然后把locals目录也删了，删了之后重新运行。（删东西一定删一个运行一次，这样可以知道哪个东西不能删，赶紧恢复。）</li>
+<li>然后把下图这些没用的也删了</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657868613086-5bec8ce2-f123-4a73-aecc-2cd3a3ca6899.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657868866311-2b9b160b-942b-40f5-88c2-48f915b72450.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657869096251-f02b4080-830a-445f-856c-2dfe6c758517.png" alt="img" loading="lazy"></p>
+<h3 id="4-项目目录介绍"><a href="#4-项目目录介绍" class="headerlink" title="4.项目目录介绍"></a>4.项目目录介绍</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657869077687-c2ef8b76-26ef-46c4-9ecc-8e1055aebf3d.png" alt="img" loading="lazy"></p>
+<h1 id="2-项目美化"><a href="#2-项目美化" class="headerlink" title="2.项目美化"></a>2.项目美化</h1><h2 id="2-1-修改首页信息"><a href="#2-1-修改首页信息" class="headerlink" title="2.1 修改首页信息"></a>2.1 修改首页信息</h2><p>这是现在的首页</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657869943181-5b79afa4-e28d-45e6-9d07-2b7471c5f3e4.png" alt="img" loading="lazy"></p>
+<h3 id="1-改首页信息"><a href="#1-改首页信息" class="headerlink" title="1.改首页信息"></a>1.改首页信息</h3><p>为了方便我们的改造，首先在src目录下创建一个常量包constants，然后新建一个index.ts文件存放常量，如图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657870314796-de38f6fa-5f51-45a7-a8c5-46e8a9d633a6.png" alt="img" loading="lazy"></p>
+<p>然后将我们所需要的常量写入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*//首页logo地址</span><br><span class="line">*export const SYSTEM_LOGO = &quot;https://www.kdy.icu/images/touxiang.jpg&quot;*//知识星球文档地址</span><br><span class="line">*export const PLANET_LINK = &quot;https://docs.qq.com/doc/DUG93dVNHbVZjZXpo&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后找到以下目录，将信息改成我们自己的，修改前</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657869916385-17d5b75e-ef95-4495-90f0-77a1c989f470.png" alt="img" loading="lazy"></p>
+<p>修改后：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657870436516-cc61f71f-61ae-41bc-9bdb-07afb6846d45.png" alt="img" loading="lazy"></p>
+<p>然后首页的Footer部分就已经改变啦！</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657870486240-dec14a5b-65e9-4983-ab69-171d5de3b4ac.png" alt="img" loading="lazy"></p>
+<p>然后找到pages目录下的user目录下的Login目录下的index.tsx，将以下信息就行修改为自己的</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657870762615-ca4de97c-c438-4263-ba12-653ee898e6b5.png" alt="img" loading="lazy"></p>
+<p>改为以下这样，同样，上方需要引入常量包</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657870893470-c18cbfba-3ed6-4aa9-86c8-0aaf910db894.png" alt="img" loading="lazy"></p>
+<p>效果展示：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657870932503-b19278fc-3b5d-4191-9eac-27e667fa94b8.png" alt="img" loading="lazy"></p>
+<h2 id="2-2-删除多余代码"><a href="#2-2-删除多余代码" class="headerlink" title="2.2 删除多余代码"></a>2.2 删除多余代码</h2><p>依然是Login下的index.tsx目录</p>
+<ol>
+<li>删掉其他登录方式，选中，删除</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657871034517-800c5777-c783-4893-b2f2-72091792a732.png" alt="img" loading="lazy"></p>
+<ol>
+<li>图中标记的都删了</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657871134020-480979ac-063a-4202-8a3f-587cbb878af2.png" alt="img" loading="lazy"></p>
+<ol>
+<li>把账号密码的占位符换了</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657871263249-c63d5d89-c4bd-49db-918f-ba2aa00c4fc5.png" alt="img" loading="lazy"></p>
+<p>改成这个熊样子：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657871299395-02e5cd2a-e60f-4b22-9ff8-bf6e53fcf406.png" alt="img" loading="lazy"></p>
+<p>因为我们以后是使用账号密码进行登录，所以全局替换，使用ctrl+shift+R进行全局替换，将用户名改为账号，点击全部替换。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657871432079-ee44f2c2-103b-4e5e-ad5b-0e978c9d7cf6.png" alt="img" loading="lazy"></p>
+<p>然后把手机号验证码这里进行折叠，然后删除。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657871577569-5630ae4a-09f1-47f1-b007-8cb03bbb3cbe.png" alt="img" loading="lazy"></p>
+<p>然后对忘记密码进行更改，改为联系管理员，并添加对应的超链接，这里我们改为联系鱼皮</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657871687959-981c7dcb-810c-4217-a0b0-cb00287fdc3a.png" alt="img" loading="lazy"></p>
+<p>这时候你会发现上方导包的地方有好多报错，可以把报错的地方直接删了，如果不放心的话，也可以注释掉，像下面这样。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657872148470-0c942062-b5a3-4d68-90e9-3061452b82df.png" alt="img" loading="lazy"></p>
+<p>然后就是激动人心的页面展示环节。</p>
+<p>当当当当！</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657871732867-46297b73-d0b0-4233-8976-7e328c8307b5.png" alt="img" loading="lazy"></p>
+<p><strong>注：****一定记得改一点东西就去页面刷新一下看看，这样方便排错，不然改了半天发现页面崩了都不知道错在了哪里。</strong></p>
+<h2 id="2-3-对接后台"><a href="#2-3-对接后台" class="headerlink" title="2.3 对接后台"></a>2.3 对接后台</h2><p>首先，还是再Login下的index.tsx文件中，ctrl+F打开搜索框，搜索handleSubmit</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657872329082-22ce8d9a-e81c-456b-9249-a3588e7a021a.png" alt="img" loading="lazy">按住Ctrl加鼠标点击进入</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657872397215-87de1c6c-87ce-4d9d-825a-28e2f085ff31.png" alt="img" loading="lazy"></p>
+<p>找到LoginParams，点击进入</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657872445905-00ce088f-8e08-496c-804b-490344d9fbd2.png" alt="img" loading="lazy"></p>
+<p>将这里的username和password重构为userAccount和userPassword（重构快捷键Shift + F6）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657872534815-f56ca687-7816-4fac-825a-464a6a06ead7.png" alt="img" loading="lazy"><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657872626732-afadbe9d-e4ec-40c4-882f-b9a40ac9b93e.png" alt="img" loading="lazy"></p>
+<p>继续回到handleSubmit，进入login</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657872733101-98ac1a4f-8eea-4b49-a30d-1ee026433023.png" alt="img" loading="lazy"></p>
+<p>在这里，我们发现了关于登录功能的一些路由</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657872781801-7d8581d1-0140-448b-8101-8b4098870fc4.png" alt="img" loading="lazy"></p>
+<p>接下来我们的工作就是把这些路由和我们的后端进行对接。</p>
+<p>但是前端的端口是8000，而后端的端口是8080，端口不一样就会产生跨域问题。</p>
+<p>跨域问题的解决方案有很多种，添加一个代理或者让后端支持跨域，但是后端支持跨域不安全，正好Ant Design Pro给我们也提供了一个代理，我们就是用它这个试一试。</p>
+<p>打开config目录下的proxy.ts文件</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657873017672-7bcc5516-ae8f-4db3-8c8f-8ff326aaa1e2.png" alt="img" loading="lazy"></p>
+<p>将图中的target改为我们的后端地址</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657873089165-ac083b6a-ba9a-4320-aa00-efa1d6a09dc3.png" alt="img" loading="lazy"></p>
+<p>然后返回login，将路由改成我们后端的登录地址，因为代理前加了&#x2F;api，所以这里我们前面也要加上&#x2F;api<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657873324697-83846bd1-3988-4bfe-a07d-bc9c6fa7b752.png" alt="img" loading="lazy"></p>
+<p>然后把后台也加上&#x2F;api，保证统一，在application.yml中添加一下代码，就不复制出来了，打个context-path，有提示。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657873967680-f74123cf-3ab7-4444-b2d7-6cd378320f77.png" alt="img" loading="lazy"></p>
+<p>设置超时时间，在src目录下的app.tsx中添加以下代码，超时时间为十秒</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657873793128-164f21b0-8f6c-4a0f-b94e-7f57f908c896.png" alt="img" loading="lazy"></p>
+<p>然后我们输入账号密码，点击登录</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657874168369-7fad124d-180d-41c2-b0e1-c4a2b74a54ab.png" alt="img" loading="lazy"></p>
+<p>你以为这样就对接完成了？</p>
+<p>想多了，后台debug发现，拿到的值是空值，这是为啥呢？</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657874259081-d7c28ff7-35c6-40ed-8c31-cc6619ee07e2.png" alt="img" loading="lazy"></p>
+<p>我们通过抓包发现，表单提交的参数仍然是username和password，所以拿不到数据很正常。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657874771856-48c592b1-70da-4a5a-bd71-6227b786138f.png" alt="img" loading="lazy"></p>
+<p>刚才我们改的loginParams是ts文件里的，只是定义了一种规范，都是些假数据，而真数据在我们表单中。</p>
+<p>那么我们就需要把表单提交的参数和后台对应上，然后参数需要在login下的index.tsx文件中改。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657874692617-a4500d8b-f225-4994-b842-707faf982db6.png" alt="img" loading="lazy"></p>
+<p>然后把username和password进行全局替换。</p>
+<p>这里使用Ctrl+R，进行替换。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657875014809-fd3edf2d-6984-49f2-8bfe-c1a0c132eb97.png" alt="img" loading="lazy"></p>
+<p><strong>这里记得区分大小写替换，把这个Cc点亮就可以了</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657875185039-737d1b6a-c6c6-41c6-b9d9-7fef413f26fb.png" alt="img" loading="lazy"></p>
+<p>这样我们再去测试，就发现我们终于拿到数据了，太特么不容易了。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657875311765-195aa93d-9a48-4226-980c-95a78a20838a.png" alt="img" loading="lazy"></p>
+<p><strong>收尾工作：</strong></p>
+<p>给密码加一个长度校验</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657875483907-e4a3181d-d08e-4c3c-b26a-c32b72d45eaf.png" alt="img" loading="lazy"></p>
+<p>然后把登录信息这里进行一下修改</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657875677895-918f5b40-1ccb-4465-a19e-60313cbe73e8.png" alt="img" loading="lazy"></p>
+<p>修改为：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657875722277-4e0c3bf2-1df0-46c5-a357-a80a5f3f07c0.png" alt="img" loading="lazy"></p>
+<p>测试一下新改的代码：</p>
+<p>长度校验功能正常：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657875756296-2893c5d0-f14c-4589-8b6d-c76c2c0f6a4e.png" alt="img" loading="lazy"></p>
+<p>登录测试正常:</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657875944196-ad162bd8-5d7d-4580-88da-b1e960afcefd.png" alt="img" loading="lazy"></p>
+<p>完美~</p>
+<p>因为在搞前端的时候不知道那个步骤把前端搞崩了，改了好久也改不回来，所以重新做了一遍，顺手记录一下，兄弟们跟着皮总做的时候，一定要记得按时进行运行检查，随时改代码随时观察，及时发现问题，这样才不会像我一样，只图快，结果最后全崩了还不知道自己错在哪，还得重新弄。</p>
+<p>不过也算长记性了，以后就不会出现这种情况了，兄弟们加油。</p>
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>用户中心项目末笔记</title>
+    <url>/2022/04/25/%E7%94%A8%E6%88%B7%E4%B8%AD%E5%BF%83%E9%A1%B9%E7%9B%AE%E6%9C%AB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="0-目标"><a href="#0-目标" class="headerlink" title="0.目标"></a>0.目标</h1><ol>
+<li><p>开发用户注销前端&#x2F;后端</p>
+</li>
+<li><p>补充用户注册校验逻辑前端&#x2F;后端</p>
+</li>
+<li><p>后端代码优化</p>
+</li>
+<li><p>前端代码优化</p>
+</li>
+<li><p>项目部署上线<strong>（鸽）</strong></p>
+</li>
+<li><ol>
+<li>买服务器</li>
+<li>原生部署(web服务器)</li>
+<li>容器部署</li>
+<li>绑定域名</li>
+<li><strong>排查问题</strong></li>
+</ol>
+</li>
+</ol>
+<h1 id="1-开发用户注销"><a href="#1-开发用户注销" class="headerlink" title="1.开发用户注销"></a>1.开发用户注销</h1><h2 id="1-1-后端注销代码编写："><a href="#1-1-后端注销代码编写：" class="headerlink" title="1.1 后端注销代码编写："></a>1.1 后端注销代码编写：</h2><p><strong>分析：</strong>用户登陆时就是给用户一个登录态，用户注销就是将登录态进行移除</p>
+<p>首先在Service接口中编写方法</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658733603507-05f751e4-61cb-45fb-a9d0-687f0d9897c5.png" alt="img" loading="lazy"></p>
+<p>在ServiceImpl中对方法进行实现</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658733617386-0f5e34ec-68b5-4da7-bb11-c6270ee9c3af.png" alt="img" loading="lazy"></p>
+<p>然后在Controller中编写注销接口</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658733644845-6b18497a-c682-4f7d-9d64-aac04e9af047.png" alt="img" loading="lazy"></p>
+<p>Debug模式先将后端跑起来，去前端进行测试</p>
+<h2 id="1-2-前端注销代码编写："><a href="#1-2-前端注销代码编写：" class="headerlink" title="1.2 前端注销代码编写："></a>1.2 前端注销代码编写：</h2><p>首先需要找到前端的注销方法，方法在components组建中的头像下拉菜单中，即AvatarDropdown.tsx文件中</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658734189624-de86ce08-7e58-4ef1-aa07-8c1d70b21b12.png" alt="img" loading="lazy"></p>
+<p>点击进入logOut()方法<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658734274863-53a7bec4-9936-4fe3-9b97-20960e6448ff.png" alt="img" loading="lazy"></p>
+<p>点击进入outLogin进行更改路由</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658734300511-2e219df1-e97c-4537-9c0a-939331e6d98b.png" alt="img" loading="lazy"></p>
+<p>将其改成我们的路由地址，如下图</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658734341447-2b3a5909-cb13-44ae-904c-40bd9fd77a64.png" alt="img" loading="lazy"></p>
+<p>进行测试</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658734397383-488043f5-a160-4d3c-a0f8-4aea77fcf243.png" alt="img" loading="lazy"></p>
+<p>通过查看返回值，发现返回值为1，注销成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658734411012-0f7fe479-0bc1-4917-b5b9-c892fc7cd07f.png" alt="img" loading="lazy"></p>
+<p>页面也重定向回到了登录页</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658734450776-091d46e2-5afd-4bc2-8ced-b75eadefdae8.png" alt="img" loading="lazy"></p>
+<p>出乎意料的顺利</p>
+<h1 id="2-补充用户注册校验逻辑"><a href="#2-补充用户注册校验逻辑" class="headerlink" title="2.补充用户注册校验逻辑"></a>2.补充用户注册校验逻辑</h1><p><strong>分析：</strong></p>
+<ol>
+<li>先让用户自己填：星球编号，2 - 5位</li>
+<li>后台补充对编号的校验：长度校验、唯一性校验</li>
+<li>前段补充输入框，适配后端</li>
+<li>后期拉取星球数据，定期清理违规用户</li>
+</ol>
+<h2 id="2-1-后端代码开发"><a href="#2-1-后端代码开发" class="headerlink" title="2.1 后端代码开发"></a>2.1 后端代码开发</h2><h3 id="1-数据库中添加星球编号字段"><a href="#1-数据库中添加星球编号字段" class="headerlink" title="1.数据库中添加星球编号字段"></a>1.数据库中添加星球编号字段</h3><p>右键user表，选择Modify Table</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658736597265-b60e0f10-5926-4f3f-8de0-8f281ce40834.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658736848293-45ad4eab-e6ec-460a-9e49-9172f0764d4e.png" alt="img" loading="lazy"></p>
+<p>刷新一下表，发现字段添加成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658736915282-b1b8a454-8f5b-4bff-b965-9424300d7b49.png" alt="img" loading="lazy"></p>
+<h3 id="2-重新生成对象"><a href="#2-重新生成对象" class="headerlink" title="2.重新生成对象"></a>2.重新生成对象</h3><p>因为数据表中的字段都变了，类中的属性也要和字段一一对应，所以要重新生成对象，使用MyBatisX插件来生成</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737011424-53197363-acb4-4653-818f-61a95aee1f68.png" alt="img" loading="lazy"></p>
+<p>点击进入，不用修改，直接下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737042524-979f0f8e-5b53-45cd-8080-c4e1d1412816.png" alt="img" loading="lazy"></p>
+<p>直接Finish</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737069747-c27c5515-f021-4844-9287-50a673525017.png" alt="img" loading="lazy"></p>
+<p>然后左边就有了我们生成的代码</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737145192-84e21647-bc0a-4f21-a85f-ee37520d0788.png" alt="img" loading="lazy"></p>
+<p>然后将我们有需要的地方进行选择性的复制</p>
+<ol>
+<li>实体类</li>
+</ol>
+<p>将生成的星球编号属性复制到我们的User中</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737231164-59a9056b-b585-4af4-93c5-10ceab814607.png" alt="img" loading="lazy"></p>
+<ol>
+<li>Mapper文件</li>
+</ol>
+<p>将Mapper文件中的映射地址改为我们的UserMapper和User所在的地方（这个很重要，之前就出过这个问题）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737430740-172e547b-42f4-4c1b-8ef2-892370356253.png" alt="img" loading="lazy"></p>
+<p>可以通过右键-&gt;Copy Reference来快速复制类的全类名</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737467661-113cca13-dc01-4f9e-bc6d-fbd0ac1385cd.png" alt="img" loading="lazy"></p>
+<p>修改为这样（改成自己的）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737530817-ab95106b-d516-442e-ae03-8e455e80b5f2.png" alt="img" loading="lazy"></p>
+<ol>
+<li>把generator包删掉就可以了</li>
+</ol>
+<h3 id="3-补充星球编号"><a href="#3-补充星球编号" class="headerlink" title="3. 补充星球编号"></a>3. 补充星球编号</h3><p>因为原来后端代码中好多使用到了User对象，现在我们添加了新字段，需要对User进行补充上</p>
+<ol>
+<li>用户脱敏</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737747552-636489af-3e4d-48ff-bb71-6e2bdf2cf48f.png" alt="img" loading="lazy"></p>
+<ol>
+<li>注册请求体</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737801648-07eac282-c82f-4652-b415-17e709abab42.png" alt="img" loading="lazy"></p>
+<ol>
+<li>Controller中的注册接口</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658737979689-a3909d45-2052-4d54-b50a-0ec1d59c2c03.png" alt="img" loading="lazy"></p>
+<ol>
+<li>Service中的注册接口</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658738072783-bd78d07f-2695-4a7f-922d-fd27f2ae39a6.png" alt="img" loading="lazy"></p>
+<ol>
+<li>服务层实现类中也要对应着添加上</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658738208964-a812a461-328a-4a73-b43e-ae6e2e3208bb.png" alt="img" loading="lazy"></p>
+<h3 id="4-添加校验逻辑"><a href="#4-添加校验逻辑" class="headerlink" title="4.添加校验逻辑"></a>4.添加校验逻辑</h3><p>在服务层实现类中添加校验逻辑，</p>
+<ol>
+<li>非空校验和长度校验</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658738419174-52302148-09c5-4730-b4ef-e3f07903ce04.png" alt="img" loading="lazy"></p>
+<ol>
+<li>编号重复校验</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658738654133-549f25c5-82c6-4529-a202-15e578a7a766.png" alt="img" loading="lazy"></p>
+<ol>
+<li>星球编号别忘了插入，不然忙活半天数据库中没添加星球编号</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658738775310-99c5f544-c1fa-41c0-b1ee-783e2171f331.png" alt="img" loading="lazy"></p>
+<h3 id="5-单元测试"><a href="#5-单元测试" class="headerlink" title="5. 单元测试"></a>5. 单元测试</h3><p>进入UserServiceTest，将方法参数补充完整（星球编号）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658739005605-0e4f3299-b9e3-44dc-8310-83e51fde1187.png" alt="img" loading="lazy"></p>
+<p>然后打上断点开始Debug</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658739308716-dda520f0-9d06-4bc1-92f0-e7cbb8ed0784.png" alt="img" loading="lazy"></p>
+<p>接下来就是一路的F8</p>
+<p>跑到最后也全都是-1，因为账户也是重复的，所以测试不出来</p>
+<p>这里先手动给我们的管理员用户加上星球编号</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658739394928-c549156b-3079-4448-94a8-c973edfbb3a6.png" alt="img" loading="lazy"></p>
+<h2 id="2-2-前端代码开发"><a href="#2-2-前端代码开发" class="headerlink" title="2.2 前端代码开发"></a>2.2 前端代码开发</h2><p>前端就比较简单了</p>
+<h3 id="1-添加星球编号输入框"><a href="#1-添加星球编号输入框" class="headerlink" title="1.添加星球编号输入框"></a>1.添加星球编号输入框</h3><p>首先进入注册页面，复制一份用户账号的表单输入框，修改为星球编号的</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658739703502-638164ca-a566-4a31-992b-619f332fa57e.png" alt="img" loading="lazy"></p>
+<p>添加星球编号输入框代码如下</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658739805723-2e8a1e06-fc8d-4fea-ad12-b547c04e04d3.png" alt="img" loading="lazy"></p>
+<p>运行看看效果，已经出来了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658739852894-4375a251-167b-4b62-8d6e-81a0b198d752.png" alt="img" loading="lazy"></p>
+<h3 id="2-修改注册参数"><a href="#2-修改注册参数" class="headerlink" title="2.修改注册参数"></a>2.修改注册参数</h3><p>输入框中添加了星球编号，那参数中也需要进行对应的添加</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658740073032-fe8879e3-73f1-44ef-af9c-90924955f1e2.png" alt="img" loading="lazy"></p>
+<p>添加星球编号参数</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658740116830-0699239b-7435-41c4-871c-579115532c15.png" alt="img" loading="lazy"></p>
+<h3 id="3-在CurrentUser的属性中添加上星球编号"><a href="#3-在CurrentUser的属性中添加上星球编号" class="headerlink" title="3.在CurrentUser的属性中添加上星球编号"></a>3.在CurrentUser的属性中添加上星球编号</h3><p>CurrentUser直接对应了后端的User和数据库，所以也要添加上星球编号字段来保持对应</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658740301300-7cae1b19-8e86-499f-bd3a-76158aa0e3fe.png" alt="img" loading="lazy"></p>
+<h3 id="4-管理员表格查询中添加星球编号"><a href="#4-管理员表格查询中添加星球编号" class="headerlink" title="4.管理员表格查询中添加星球编号"></a>4.管理员表格查询中添加星球编号</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658740611348-9cc0d809-7405-48b3-b20c-dcfa15dca909.png" alt="img" loading="lazy"></p>
+<h3 id="5-测试"><a href="#5-测试" class="headerlink" title="5.测试"></a>5.测试</h3><h4 id="1-注册测试"><a href="#1-注册测试" class="headerlink" title="1.注册测试"></a>1.注册测试</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658740930172-2455d299-7bda-49c1-9dfc-ab414ba755c4.png" alt="img" loading="lazy"></p>
+<p>点击注册，注册成功（没来得及截图），查看数据库，注册成功！</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658741718635-55fc590a-64a5-437d-b99b-71f3b7932fa1.png" alt="img" loading="lazy"></p>
+<h4 id="2-查询测试"><a href="#2-查询测试" class="headerlink" title="2.查询测试"></a>2.查询测试</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658740759060-68804556-d14f-4fbf-8df0-ad04f5ebc7c2.png" alt="img" loading="lazy"></p>
+<p>非常滴完美~</p>
+<h1 id="3-后端代码优化"><a href="#3-后端代码优化" class="headerlink" title="3. 后端代码优化"></a>3. 后端代码优化</h1><p><strong>平时写代码尽量把功能写的完整一点，但是没必要直接就追求完美，先完成一个小demo实现功能，然后再一步步优化。</strong></p>
+<p><strong>优化目标：</strong></p>
+<ol>
+<li><p>封装一个通用返回对象</p>
+</li>
+<li><ol>
+<li>目的：给对象补充一些信息，告诉前端在业务逻辑上操作成功还是失败</li>
+</ol>
+</li>
+<li><p>封装全局异常处理</p>
+</li>
+<li><p>全局请求日志和登录校验</p>
+</li>
+</ol>
+<h2 id="3-1-封装通用返回对象"><a href="#3-1-封装通用返回对象" class="headerlink" title="3.1 封装通用返回对象"></a>3.1 封装通用返回对象</h2><h3 id="1-封装对象"><a href="#1-封装对象" class="headerlink" title="1. 封装对象"></a>1. 封装对象</h3><p>在usercenter下新建一个common包，然后新建一个BaseResponse通用返回类，并定义属性</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658748517612-e4dbe31f-186f-4a02-851f-412947b349c7.png" alt="img" loading="lazy"></p>
+<p>Alt + Insert添加构造方法</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658748742713-7fbbab9b-4c67-47bb-a523-40a01b46ac8c.png" alt="img" loading="lazy"></p>
+<p>代码如下：</p>
+<p>&#96;<em>&#x2F;</em>*<br>* ** 通用返回类<br>* **<br>* *** <em><strong>@auther</strong></em> <em>xiaochen<br>* *** <em><strong>@create</strong></em> <em>2022-07-25 19:23<br>* <em>*&#x2F;<br>*@Data**public class</em>* BaseResponse*</em></em>&lt;<em><strong>T</strong><em>&gt;</em>*</em> <strong>implements</strong> Serializable ***{<br>***    <strong>private int</strong> <strong>code</strong>;    <em>&#x2F;&#x2F;因为做的是一个通用的返回类，所以不管接口返回的是什么类型都能使用，所以加一个泛型<br>*    <em>&#x2F;&#x2F;提高了可重用性<br>*    <strong>private</strong> T <strong>data</strong>;    <strong>private</strong> String <strong>message</strong>;    <strong>public</strong> BaseResponse</em></em>*(<em><strong><strong>int</strong> code, T data, String message</strong></em>) {<br>***        <strong>this</strong>.<strong>code</strong> &#x3D; code;        <strong>this</strong>.<strong>data</strong> &#x3D; data;        <strong>this</strong>.<strong>message</strong> &#x3D; message;    ***}</p>
+<p>***    <strong>public</strong> BaseResponse***(<em><strong><strong>int</strong> code, T data</strong></em>) {<br>***        <strong>this</strong><em><strong>(<em><strong>code, data, <strong>“”</strong></strong></em>)</strong></em>;    ***}<br>******}<br>***&#96;</p>
+<hr>
+<p>在utils包下新建一个ResultUtils返回结果工具类（在common包下也中，我发现我原来写了个utils包，就放在这里面了），并写入下列代码</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658749602292-eb1bb8f0-d840-448c-b09d-e216d5582ad5.png" alt="img" loading="lazy"></p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">*<span class="comment">/**</span></span><br><span class="line"><span class="comment">\* ** 返回通用结果工具类</span></span><br><span class="line"><span class="comment">\* **</span></span><br><span class="line"><span class="comment">\* *** ***<span class="doctag">@auther</span>*** *xiaochen</span></span><br><span class="line"><span class="comment">\* *** ***<span class="doctag">@create</span>*** *2022-07-25 19:43</span></span><br><span class="line"><span class="comment">\* **/</span></span><br><span class="line">***<span class="keyword">public</span> class** ResultUtils ***&#123;</span><br><span class="line">***    **<span class="keyword">public</span> <span class="keyword">static</span>** ***&lt;***T***&gt;*** BaseResponse***&lt;***T***&gt;*** success***(***T data***) &#123;</span><br><span class="line">***        **<span class="keyword">return</span> <span class="keyword">new</span>** BaseResponse***&lt;&gt;(***<span class="number">0</span>, data, **<span class="string">&quot;ok&quot;</span>*****)***;    ***&#125;</span><br><span class="line">******&#125;***</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-定制生成通用对象的快捷键"><a href="#2-定制生成通用对象的快捷键" class="headerlink" title="2.定制生成通用对象的快捷键"></a>2.定制生成通用对象的快捷键</h3><ol>
+<li>按照下图指示进入定制快捷键页面，（main 、sout这些快捷键都是在这里定制的）</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658749843766-95e53fb9-1b0f-4784-afe6-473765aa2c84.png" alt="img" loading="lazy"></p>
+<ol>
+<li>新建分组</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658749998214-5c56e436-f6b4-4176-aaef-82e8e19b1aac.png" alt="img" loading="lazy"></p>
+<ol>
+<li>名称为customJava，点击ok</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658750053126-745cf3f5-f585-46b0-bb8a-c4fb23931f2c.png" alt="img" loading="lazy"></p>
+<ol>
+<li>在该分组中新建一个快捷键模板</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658750109551-c3303fab-239b-4c63-ae41-14a5c48f5bcc.png" alt="img" loading="lazy"></p>
+<ol>
+<li>新建快捷键</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658750256943-bf367e10-6b2f-4233-b4ae-f230cf53583d.png" alt="img" loading="lazy"></p>
+<p>点击Define，选择Java，该选项代表我们使用什么编程语言时该快捷键生效</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658750305595-2b2b39ec-6c83-44a2-983c-141d14c79dd5.png" alt="img" loading="lazy"></p>
+<ol>
+<li>然后点击apply，ok，完成快捷键的创建<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658750396467-40d1bc62-8b1a-4914-a1ae-b36ee9650107.png" alt="img" loading="lazy"></li>
+<li>测试，打上快捷键，发现确实可以生成我们需要的代码</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658750473129-5db8963c-f884-4405-aab1-86ae2d676680.png" alt="img" loading="lazy"></p>
+<h3 id="3-使用通用返回对象"><a href="#3-使用通用返回对象" class="headerlink" title="3.使用通用返回对象"></a>3.使用通用返回对象</h3><p>通用对象封装好了，然后把我们原来请求接口中的返回对象都改成通用的返回对象</p>
+<p>拿注册接口举例子，将返回值修改为通用返回对象</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658750718520-5cc9ae34-03cd-49b2-b0cf-03de7baa16e7.png" alt="img" loading="lazy"></p>
+<p>其他的以此类推</p>
+<p>当前对象</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658751017297-905af0d5-bc6e-4926-aa01-a4b104465a37.png" alt="img" loading="lazy"></p>
+<p>登录</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658750888658-fef44b20-666f-46b2-9e77-d761f6bdafd2.png" alt="img" loading="lazy"></p>
+<p>注销</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658750937469-f23d15f7-88db-495c-b870-0d24dcf0a6d3.png" alt="img" loading="lazy"></p>
+<p>查询</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658751142369-61031bcd-5d28-48d2-a94b-29d7ced03338.png" alt="img" loading="lazy"></p>
+<p>删除（基本数据类型装箱，变为包装类）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658751281758-8e04404d-9a50-47ce-bdb7-a6af9ca7f84f.png" alt="img" loading="lazy"></p>
+<h3 id="4-自定义错误码"><a href="#4-自定义错误码" class="headerlink" title="4.自定义错误码"></a>4.自定义错误码</h3><p>在common包下新建一个枚举值ErrorCode</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658751608151-788f0144-9271-4ca7-95ac-d70b343916c1.png" alt="img" loading="lazy"></p>
+<p>并写入以下代码</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658753561018-990a3283-f4f2-44c7-a0fd-68d73b3957e8.png" alt="img" loading="lazy"></p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">``*<span class="comment">/**</span></span><br><span class="line"><span class="comment">\* ** 错误码</span></span><br><span class="line"><span class="comment">\* **</span></span><br><span class="line"><span class="comment">\* *** ***<span class="doctag">@auther</span>*** *xiaochen</span></span><br><span class="line"><span class="comment">\* *** ***<span class="doctag">@create</span>*** *2022-07-25 20:19`</span></span><br><span class="line"><span class="comment">`\* **/</span></span><br><span class="line">***<span class="keyword">public</span> <span class="keyword">enum</span>** ErrorCode ***&#123;`</span><br><span class="line"></span><br><span class="line">`***    ***SUCCESS(***<span class="number">0</span>,**<span class="string">&quot;ok&quot;</span>**,**<span class="string">&quot;&quot;</span>*****)***,    ***PARAMS_ERROR(***<span class="number">40000</span>, **<span class="string">&quot;请求参数错误&quot;</span>**, **<span class="string">&quot;&quot;</span>*****)***,    ***NULL_ERROR(***<span class="number">40001</span>, **<span class="string">&quot;请求数据为空&quot;</span>**, **<span class="string">&quot;&quot;</span>*****)***,    ***NOT_LOGIN(***<span class="number">40100</span>, **<span class="string">&quot;未登录&quot;</span>**, **<span class="string">&quot;&quot;</span>*****)***,    ***NO_AUTH(***<span class="number">40101</span>, **<span class="string">&quot;无权限&quot;</span>**, **<span class="string">&quot;&quot;</span>*****)***;    *<span class="comment">/**`</span></span><br><span class="line"><span class="comment">`\*     ** 状态码`</span></span><br><span class="line"><span class="comment">`\*     **/</span></span><br><span class="line">\*    **<span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span>** **code**;    *<span class="comment">/**`</span></span><br><span class="line"><span class="comment">`\*     ** 状态码信息`</span></span><br><span class="line"><span class="comment">`\*     **/</span></span><br><span class="line">\*    **<span class="keyword">private</span> <span class="keyword">final</span>** String **message**;    *<span class="comment">/**</span></span><br><span class="line"><span class="comment">\*     ** 状态码描述</span></span><br><span class="line"><span class="comment">\*     **/</span></span><br><span class="line">\*    **<span class="keyword">private</span> <span class="keyword">final</span>** String **description**;    ErrorCode***(*****<span class="type">int</span>** code, String message, String description***) &#123;`</span><br><span class="line">`***        **<span class="built_in">this</span>**.**code** = code;        **<span class="built_in">this</span>**.**message** = message;        **<span class="built_in">this</span>**.**description** = description;    ***&#125;***``</span><br><span class="line"></span><br><span class="line">`*<span class="comment">//枚举值不支持用set方法</span></span><br><span class="line">***<span class="keyword">public</span> <span class="type">int</span>** getCode***() &#123;</span><br><span class="line">***    **<span class="keyword">return</span>** **code**;***&#125;</span><br><span class="line">*****<span class="keyword">public</span>** String getMessage***() &#123;</span><br><span class="line">***    **<span class="keyword">return</span>** **message**;***&#125;</span><br><span class="line">*****<span class="keyword">public</span>** String getDescription***() &#123;</span><br><span class="line">***    **<span class="keyword">return</span>** **description**;***&#125;***``***</span><br><span class="line">******&#125;******</span><br><span class="line">***` </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-完善通用结果返回类BaseResponse"><a href="#5-完善通用结果返回类BaseResponse" class="headerlink" title="5.完善通用结果返回类BaseResponse"></a>5.完善通用结果返回类BaseResponse</h3><p>错误码已经定义完了，我们就可以从ErrorCode中取状态码在BaseResponse中直接使用</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658754299928-80e56ea8-cb3a-4c06-9747-db589c49e78f.png" alt="img" loading="lazy"></p>
+<h3 id="6-完善返回通用结果对象工具类ResultUtils"><a href="#6-完善返回通用结果对象工具类ResultUtils" class="headerlink" title="6.完善返回通用结果对象工具类ResultUtils"></a>6.完善返回通用结果对象工具类ResultUtils</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658754524977-bb8056e4-a685-4a5d-97f2-6d7ade580f6a.png" alt="img" loading="lazy"></p>
+<p>代码：</p>
+<p>&#96;<em>&#x2F;</em>*<br>* ** 返回通用结果工具类<br>* **<br>* *** <em><strong>@auther</strong></em> *xiaochen<br>* *** <em><strong>@create</strong></em> *2022-07-25 19:43<br>* **&#x2F;<br><strong><em>public class</em>* ResultUtils ***{<br>***    <em>&#x2F;</em>*<br>*     ** 成功<br>*     *** <em><strong>@param</strong></em> <strong><em>data<br>***     *** <em><strong>@param</strong></em> <strong><em><T><br>***     *** <strong><em>@return<br>***     <strong>&#x2F;<br>*    <strong>public static</strong> <em><strong>&lt;***T***&gt;</strong></em> BaseResponse</strong></em>&lt;***T***&gt;</strong></em> success</strong></em>(<em><strong>T data</strong></em>) {<br>***        <strong>return new</strong> BaseResponse</strong>*&lt;&gt;(<em><strong>0, data, <strong>“ok”</strong></strong></em>)</strong>*;    ***}</p>
+<p>***    <em>&#x2F;</em>*<br>*     ** 失败<br>*     *** <em><strong>@param</strong></em> <strong><em>errorCode<br>***     *** <strong><em>@return<br>***     <strong>&#x2F;<br>*    <strong>public static</strong> BaseResponse error</strong></em>(<em><strong>ErrorCode errorCode</strong></em>) {<br>***        <strong>return new</strong> BaseResponse</strong></em>&lt;&gt;(<em><strong>errorCode</strong></em>)</strong>*;    ***}<br>******}<br>***&#96;</p>
+<h2 id="3-2-封装全局异常处理"><a href="#3-2-封装全局异常处理" class="headerlink" title="3.2 封装全局异常处理"></a>3.2 封装全局异常处理</h2><h3 id="1-定义全局业务异常类"><a href="#1-定义全局业务异常类" class="headerlink" title="1.定义全局业务异常类"></a>1.定义全局业务异常类</h3><ol>
+<li>在usercenter包下新建一个exception包，然后新建我们的全局业务异常类继承RuntimeException并扩充了两个属性，多写几个构造函数，方便我们之后使用到它时可以灵活的进行传参（后期不够，用到了随时加）</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658797991326-5b88ecc8-60ef-4730-b0b5-5ccb54f0566e.png" alt="img" loading="lazy"></p>
+<ol>
+<li>添加getter方法</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658798126177-779312a0-e9c8-4fe0-bb43-38d4110dc488.png" alt="img" loading="lazy"></p>
+<ol>
+<li>代码如下</li>
+</ol>
+<p>&#96;<em>&#x2F;</em>*<br>* ** 自定义业务异常类<br>* **<br>* *** <em><strong>@auther</strong></em> <em>xiaochen<br>* *** <em><strong>@create</strong></em> <em>2022-07-26 9:03<br>* <em><em>&#x2F;<br><em><strong>public class</strong> BusinessException <strong>extends</strong> RuntimeException <em><strong>{<br>***    <strong>private final int</strong> <strong>code</strong>;    <strong>private final</strong> String <strong>description</strong>;    <em>&#x2F;&#x2F;多写几个构造函数，方便我们灵活的传参<br>*    <strong>public</strong> BusinessException</em></strong>(<em><strong>String message, <strong>int</strong> code, String description</strong></em>) {<br>***        <strong>super</strong></em></em></em>(<em><strong>message</strong></em>)</em></em></em>;        <strong>this</strong>.<strong>code</strong> &#x3D; code;        <strong>this</strong>.<strong>description</strong> &#x3D; description;    ***}</p>
+<p>***    <strong>public</strong> BusinessException***(<em><strong>ErrorCode errorCode</strong></em>) {<br>***        <strong>super</strong><em><strong>(<em><strong>errorCode.getMessage</strong></em>())</strong></em>;        <strong>this</strong>.<strong>code</strong> &#x3D; errorCode.getCode***()<em><strong>;        <strong>this</strong>.<strong>description</strong> &#x3D; errorCode.getDescription</strong></em>()***;    ***}</p>
+<p>***    <strong>public</strong> BusinessException***(<em><strong>ErrorCode errorCode, String description</strong></em>) {<br>***        <strong>super</strong><em><strong>(<em><strong>errorCode.getMessage</strong></em>())</strong></em>;        <strong>this</strong>.<strong>code</strong> &#x3D; errorCode.getCode***()***;        <strong>this</strong>.<strong>description</strong> &#x3D; description;    ***}</p>
+<p>***    <strong>public int</strong> getCode***() {<br>***        <strong>return</strong> <strong>code</strong>;    ***}</p>
+<p>***    <strong>public</strong> String getDescription***() {<br>***        <strong>return</strong> <strong>description</strong>;    ***}<br>******}***&#96;</p>
+<h3 id="2-将全局异常类应用到接口中"><a href="#2-将全局异常类应用到接口中" class="headerlink" title="2.将全局异常类应用到接口中"></a>2.将全局异常类应用到接口中</h3><h4 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h4><p>首先来到Controller，将原来没有完善的错误返回代码都使用全局异常类进行代替，像这样将错误信息进行抛出</p>
+<p>current</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658817133475-c51fd5df-f6c6-4e70-8d59-3f4d61a17969.png" alt="img" loading="lazy"></p>
+<p>register</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658799106693-dc4d84fd-a18c-4a2d-b7b8-30b4449836c8.png" alt="img" loading="lazy"></p>
+<p>login</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658799260773-616a764b-066d-4db4-964e-ce8830a72b09.png" alt="img" loading="lazy"></p>
+<p>logout</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658799306516-21deb93c-1efa-4626-b645-87de725f4510.png" alt="img" loading="lazy"></p>
+<p>search</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658799337376-79a567f8-7743-4ffb-ba21-b8ce19880e4e.png" alt="img" loading="lazy"></p>
+<p>delete</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658799393263-54d12f0d-792a-47ac-a06e-81282112b785.png" alt="img" loading="lazy"></p>
+<h4 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h4><p>然后来到ServiceImpl中，这里要改的也不少</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658798500729-8e161a63-1019-4c5e-adeb-635ff4e35d9c.png" alt="img" loading="lazy"></p>
+<p>将其一一按照业务逻辑进行改写，并给出描述</p>
+<p>register</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658799834766-c70d8761-8366-4bd9-9960-5ee13f79c8d6.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658799566903-f186c4c9-313c-4ea0-a2d1-57ea1ae1e7f2.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658799720252-6d2164c8-a49e-4324-8e17-bde572b3cc27.png" alt="img" loading="lazy"></p>
+<p>login</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658799908079-70b5d40a-4330-4450-a73a-9696c74a2e63.png" alt="img" loading="lazy"></p>
+<p><strong>以上这些都是我按照自己的想法改的，如果有错误希望大家可以帮我指出，我好改正。</strong></p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>将星球编号输多一点，，点击注册</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658801251589-0879cb95-4de8-4fbc-bf83-aa8b50b733f1.png" alt="img" loading="lazy"></p>
+<p>发现状态码为500</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658801315859-674ce129-ad0f-4577-bccb-8541e6ca7edd.png" alt="img" loading="lazy"></p>
+<p>后端也抛出了异常</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658801336893-23f3bea3-f6ea-40a8-85e1-595e4e397ecd.png" alt="img" loading="lazy"></p>
+<p>我们想要的是返回的是我们自己的错误码，很明显，这并不是我们想要的效果，我们只封装了全局业务异常类，但是没有对异常进行任何的处理，所以下面就要编写全局异常处理类对这些异常进行处理。</p>
+<h3 id="3-定义全局异常处理器"><a href="#3-定义全局异常处理器" class="headerlink" title="3.定义全局异常处理器"></a>3.定义全局异常处理器</h3><p>首先在错误码中添加一个系统内部异常的错误码</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658802058741-b1820950-914f-456d-9fdf-7a9e0ab163f1.png" alt="img" loading="lazy"></p>
+<p>然后在exception包下新建一个全局异常处理器类GlobalExceptionHandler，并写入以下代码</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658802252190-d87bbc9f-78a7-4914-8bcf-421bbc4dad60.png" alt="img" loading="lazy"></p>
+<p>报错的原因是返回结果工具类中的error方法参数不匹配，进入到工具类，添加几个重载的方法</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658803455972-028035ea-ad86-40c2-aa2d-1e718e8fc069.png" alt="img" loading="lazy"></p>
+<p>这样就不报错了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658802656629-cad269bb-e06d-40c6-9250-ce59cd1b9f0d.png" alt="img" loading="lazy"></p>
+<p>重启服务器，准备测试~</p>
+<h3 id="4-测试"><a href="#4-测试" class="headerlink" title="4.测试"></a>4.测试</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658803428866-fb84e901-b1d6-4e67-b24c-306b05818dfa.png" alt="img" loading="lazy"></p>
+<p>奶思~</p>
+<h1 id="4-前后端适配（优化前端）"><a href="#4-前后端适配（优化前端）" class="headerlink" title="4.前后端适配（优化前端）"></a>4.前后端适配（优化前端）</h1><h3 id="4-1-定义通用返回类"><a href="#4-1-定义通用返回类" class="headerlink" title="4.1. 定义通用返回类"></a>4.1. 定义通用返回类</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658805129998-0c8b8df4-32f7-4afa-b321-e3baf0fd96fb.png" alt="img" loading="lazy"></p>
+<h3 id="4-2-将API中的返回值使用通用返回类进行封装"><a href="#4-2-将API中的返回值使用通用返回类进行封装" class="headerlink" title="4.2. 将API中的返回值使用通用返回类进行封装"></a>4.2. 将API中的返回值使用通用返回类进行封装</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658805466766-33977d93-f8cb-4ac7-8e85-19b252dea690.png" alt="img" loading="lazy"></p>
+<h3 id="4-3-将注册页面的校验逻辑进行更改"><a href="#4-3-将注册页面的校验逻辑进行更改" class="headerlink" title="4.3.将注册页面的校验逻辑进行更改"></a>4.3.将注册页面的校验逻辑进行更改</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658805783927-e706d2ae-6845-4bc3-9d25-eca7ba1f9a77.png" alt="img" loading="lazy"></p>
+<h3 id="4-4-测试"><a href="#4-4-测试" class="headerlink" title="4.4.测试"></a>4.4.测试</h3><p>成功出现错误描述提示。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658805719786-019ee9d0-d174-4303-8d02-0ac98291892f.png" alt="img" loading="lazy"></p>
+<h3 id="4-5-将所有API的返回值都使用通用返回类进行替换"><a href="#4-5-将所有API的返回值都使用通用返回类进行替换" class="headerlink" title="4.5.将所有API的返回值都使用通用返回类进行替换"></a>4.5.将所有API的返回值都使用通用返回类进行替换</h3><p>获取当前用户</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658807621302-f324ff78-1f6d-4097-a53d-337333a72804.png" alt="img" loading="lazy"></p>
+<p>登录</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658807705418-4be21683-66e0-4b8c-977a-b4841dd27563.png" alt="img" loading="lazy"></p>
+<p>注销</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658807681756-dc507735-f646-4848-93c4-2ab13f1db1f2.png" alt="img" loading="lazy"></p>
+<p>查询</p>
+<h3 id="4-6-编写全局拦截器"><a href="#4-6-编写全局拦截器" class="headerlink" title="4.6.编写全局拦截器"></a><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658807734244-6f4cc404-8809-447b-9d34-56e7d180417f.png" alt="img" loading="lazy">4.6.编写全局拦截器</h3><p><strong>接下来就是激动人心的踩坑环节，我跟着视频踩，给我踩麻了，下面就直接整理不踩坑的步骤了。</strong></p>
+<p>编写一个全局拦截器来集中取出来前端接收到的data</p>
+<p>在src目录下新建一个plugins文件夹，然后新建一个名为globalRequest.ts的全局拦截器</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658817981146-405d93b0-0775-43c0-ac5b-f23127768d84.png" alt="img" loading="lazy"></p>
+<p>然后输入以下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*/**</span><br><span class="line">\* ** request 网络请求工具</span><br><span class="line">\* ** 更详细的 api 文档: https://github.com/umijs/umi-request</span><br><span class="line">\* **/</span><br><span class="line">*import &#123;extend&#125; from &#x27;umi-request&#x27;;import &#123;*stringify*&#125; from &quot;querystring&quot;;import &#123;history&#125; from &quot;@@/core/history&quot;;import &#123;message&#125; from &quot;antd&quot;;*/**</span><br><span class="line">\* ** 配置request请求时的默认参数</span><br><span class="line">\* **/</span><br><span class="line">*const request = extend(&#123;  credentials: &#x27;include&#x27;, *// 默认请求是否带上cookie</span><br><span class="line">\*  *// requestType: &#x27;form&#x27;,</span><br><span class="line">*&#125;);*/**</span><br><span class="line">\* ** 所有请求拦截器</span><br><span class="line">\* **/</span><br><span class="line">*request.interceptors.request.use((url, options): any =&gt; &#123;  console.log(&#x27;do request url = $&#123;url&#125;&#x27;)  return &#123;    url,    options: &#123;      ...options,      headers: &#123;      &#125;,    &#125;,  &#125;;&#125;);*/**</span><br><span class="line">\* ** 所有响应拦截器</span><br><span class="line">\* **/</span><br><span class="line">*request.interceptors.response.use(async (response): Promise&lt;any&gt; =&gt; &#123;  const res = await response.clone().json();  *//如果响应码是0，则直接将数据进行返回</span><br><span class="line">\*  if (res.code === 0)&#123;    return res.data;  &#125;  *//如果用户没有登陆跳转到登录页面</span><br><span class="line">\*  if (res.code === 40100)&#123;    message.error(&#x27;请先登录&#x27;);    history.replace(&#123;      pathname:&#x27;/user/login&#x27;,      search:*stringify*(&#123;        redirect:location.pathname,      &#125;),    &#125;);  &#125;else &#123;    message.error(res.description);  &#125;  return res.data;&#125;);export default request;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>效果如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658819610765-bbdd1ae2-283f-4e85-9c3d-c75c491967c7.png" alt="img" loading="lazy"></p>
+<p>在api.ts中引入我们自己写的全局拦截器</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658818599792-41b33264-1193-4ea4-a515-30059b7c49f5.png" alt="img" loading="lazy"></p>
+<h3 id="4-7-测试"><a href="#4-7-测试" class="headerlink" title="4.7.测试"></a>4.7.测试</h3><p>注册功能，可以正常的接收参数和抛出错误提示</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658819324488-3c53bb62-7d26-4f15-a74b-8dcbffde2f8d.png" alt="img" loading="lazy"></p>
+<p>如果用户是未登录状态会跳转到登录页</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658819426477-e791f742-0af6-4333-b0b2-fa7f101fa79e.png" alt="img" loading="lazy"></p>
+<p>跳转成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658819444695-0c89e4c4-2df5-4cb4-bcc9-0f3e1c449e54.png" alt="img" loading="lazy"></p>
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>用户中心项目终笔记</title>
+    <url>/2022/04/18/%E7%94%A8%E6%88%B7%E4%B8%AD%E5%BF%83%E9%A1%B9%E7%9B%AE%E7%BB%88%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="1-完成注册功能的前端开发"><a href="#1-完成注册功能的前端开发" class="headerlink" title="1.完成注册功能的前端开发"></a>1.完成注册功能的前端开发</h1><p>我发现我的user目录下已经有一个register文件夹了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657889912918-ff4c5ad0-c9d2-4447-ab31-2fca2a1d72c3.png" alt="img" loading="lazy"></p>
+<p>运行效果是酱婶的</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657889874523-e08d0c36-e0ee-4447-8f2f-59cb8f3b0357.png" alt="img" loading="lazy"></p>
+<p>改起来忒麻烦，直接删掉，按照鱼皮的来。</p>
+<hr>
+<p>首先将登录部分代码复制一份名称改为Register也放在user目录下，然后打开Register中的index.tsx文件进行改造，将以下两处的Login替换为Register。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657890681042-bbab1d0e-f49e-4799-96df-560a20e9d2ce.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657890729270-68af2349-2ec4-4376-90ee-12ca17972efc.png" alt="img" loading="lazy"></p>
+<p>然后打开config目录下的routes.ts文件进行路由的添加</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657886603994-a58bdfd2-8e5d-4bad-b9c6-7c486e542161.png" alt="img" loading="lazy"></p>
+<p>添加注册路由</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657886630202-18447bf5-1cdc-4a7e-902d-5ce1c339199c.png" alt="img" loading="lazy"></p>
+<p>app.tsx 是这个前端项目的全局文件，它里面定义了刚进入页面时要执行的逻辑。</p>
+<p>然后这个框架更类似于一个后台管理系统，所以每个页面都会进行校验，如果用户没登录或者没有登陆信息，就会被重定向到登录页面。</p>
+<p>首先，将这行代码注释掉</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657889722720-6b75a992-fc77-4ebb-b28b-7abfe49053d7.png" alt="img" loading="lazy"></p>
+<p>然后编写业务逻辑，将注册页面添加至白名单</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657889762246-892af0e4-e4aa-4d2b-8555-2b79e578bea0.png" alt="img" loading="lazy"></p>
+<p>代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*//将注册页面设置到白名单</span><br><span class="line">*const whiteList = [&#x27;/user/register&#x27;,loginPath];if (whiteList.includes(location.pathname))&#123;  return;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后就可以正常访问啦</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657891058842-e7c327f3-9f63-4fcf-a153-a98f16e2a416.png" alt="img" loading="lazy"></p>
+<h2 id="1-1-更改注册页面"><a href="#1-1-更改注册页面" class="headerlink" title="1.1 更改注册页面"></a>1.1 更改注册页面</h2><p>首先，这里改为账号密码注册</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657929006411-f2d6353c-32c5-46b8-8dbd-f0484a200e41.png" alt="img" loading="lazy"></p>
+<p>然后复制一下密码表单项，用于改写密码确认表单项</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657929097952-5c1e1094-391d-4bd0-abfb-8ae5ba9a42a4.png" alt="img" loading="lazy"></p>
+<p>添加确认密码表单项（每一个表单项都有一个唯一的name，框架会提取这个name和我们输入的值，将其转化为一个对象，然后我们就可以从这个对象中取出我们需要的值，我的理解是框架是根据name的值来进行取值的，类似于一个类的类名）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657929256859-303f9c33-c18d-45f1-b0c7-f21770bbbe50.png" alt="img" loading="lazy"></p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;ProFormText.Password  name=&quot;checkPassword&quot;  fieldProps=&#123;&#123;    size: &#x27;large&#x27;,    prefix: &lt;LockOutlined className=&#123;styles.prefixIcon&#125; /&gt;,  &#125;&#125;  placeholder=&#123;&#x27;请确认密码&#x27;&#125;  rules=&#123;[    &#123;      required: true,      message: &#x27;确认密码是必填项！&#x27;,    &#125;,    &#123;      min :8,      type :&#x27;string&#x27;,      message: &#x27;密码长度不能低于8位！&#x27;,    &#125;,  ]&#125;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>自动登录和忘记密码删了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657929486713-9b5ae9ef-7d4d-4fc9-bf38-14947d33bd64.png" alt="img" loading="lazy"></p>
+<p>然后全局替换，把登录改为注册</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657929853874-aa94116e-c7d7-4486-bfcd-b00f9a6fae44.png" alt="img" loading="lazy"></p>
+<p>运行看一下，这样页面就精简多了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657929884818-7809af12-a405-4a23-9e54-0383180fffcb.png" alt="img" loading="lazy"></p>
+<p>但是可以看到，这里仍然是登录而不是注册，因为当前页面已经全局替换过了，所以应该是进行了封装，追踪源码</p>
+<p>那么如何追踪源码捏，下面是具体的步骤：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657930251178-71d82e55-fe01-4d4f-a6cc-dbd0296ff933.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657930575638-3c4f8fa0-d81a-4afc-a378-7a8d24f8715b.png" alt="img" loading="lazy"></p>
+<p>进入源码文件，诶嘿，看我们发现了什么</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657930768149-178e9770-4346-4891-a7e9-029c3b3443a1.png" alt="img" loading="lazy"></p>
+<p>照葫芦画瓢，我们在注册页面添加如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">submitter=&#123;&#123;    searchConfig: &#123;      submitText: &quot;注册&quot;    &#125;  &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657930951224-e4067efa-5b52-4354-99fb-03011a636e66.png" alt="img" loading="lazy"></p>
+<p>在运行看一下。（还是那句话，一定随时改随时查，可以知道自己错在了哪一步）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657931058002-a99d87e6-5e03-4174-843b-bc3bcbcdca8d.png" alt="img" loading="lazy"></p>
+<p>芜湖~ 成功了~</p>
+<h2 id="1-2-写提交逻辑"><a href="#1-2-写提交逻辑" class="headerlink" title="1.2 写提交逻辑"></a>1.2 写提交逻辑</h2><p>首先，修改注册所需的参数，找到图中所示位置，点击进入</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657933347356-9479626c-df34-4eee-b003-3e034627ddb5.png" alt="img" loading="lazy"></p>
+<p>然后就到了我最喜欢的CV环节，复制登录的参数，修改一下</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657933456731-6b53881b-1a22-44f3-9184-9429f216920b.png" alt="img" loading="lazy"></p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type RegisterParams = &#123;  userAccount?: string;  userPassword?: string;  checkPassword?: string;  type?: string;&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>回到index.tsx，将登录参数全部改为注册参数。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657933619411-0c6fde57-fd85-4016-953c-a5c9296efdcf.png" alt="img" loading="lazy"></p>
+<p>添加校验逻辑</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657933850640-705afb35-bb0b-4e03-a738-52a3d28eb478.png" alt="img" loading="lazy"></p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const &#123;userPassword,checkPassword&#125; = values;*//校验</span><br><span class="line">*if (userPassword !== checkPassword)&#123;  message.error(&#x27;两次输入的密码不一致&#x27;);  return;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后点击进入登录接口逻辑<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657933971492-4cfa9844-b359-41be-a5ce-68dd06f06f2a.png" alt="img" loading="lazy"></p>
+<p>然后开始CV，把代码修改一下</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657934241825-0e4093f9-3170-42f1-9c95-c6feeaa8a79b.png" alt="img" loading="lazy"></p>
+<p>发现这里有个登陆接口的返回值，点进去CV，首先看一下后端返回的是什么类型的数据</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657934451859-e338a271-f53b-4717-a8b2-cb8fda1a7b81.png" alt="img" loading="lazy"></p>
+<p>发现后端返回的是long类型，那我们前段就用number来接收</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657934501593-4fefc3d4-a3f8-4bd4-98d9-5d22f3dd851c.png" alt="img" loading="lazy"></p>
+<p>然后回到接口页面，将返回值改成RegisterResult</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657934567130-989ef4e8-3a80-4363-b232-7a0262bd951d.png" alt="img" loading="lazy"></p>
+<p>然后再回到index.tsx页面编写注册逻辑</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657935046287-c1750885-e277-4f93-ae95-ef6a46bef8ff.png" alt="img" loading="lazy"></p>
+<p>代码如下：</p>
+<p>&#96;try {  <em>&#x2F;&#x2F; 注册<br>*  const id &#x3D; await <em>register</em>(values);  if (id &gt; 0) {    const defaultLoginSuccessMessage &#x3D; ‘注册成功！’;    message.success(defaultLoginSuccessMessage);    <em>&#x2F;</em></em> 此方法会跳转到 redirect 参数所在的位置 *&#x2F;</p>
+<p>*    if (!history) return;    const {query} &#x3D; history.location;    const {redirect} &#x3D; query as {      redirect: string;    };    history.push(‘&#x2F;user&#x2F;login?redirect&#x3D;’+redirect);    return;  }else {    *&#x2F;&#x2F;记录下id的值，方便以后排错<br>*    throw new Error(‘register error id &#x3D; ${id}’)  }} catch (error) {  const defaultLoginFailureMessage &#x3D; ‘注册失败，请重试！’;  message.error(defaultLoginFailureMessage);}&#96;</p>
+<p>然后爆红的位置全部删了就行，或者使用Ctrl+Alt+O清除。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657935134377-89b7a49b-814b-4201-8377-f1d96bf04d8c.png" alt="img" loading="lazy"></p>
+<p>然后就是删删删环节，哪里红了删哪里，记得边删边运行，不能删的赶紧恢复回来。</p>
+<p>运行一下，发现没毛病。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657935540467-94a513cd-24f6-45ff-b1b8-5238169f64f9.png" alt="img" loading="lazy"></p>
+<p>然后我们来到激动人心的测试环节</p>
+<h2 id="1-3-测试"><a href="#1-3-测试" class="headerlink" title="1.3 测试"></a>1.3 测试</h2><ol>
+<li>后端打上断点，debug模式启动</li>
+</ol>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657935640340-199c5991-a979-405e-865c-1d4e00c1df99.png" alt="img" loading="lazy"></p>
+<p>前端也打开开发者模式进行调试</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657935690773-60e193f1-95b1-47cf-9bd2-c127ef763c32.png" alt="img" loading="lazy"></p>
+<p>然后发现后端接收到了参数</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657935724306-73def634-64a9-4ea4-913d-5312cb0c8d1f.png" alt="img" loading="lazy"></p>
+<p>但是因为Debug超时，所以我们把超时时间调长一点，尽量长一点，比如100000</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657935882619-03653bdb-1ee7-4d16-b0f9-cfdd0a41d81e.png" alt="img" loading="lazy"></p>
+<p>重新测试，然后发现返回值-1</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657935956380-586c0e60-4637-4d4f-a054-de8a1aca5591.png" alt="img" loading="lazy"></p>
+<p>这是因为我们数据库里已经有bubble账户了，那我们重新建一个</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657936056309-ac2061ff-9a27-47cb-ad6e-597a45623021.png" alt="img" loading="lazy"></p>
+<p>然后发现新建成功，数据库中也有数据了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657936101044-e3d228b1-13e1-4e11-853b-4141f6ef993f.png" alt="img" loading="lazy"></p>
+<p>但是注册成功也没有一个比较友好的提示，后期要优化一下</p>
+<p>并且可以发现url哪里重定向有点小bug，进行修复一下</p>
+<p>在index.tsx页面修改一下以下代码</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657936278820-48beea7e-034e-4ce6-8a15-5c20bbd22fe4.png" alt="img" loading="lazy"></p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if (!history) return;const &#123;query&#125; = history.location;history.push(&#123;  pathname:&#x27;user/login&#x27;,  query&#125;);return;</span><br></pre></td></tr></table></figure>
+
+<p>然后运行，效果好多了。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657937026330-3043d74e-9539-416a-910f-047dd2a201ba.png" alt="img" loading="lazy"></p>
+<p>然后又发现登录页面没有注册的链接，去Login的index.tsx添加如下代码：（很明显，皮总有强迫症，这里纠结了一年(<em>^▽^</em>)）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Space split=&#123;&lt;Divider type=&quot;vertical&quot;/&gt;&#125;&gt;  &lt;ProFormCheckbox noStyle name=&quot;autoLogin&quot;&gt;    自动登录  &lt;/ProFormCheckbox&gt;  &lt;Link to=&quot;/user/register&quot;&gt;新用户注册&lt;/Link&gt;  &lt;a    style=&#123;&#123;      float: &#x27;right&#x27;,    &#125;&#125;    href=&#123;PLANET_LINK&#125;    target=&quot;_blank&quot; rel=&quot;noreferrer&quot;  &gt;    忘记密码  &lt;/a&gt;&lt;/Space&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>效果如图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657936752623-31c12494-f262-4a2d-a7a7-41f0b6da269b.png" alt="img" loading="lazy"></p>
+<p>运行效果（看着还行）：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657936806426-9304ee27-a66c-4b3b-9d37-8e7dcb6770b8.png" alt="img" loading="lazy"></p>
+<h1 id="2-完成用户管理后台的前端开发"><a href="#2-完成用户管理后台的前端开发" class="headerlink" title="2. 完成用户管理后台的前端开发"></a>2. 完成用户管理后台的前端开发</h1><h2 id="2-1-后端编写获取当前登录用户信息的接口"><a href="#2-1-后端编写获取当前登录用户信息的接口" class="headerlink" title="2.1 后端编写获取当前登录用户信息的接口"></a>2.1 后端编写获取当前登录用户信息的接口</h2><p>在后端Controller中编写以下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@GetMapping***(*****&quot;/current&quot;*****)</span><br><span class="line">*****public** User getCurrentUser***(***HttpServletRequest request***) &#123;***</span><br></pre></td></tr></table></figure>
+
+<p><em>&#x2F;&#x2F;获取用户登录态</em>&#96;***<br>***    Object userObj &#x3D; request.getSession***()<em><strong>.getAttribute</strong></em>(USER_LOGIN_STATE)***;    User currentUser &#x3D; <em><strong>(<em><strong>User</strong></em>)</strong></em> userObj;    *&#x2F;&#x2F;如果当前用户为空，直接返回null<br>*    <strong>if</strong> ***(<em><strong>currentUser &#x3D;&#x3D; <strong>null</strong></strong></em>) {<br>***        <strong>return null</strong>;    <em><strong>}<br>***    <em>&#x2F;&#x2F;获取当前用户ID<br>*    Long currentUserId &#x3D; currentUser.getId</em></strong>()</em>**;    *&#x2F;&#x2F;****TODO 校验用户是否合法</p>
+<p>***    User user &#x3D; <strong>userService</strong>.getById***(<em><strong>currentUserId</strong></em>)<em><strong>;    <em>&#x2F;&#x2F;脱敏<br>*    <strong>return</strong> <strong>userService</strong>.getSafetyUser</em></strong>(<em><strong>user</strong></em>)</em><strong>;</strong><em>}</em>**&#96;</p>
+<p>效果如图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657940599623-67a23b98-5c61-4855-94dc-e5b7fa1c7ab5.png" alt="img" loading="lazy"></p>
+<p>然后发现ServiceImpl中的脱敏操作中没有判空操作</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657940560990-6aec8bd7-13b0-4540-8cd9-4d9cda2a4a85.png" alt="img" loading="lazy"></p>
+<p>进行添加：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657940737884-3a21f74f-0ed8-4237-8326-6ef1f3522a83.png" alt="img" loading="lazy"></p>
+<h2 id="2-1-前端编写获取当前登录用户信息的接口"><a href="#2-1-前端编写获取当前登录用户信息的接口" class="headerlink" title="2.1 前端编写获取当前登录用户信息的接口"></a>2.1 前端编写获取当前登录用户信息的接口</h2><p>首先在app.tsx中找到queryCurrentUser，点击进入当前用户的接口</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657941126110-998b9e7e-b2df-406a-80df-ddfd19ebfae0.png" alt="img" loading="lazy"></p>
+<p>然后将下面这段代码进行修改</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657941195656-f908bdbe-4993-4547-b42d-7b99517f73e5.png" alt="img" loading="lazy"></p>
+<p>改成下面这个样子（我也不懂前端，这里皮总踩坑的步骤就直接给省略了）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657941328796-ac025b6f-4af4-4523-ae00-a051e8d740b3.png" alt="img" loading="lazy"></p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*/** 获取当前的用户 GET /api/user/current \*/</span><br><span class="line">*export async function *currentUser*(options?: &#123; [key: string]: any &#125;) &#123;  return *request*&lt;API.CurrentUser&gt;(&#x27;/api/user/current&#x27;, &#123;    method: &#x27;GET&#x27;,    ...(options || &#123;&#125;),  &#125;);&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后回到app.tsx，点击进入到CurrentUser中都有些什么参数</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657941454484-8dd5fe1a-8ded-4cdc-b9eb-85d141d76a0c.png" alt="img" loading="lazy"></p>
+<p>然后发现给提供了这么多的参数，把这些参数进行注释，更换为我们数据库中的字段参数</p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*//这里的？代表能不能为空，加了代表是不是必填</span><br><span class="line">*id: number;username: string;userAccount: string;avatarUrl?: string;gender: number;phone: string;email: string;userStatus: number;createTime: Date;userRole: number;</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657957540828-5b9335fe-4942-41cd-ac4a-d0684588dd5b.png" alt="img" loading="lazy"></p>
+<p>然后回到app.tsx中，修改获取用户信息的方法</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657942006481-7f7bae16-53d1-4114-98c9-d39dd89b33af.png" alt="img" loading="lazy"></p>
+<p>修改为：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657942106821-a030e95b-2557-4d2a-8103-ec5a93046190.png" alt="img" loading="lazy"></p>
+<p>然后将白名单提到上面，然后<strong>Shift+F6进行重构</strong>为NO_NEND_LOGIN_WHITE_LIST（免登录白名单）<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657954970730-966238c6-43c1-4038-a3ee-d306a50c0883.png" alt="img" loading="lazy"></p>
+<p>即改为下面这样</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657955151666-e0db2a4c-9879-472e-8c6e-8ebe33a3e8c0.png" alt="img" loading="lazy"></p>
+<p>然后改这里的路径拦截：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657955242734-d14f3065-8180-45a1-bce9-a1760bd67dfb.png" alt="img" loading="lazy"></p>
+<p>将其改为：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657955639052-71058bd1-0c4b-4497-8c49-d4d7765a6c23.png" alt="img" loading="lazy"></p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if (NO_NEND_LOGIN_WHITE_LIST.includes(history.location.pathname)) &#123;  return &#123;    *// @ts-ignore</span><br><span class="line">\*    fetchUserInfo,    settings: defaultSettings,  &#125;;&#125;*// eslint-disable-next-line @typescript-eslint/no-shadow</span><br><span class="line">*const currentUser = await fetchUserInfo();return &#123;  *// @ts-ignore</span><br><span class="line">\*  fetchUserInfo,  currentUser,  settings: defaultSettings,&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后发现还有一个错，水印，这里的name改为username</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657955744429-ad40417d-64eb-403b-9e26-0842455b85cb.png" alt="img" loading="lazy"></p>
+<p>然后运行，输入账号密码点击登录，登陆成功！</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657955903243-bb8a5006-edc9-4ddc-aec8-9bfe51a38e70.png" alt="img" loading="lazy"></p>
+<p>但是发现，我们既没有用户名的水印，也没有头像，这是为啥呢</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657955939321-e59aa4e2-822b-4726-96fb-e4ef4e96fc2e.png" alt="img" loading="lazy"></p>
+<p>emmm，因为我们就没加，去数据库里进行数据添加。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657956061895-a76ee92b-727a-4a7e-aaef-1b6cb1102bae.png" alt="img" loading="lazy"></p>
+<p>然后刷新页面，发现返回了数据，但是头像和水印仍然没有显示</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657963795823-0d4b15fa-dd25-4f31-b69f-41d3e86c874a.png" alt="img" loading="lazy"></p>
+<p>可能是我们的字段名和前端对应不上的问题</p>
+<p>全局搜索avatardropdown</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657957032340-19e5376d-26c2-4f7a-9889-f907abbc9567.png" alt="img" loading="lazy"></p>
+<p>打开AvatarDropdown.tsx文件</p>
+<p>将avatar重构为avatarUrl，name换为username<strong>（根据自己实际数据库中的字段名来，我的是userName，因为这个字段名的一个大小写，我废了两三个小时。。。。。一定要严谨啊）</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657965751565-928964d0-e704-4f74-bd50-8253956b94cb.png" alt="img" loading="lazy"></p>
+<p>然后刷新页面，看一下，头像已经可以出来了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657966904068-aa3e5394-b0f2-4670-b6f9-624f0b19670a.png" alt="img" loading="lazy"></p>
+<p>但是水印还是没有出来，改了好久也不知道是哪里的问题，先留着吧，以后用到了再说。</p>
+<h2 id="2-3-用户管理后台"><a href="#2-3-用户管理后台" class="headerlink" title="2.3 用户管理后台"></a>2.3 用户管理后台</h2><p>搞了半天我发现我没有装umi-ui</p>
+<p>在终端输入如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yarn add @umijs/preset-ui -D</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657939846578-920696bc-e428-4080-abb6-14844855c99f.png" alt="img" loading="lazy"></p>
+<p>然后等待安装完成，刷新页面，这碗小米饭就出来了。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1657939876039-0c55740d-4afb-411f-b9f9-c7b4759a7c0b.png" alt="img" loading="lazy"></p>
+<p>首先，在pages文件夹下新建一个文件夹名为admin</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658628959263-fb501b27-9e30-494c-951a-f638d60601cb.png" alt="img" loading="lazy"></p>
+<p>然后将user文件夹下的Register文件夹复制到admin文件夹中并改名为UserManage</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658628979877-2a1c70de-40bf-4fc0-a27a-f47e0c461988.png" alt="img" loading="lazy"></p>
+<p>在routes.ts下添加路由</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658665523712-67ba763c-2a85-4c82-a4fc-7f5a2d291b52.png" alt="img" loading="lazy"></p>
+<p>访问一下，发现无权访问</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658665446221-53fe3558-920b-472b-9e89-09222f1bba6a.png" alt="img" loading="lazy"></p>
+<p>这是因为ant desgin中包含了权限控制，如下图，admin的路由只能管理员进行访问</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658665585568-ac9238e1-e992-490e-950a-6e1758fdc39a.png" alt="img" loading="lazy"></p>
+<p>按住Ctrl点击进入CanAdmin，发现我们进入了access.ts文件</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658665654542-a805369b-37cc-4ecc-9552-bdfe9c6f6a4f.png" alt="img" loading="lazy"></p>
+<p>access.ts文件中定义了对用户的访问权限，我们将它改为我们的管理员鉴权操作，即userRole，如下图</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658665744490-bbbefa98-da95-4f79-943c-90b1b25d118d.png" alt="img" loading="lazy"></p>
+<p>重新访问 ，发现可以了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658707621000-8e4516a6-9794-46e7-b774-01238c961382.png" alt="img" loading="lazy"></p>
+<p>但是这并不是我们放在UserManage中的注册页面，这是怎么回事呢？</p>
+<p>这是因为Admin.ts已经把页面写死了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658707718536-d588143a-7eac-42e1-9684-485d29776e41.png" alt="img" loading="lazy"></p>
+<p>我们需要对他进行改写，首先将图中内容删除</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658707800433-d67a29b2-0bfd-47e2-be51-e89b44d15104.png" alt="img" loading="lazy"></p>
+<p>然后进行改写，在下图中的位置通过引入children属性来添加子页面</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658707925609-c76bb4b1-6801-4145-8f78-f20291716028.png" alt="img" loading="lazy"></p>
+<p>也可以这么写</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658708123401-6604d3ff-75ce-4f93-931f-5429c3cb024f.png" alt="img" loading="lazy"></p>
+<p>效果都是从当前页面读取页面的子路由从而得到当前页面的子页面。</p>
+<p>刷新页面，发现子页面出来了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658707974817-6866d1f1-63b1-4189-96d7-565138edc5cf.png" alt="img" loading="lazy"></p>
+<p>美观一下，把这里删了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658708217085-ce56ac8c-16c3-4e0e-b0b0-128ffea5e446.png" alt="img" loading="lazy"></p>
+<p>然后开始改造我们的用户管理页面，将图中标记的代码全部删掉</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658708544351-d765bdb4-a935-4ab2-b3ed-103811fc5c3c.png" alt="img" loading="lazy"></p>
+<p>然后将其改造为下图这样，给div一个唯一标识，这样方便以后通过css来更好的修改样式</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658708625232-e21cb917-f8a7-4148-bacf-9915f0db7fa7.png" alt="img" loading="lazy"></p>
+<p>然后对Register进行全局替换，替换为UserManage</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658708672498-259ba88e-6881-4e8c-9b2f-fdf2e00e5bc8.png" alt="img" loading="lazy"></p>
+<p>然后我们开始添加组件，组件地址：<a href="https://procomponents.ant.design/">组件库</a></p>
+<p>选择高级表格</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658708995623-219d28b7-2eed-48e2-8f24-74e618d5a8f1.png" alt="img" loading="lazy"></p>
+<p>然后找到我们想要的组件，第一个就不错，直接<strong>CV</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658709090448-1795d32c-61e5-48a0-921f-8bd36a6f6a77.png" alt="img" loading="lazy"></p>
+<p>直接覆盖掉原来用户管理的页面</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658709215764-f0c8a38e-77d7-408c-9750-8f468c7c77e0.png" alt="img" loading="lazy"></p>
+<p>然后开始改造页面</p>
+<p>这个菜单用不到，删掉。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658709272752-566006c9-97d1-486a-bc6f-3c0978bf2470.png" alt="img" loading="lazy"></p>
+<p>工具栏用不到，删掉。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658709326860-c0aa2b3b-e558-45ef-8e79-b70364574d29.png" alt="img" loading="lazy"></p>
+<p>然后刷新页面，发现效果就出来了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658709693029-5b2f2673-fd45-4851-b282-a3e293d9699c.png" alt="img" loading="lazy"></p>
+<p>然后继续改造，第一个红框部分删除</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658710014944-536c792e-ae12-4109-af54-9eb86a2f339d.png" alt="img" loading="lazy"></p>
+<hr>
+<h4 id="ProComponents高级表单介绍"><a href="#ProComponents高级表单介绍" class="headerlink" title="ProComponents高级表单介绍"></a>ProComponents高级表单介绍</h4><ol>
+<li><p>columns定义表格的列</p>
+</li>
+<li><p>columns属性</p>
+</li>
+<li><ol>
+<li>dataIndex：对应返回数据对象的属性</li>
+<li>title：表格所展示的列名</li>
+<li>copyable：是否可复制</li>
+<li>ellipsis：是否允许缩略</li>
+<li>valueType：用于声明这一列的类型</li>
+</ol>
+</li>
+</ol>
+<hr>
+<p>然后开始改造表格的列，将表格改为我们数据库中的所需要的字段名，代码如下：（记得要改的是自己数据库中的字段名，我的userName，你们的可能是username，要和自己的对应，不然出错不好找）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;  dataIndex: &#x27;id&#x27;,  valueType: &#x27;indexBorder&#x27;,  width: 48,&#125;,&#123;  title: &#x27;用户名&#x27;,  dataIndex: &#x27;userName&#x27;,  copyable: true,&#125;,&#123;  title: &#x27;用户账户&#x27;,  dataIndex: &#x27;userAccount&#x27;,  copyable: true,&#125;,&#123;  title: &#x27;头像&#x27;,  dataIndex: &#x27;avatarUrl&#x27;,  copyable: true,&#125;,&#123;  title: &#x27;性别&#x27;,  dataIndex: &#x27;gender&#x27;,&#125;,&#123;  title: &#x27;电话&#x27;,  dataIndex: &#x27;phone&#x27;,  copyable: true,&#125;,&#123;  title: &#x27;邮件&#x27;,  dataIndex: &#x27;email&#x27;,  copyable: true,&#125;,&#123;  title: &#x27;状态&#x27;,  dataIndex: &#x27;userStatus&#x27;,&#125;,&#123;  title: &#x27;角色&#x27;,  dataIndex: &#x27;userRole&#x27;,&#125;,&#123;  title: &#x27;创建时间&#x27;,  dataIndex: &#x27;createTime&#x27;,</span><br><span class="line">valueType: &#x27;dateTime&#x27;,``&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>效果如图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658711087069-e4bde53b-67c7-4781-b6ff-4e523496c09a.png" alt="img" loading="lazy"></p>
+<p>然后将一下代码注释掉：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658711249503-19918b27-3ae4-46c6-8f22-58a622023a32.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658711264271-60bc5167-02ab-4840-ade4-566353b5c08f.png" alt="img" loading="lazy"></p>
+<p>然后列写完了，开始改写组件，首先我们需要写一个查询用户的接口，在api.ts文件中添加，将以下代码进行改写</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658712012599-99022c58-afee-4e13-8b7f-9ec6388fe5c3.png" alt="img" loading="lazy"></p>
+<p>改写为</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658712110016-5ce8c804-8311-4dbb-9537-219dfdfbc092.png" alt="img" loading="lazy"></p>
+<p>代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*/** 用户查询 GET /api/user/search \*/</span><br><span class="line">*export async function *searchUsers*(options?: &#123; [key: string]: any &#125;) &#123;  return *request*&lt;API.NoticeIconList&gt;(&#x27;/api/user/search&#x27;, &#123;    method: &#x27;GET&#x27;,    ...(options || &#123;&#125;),  &#125;);&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后回到index.tsx改写以下代码</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658712212418-d44046a4-fd77-45d5-913c-928b0801ac85.png" alt="img" loading="lazy"></p>
+<p>改写为</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658712400893-bc5e06c5-f374-4952-a0c7-dc39ea28e7f9.png" alt="img" loading="lazy"></p>
+<p>然后刷新页面试试（记得使用管理员身份登录才可以查询得到）</p>
+<p>当当当当！</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658712474929-3b6ce22b-a3c4-4045-bb75-91e3f5e56c27.png" alt="img" loading="lazy"></p>
+<p>但是我的头像这一栏怎么这么长，把可缩略添加上</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658712560382-5ae4d756-6095-4ac8-99fb-744f00c58a1c.png" alt="img" loading="lazy"></p>
+<p>再次刷新页面</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658712577840-0a67abae-4c2f-4b2f-abe1-0b0ff1c9a406.png" alt="img" loading="lazy"></p>
+<p>但是我们发现头像显示的是链接，不是图片，这里可以修改一下头像的渲染逻辑。</p>
+<p>改为如下代码，因为已经是显示图片了，就不用缩略了，注释就好了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658713175840-9f506d1f-b120-41ed-8bba-3a36a4459525.png" alt="img" loading="lazy"></p>
+<p>代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;  title: &#x27;头像&#x27;,  dataIndex: &#x27;avatarUrl&#x27;,  *// ellipsis: true,</span><br><span class="line">\*  render: (_, record) =&gt; (    &lt;div&gt;      &lt;Image src=&#123;record.avatarUrl&#125; width=&#123;100&#125;/&gt;    &lt;/div&gt;  ),  copyable: true,&#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<p>刷新页面</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658713261975-b749ba2a-dcff-4e87-9227-a095bb5de902.png" alt="img" loading="lazy"></p>
+<p>头像成功显示，但是用户角色一栏显示0和1感觉不太友好，优化一下</p>
+<p>在角色部分添加以下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">valueEnum: &#123;  0:&#123;text:&#x27;普通用户&#x27;,    status:&#x27;Default&#x27;,  &#125;,  1:&#123;    text:&#x27;管理员&#x27;,    status:&#x27;Success&#x27;,  &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658713597379-08b9d49a-92fa-40e2-a623-3ccb35738b6c.png" alt="img" loading="lazy"></p>
+<p>刷新页面，显示成功，完美！</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1658713642989-28df4599-5749-46d3-b601-826beab36429.png" alt="img" loading="lazy"></p>
+<h1 id="3-前端代码瘦身-amp-优化"><a href="#3-前端代码瘦身-amp-优化" class="headerlink" title="3. 前端代码瘦身 &amp; 优化"></a>3. 前端代码瘦身 &amp; 优化</h1><p><strong>鸽</strong></p>
+<h1 id="4-后端代码优化"><a href="#4-后端代码优化" class="headerlink" title="4. 后端代码优化"></a>4. 后端代码优化</h1><p><strong>鸽</strong></p>
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
 </search>
