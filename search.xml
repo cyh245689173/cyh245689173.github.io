@@ -11342,6 +11342,144 @@ public class sendEmail &#123;
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809103505669.png" alt="image-20220809103505669" loading="lazy"></p>
 <p>套餐展示成功</p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809103523279.png" alt="image-20220809103523279" loading="lazy"></p>
+<h1 id="三、购物车"><a href="#三、购物车" class="headerlink" title="三、购物车"></a>三、购物车</h1><h2 id="3-1-需求分析"><a href="#3-1-需求分析" class="headerlink" title="3.1 需求分析"></a>3.1 需求分析</h2><p>移动端用户可以将菜品或者套餐添加到购物车。对于菜品来说，如果设置了口味信息，则需要选择规格后才能加入购物车;对于套餐来说，可以直接点击将当前套餐加入购物车。在购物车中可以修改菜品和套餐的数量，也可以清空购物车。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809144251150.png" alt="image-20220809144251150" loading="lazy"></p>
+<h2 id="3-2-数据模型"><a href="#3-2-数据模型" class="headerlink" title="3.2 数据模型"></a>3.2 数据模型</h2><p>用户的购物车数据，也是需要保存在数据库中的，购物车对应的数据表为shopping_cart表，具体表结构如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809144304689.png" alt="image-20220809144304689" loading="lazy"></p>
+<p>说明： </p>
+<ul>
+<li>购物车数据是关联用户的，在表结构中，我们需要记录，每一个用户的购物车数据是哪些</li>
+<li>菜品列表展示出来的既有套餐，又有菜品，如果APP端选择的是套餐，就保存套餐ID(setmeal_id)，如果APP端选择的是菜品，就保存菜品ID(dish_id)</li>
+<li>对同一个菜品&#x2F;套餐，如果选择多份不需要添加多条记录，增加数量number即可</li>
+</ul>
+<h2 id="3-3-前端页面分析"><a href="#3-3-前端页面分析" class="headerlink" title="3.3 前端页面分析"></a>3.3 前端页面分析</h2><p><strong>前端页面和服务端的交互过程：</strong></p>
+<p>1). 点击 “加入购物车” 或者 “+” 按钮，页面发送ajax请求，请求服务端，将菜品或者套餐添加到购物车</p>
+<p>2). 点击购物车图标，页面发送ajax请求，请求服务端查询购物车中的菜品和套餐</p>
+<blockquote>
+<p>此时，要将查询购物车的代码放开，不用再加载静态的json数据了。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809144354227.png" alt="image-20220809144354227" loading="lazy"></p>
+</blockquote>
+<p>3). 点击清空购物车按钮，页面发送ajax请求，请求服务端来执行清空购物车操作</p>
+<hr>
+<p>对于购物车的功能，主要需要开发以下几个功能，具体的请求信息如下：</p>
+<p><strong>1). 加入购物车</strong></p>
+<table>
+<thead>
+<tr>
+<th>请求</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>请求方式</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>请求路径</td>
+<td>&#x2F;shoppingCart&#x2F;add</td>
+</tr>
+<tr>
+<td>请求参数</td>
+<td>json格式</td>
+</tr>
+</tbody></table>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">菜品数据<span class="punctuation">:</span> </span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;amount&quot;</span><span class="punctuation">:</span><span class="number">118</span><span class="punctuation">,</span><span class="attr">&quot;dishFlavor&quot;</span><span class="punctuation">:</span><span class="string">&quot;不要蒜,微辣&quot;</span><span class="punctuation">,</span><span class="attr">&quot;dishId&quot;</span><span class="punctuation">:</span><span class="string">&quot;1397851099502260226&quot;</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;全家福&quot;</span><span class="punctuation">,</span><span class="attr">&quot;image&quot;</span><span class="punctuation">:</span><span class="string">&quot;a53a4e6a-3b83-4044-87f9-9d49b30a8fdc.jpg&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line">套餐数据<span class="punctuation">:</span> </span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;amount&quot;</span><span class="punctuation">:</span><span class="number">38</span><span class="punctuation">,</span><span class="attr">&quot;setmealId&quot;</span><span class="punctuation">:</span><span class="string">&quot;1423329486060957698&quot;</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;营养超值工作餐&quot;</span><span class="punctuation">,</span><span class="attr">&quot;image&quot;</span><span class="punctuation">:</span><span class="string">&quot;9cd7a80a-da54-4f46-bf33-af3576514cec.jpg&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>2). 查询购物车列表</strong></p>
+<table>
+<thead>
+<tr>
+<th>请求</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>请求方式</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>请求路径</td>
+<td>&#x2F;shoppingCart&#x2F;list</td>
+</tr>
+</tbody></table>
+<p><strong>3). 清空购物车功能</strong></p>
+<table>
+<thead>
+<tr>
+<th>请求</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>请求方式</td>
+<td>DELETE</td>
+</tr>
+<tr>
+<td>请求路径</td>
+<td>&#x2F;shoppingCart&#x2F;clean</td>
+</tr>
+</tbody></table>
+<h2 id="3-4-准备工作"><a href="#3-4-准备工作" class="headerlink" title="3.4 准备工作"></a>3.4 准备工作</h2><p><strong>1). 实体类 ShoppingCart（直接从课程资料中导入即可）</strong></p>
+<p>所属包: com.itheima.reggie.entity</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"><span class="keyword">import</span> java.math.BigDecimal;</span><br><span class="line"><span class="keyword">import</span> java.time.LocalDateTime;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 购物车</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShoppingCart</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//名称</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用户id</span></span><br><span class="line">    <span class="keyword">private</span> Long userId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//菜品id</span></span><br><span class="line">    <span class="keyword">private</span> Long dishId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//套餐id</span></span><br><span class="line">    <span class="keyword">private</span> Long setmealId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//口味</span></span><br><span class="line">    <span class="keyword">private</span> String dishFlavor;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//数量</span></span><br><span class="line">    <span class="keyword">private</span> Integer number;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//金额</span></span><br><span class="line">    <span class="keyword">private</span> BigDecimal amount;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//图片</span></span><br><span class="line">    <span class="keyword">private</span> String image;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime createTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2). Mapper接口 ShoppingCartMapper</strong></p>
+<p>所属包: com.itheima.reggie.mapper</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.mapper.BaseMapper;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.entity.ShoppingCart;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Mapper;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ShoppingCartMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;ShoppingCart&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3). 业务层接口 ShoppingCartService</strong></p>
+<p>所属包: com.itheima.reggie.service</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.extension.service.IService;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.entity.ShoppingCart;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ShoppingCartService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;ShoppingCart&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>4). 业务层实现类 ShoppingCartServiceImpl</strong></p>
+<p>所属包: com.itheima.reggie.service.impl</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.entity.ShoppingCart;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.mapper.ShoppingCartMapper;</span><br><span class="line"><span class="keyword">import</span> com.itheima.reggie.service.ShoppingCartService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShoppingCartServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;ShoppingCartMapper, ShoppingCart&gt; <span class="keyword">implements</span> <span class="title class_">ShoppingCartService</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>5). 控制层 ShoppingCartController</strong></p>
+<p>所属包: com.itheima.reggie.controller</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.itheima.reggie.service.ShoppingCartService;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 购物车</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/shoppingCart&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShoppingCartController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ShoppingCartService shoppingCartService;</span><br><span class="line"> </span><br><span class="line"> &#125;   </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-5-代码实现"><a href="#3-5-代码实现" class="headerlink" title="3.5 代码实现"></a>3.5 代码实现</h2><h4 id="1-添加购物车"><a href="#1-添加购物车" class="headerlink" title="1. 添加购物车"></a>1. 添加购物车</h4><p>在ShoppingCartController中创建add方法，来完成添加购物车的逻辑实现，具体的逻辑如下： </p>
+<ol>
+<li><p>获取当前登录用户，为购物车对象赋值</p>
+</li>
+<li><p>根据当前登录用户ID 及 本次添加的菜品ID&#x2F;套餐ID，查询购物车数据是否存在</p>
+</li>
+<li><p>如果已经存在，就在原来数量基础上加1</p>
+</li>
+<li><p>如果不存在，则添加到购物车，数量默认就是1</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 添加购物车</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> shoppingCart</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@PostMapping(&quot;/add&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;ShoppingCart&gt; <span class="title function_">add</span><span class="params">(<span class="meta">@RequestBody</span> ShoppingCart shoppingCart)</span>&#123;</span><br><span class="line">    log.info(<span class="string">&quot;购物车数据:&#123;&#125;&quot;</span>,shoppingCart);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置用户id，指定当前是哪个用户的购物车数据</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">currentId</span> <span class="operator">=</span> BaseContext.getCurrentId();</span><br><span class="line">    shoppingCart.setUserId(currentId);</span><br><span class="line"></span><br><span class="line">    <span class="type">Long</span> <span class="variable">dishId</span> <span class="operator">=</span> shoppingCart.getDishId();</span><br><span class="line"></span><br><span class="line">    LambdaQueryWrapper&lt;ShoppingCart&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(ShoppingCart::getUserId,currentId);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(dishId != <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="comment">//添加到购物车的是菜品</span></span><br><span class="line">        queryWrapper.eq(ShoppingCart::getDishId,dishId);</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//添加到购物车的是套餐</span></span><br><span class="line">        queryWrapper.eq(ShoppingCart::getSetmealId,shoppingCart.getSetmealId());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查询当前菜品或者套餐是否在购物车中</span></span><br><span class="line">    <span class="comment">//SQL:select * from shopping_cart where user_id = ? and dish_id/setmeal_id = ?</span></span><br><span class="line">    <span class="type">ShoppingCart</span> <span class="variable">cartServiceOne</span> <span class="operator">=</span> shoppingCartService.getOne(queryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(cartServiceOne != <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="comment">//如果已经存在，就在原来数量基础上加一</span></span><br><span class="line">        <span class="type">Integer</span> <span class="variable">number</span> <span class="operator">=</span> cartServiceOne.getNumber();</span><br><span class="line">        cartServiceOne.setNumber(number + <span class="number">1</span>);</span><br><span class="line">        shoppingCartService.updateById(cartServiceOne);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//如果不存在，则添加到购物车，数量默认就是一</span></span><br><span class="line">        shoppingCart.setNumber(<span class="number">1</span>);</span><br><span class="line">        shoppingCart.setCreateTime(LocalDateTime.now());</span><br><span class="line">        shoppingCartService.save(shoppingCart);</span><br><span class="line">        cartServiceOne = shoppingCart;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(cartServiceOne);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-查询购物车"><a href="#2-查询购物车" class="headerlink" title="2. 查询购物车"></a>2. 查询购物车</h4><p>在ShoppingCartController中创建list方法，根据当前登录用户ID查询购物车列表，并对查询的结果进行创建时间的倒序排序。</p>
+<p>代码实现如下： </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 查看购物车</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/list&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;List&lt;ShoppingCart&gt;&gt; <span class="title function_">list</span><span class="params">()</span>&#123;</span><br><span class="line">    log.info(<span class="string">&quot;查看购物车...&quot;</span>);</span><br><span class="line">	</span><br><span class="line">    LambdaQueryWrapper&lt;ShoppingCart&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(ShoppingCart::getUserId,BaseContext.getCurrentId());</span><br><span class="line">    queryWrapper.orderByAsc(ShoppingCart::getCreateTime);</span><br><span class="line">	</span><br><span class="line">    List&lt;ShoppingCart&gt; list = shoppingCartService.list(queryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="3-清空购物车"><a href="#3-清空购物车" class="headerlink" title="3. 清空购物车"></a>3. 清空购物车</h4><p>在ShoppingCartController中创建clean方法，在方法中获取当前登录用户，根据登录用户ID，删除购物车数据。</p>
+<p>代码实现如下： </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 清空购物车</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@DeleteMapping(&quot;/clean&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">clean</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//SQL:delete from shopping_cart where user_id = ?</span></span><br><span class="line">    LambdaQueryWrapper&lt;ShoppingCart&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(ShoppingCart::getUserId,BaseContext.getCurrentId());</span><br><span class="line"></span><br><span class="line">    shoppingCartService.remove(queryWrapper);</span><br><span class="line">    <span class="keyword">return</span> R.success(<span class="string">&quot;清空购物车成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-6-功能测试"><a href="#3-6-功能测试" class="headerlink" title="3.6 功能测试"></a>3.6 功能测试</h2><p>添加购物车</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809145109288.png" alt="image-20220809145109288" loading="lazy"></p>
+<p>添加成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809145023218.png" alt="image-20220809145023218" loading="lazy"></p>
+<p>查看购物车</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809144938442.png" alt="image-20220809144938442" loading="lazy"></p>
+<p>清空购物车</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809145210727.png" alt="image-20220809145210727" loading="lazy"></p>
+<p>清楚成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809145228225.png" alt="image-20220809145228225" loading="lazy"></p>
 ]]></content>
       <categories>
         <category>项目</category>
