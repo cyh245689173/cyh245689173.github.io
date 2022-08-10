@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="丸了鸭"><meta name="copyright" content="丸了鸭"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>瑞吉外卖项目day07笔记 | 丸了鸭的博客</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="/images/32x32.ico"><link rel="mask-icon" href="/images/32x32.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"cyh245689173.github.io","root":"/","title":"丸了鸭的博客","version":"1.10.4","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"想要搜些什么？","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":"auto","trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":["32, 242, 242"]},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="一、系统问题&amp;解决方法 1). 当前系统存在的问题  之前我们已经实现了移动端菜品展示、点餐、购物车、下单等功能，但是由于移动端是面向所有的消费者的，请求压力相对比较大，而我们当前所有的数据查询都是从数据库MySQL中直接查询的，那么可能就存在如下问题： &#x3D;&#x3D;频繁访问数据库，数据库访问压力大，系统性能下降，用户体验较差。&#x3D;&#x3D;   2). 解决该问题的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="瑞吉外卖项目day07笔记">
+<meta property="og:url" content="https://cyh245689173.github.io/2022/08/10/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96day07%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="丸了鸭的博客">
+<meta property="og:description" content="一、系统问题&amp;解决方法 1). 当前系统存在的问题  之前我们已经实现了移动端菜品展示、点餐、购物车、下单等功能，但是由于移动端是面向所有的消费者的，请求压力相对比较大，而我们当前所有的数据查询都是从数据库MySQL中直接查询的，那么可能就存在如下问题： &#x3D;&#x3D;频繁访问数据库，数据库访问压力大，系统性能下降，用户体验较差。&#x3D;&#x3D;   2). 解决该问题的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193224946.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193036753.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193522444.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193703687.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194159338.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194253288.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194417338.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194615417.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194653916.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200751682.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200845451.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200932712.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810201040026.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810201130380.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810204720697.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202310107.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202318332.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202330410.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202339873.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202903597.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203208817.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203200178.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203834751.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203802623.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203732233.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203951457.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210707234.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210819953.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210832144.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210510964.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212220603.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212316093.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212502538.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212444924.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212535707.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810213010639.png">
+<meta property="article:published_time" content="2022-08-10T11:24:34.000Z">
+<meta property="article:modified_time" content="2022-08-10T13:32:00.048Z">
+<meta property="article:author" content="丸了鸭">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193224946.png"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="丸了鸭"><img width="96" loading="lazy" src="/images/kedaya.jpg" alt="丸了鸭"><span class="site-author-status" title="再小的努力乘以365都很明显">😎</span></a><div class="site-author-name"><a href="/about/">丸了鸭</a></div><span class="site-name">丸了鸭的博客</span><sub class="site-subtitle">记录学习生活的点点滴滴</sub><div class="site-description">信手拈来的从容，都是厚积薄发的沉淀。</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">129</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">8</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://www.kdy.icu/" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/cyh245689173" title="GayHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=1696797616" title="网抑云音乐" target="_blank" style="color:#C20C0C"><span class="icon iconify" data-icon="ri:netease-cloud-music-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/248628386" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729090533.jpg" title="加我微信" target="_blank" style="color:#1AAD19"><span class="icon iconify" data-icon="ri:wechat-2-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="轻松一刻" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%B3%BB%E7%BB%9F%E9%97%AE%E9%A2%98-amp-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">一、系统问题&amp;解决方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">二、 环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="toc-text">2.1 版本控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-text">2.2 环境准备</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81-%E7%BC%93%E5%AD%98%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81"><span class="toc-text">三、 缓存短信验证码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90"><span class="toc-text">3.1 思路分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BB%A3%E7%A0%81%E6%94%B9%E9%80%A0"><span class="toc-text">3.2 代码改造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">3.3 功能测试</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81-%E7%BC%93%E5%AD%98%E8%8F%9C%E5%93%81%E4%BF%A1%E6%81%AF"><span class="toc-text">四、 缓存菜品信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-text">4.1 实现思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E4%BB%A3%E7%A0%81%E6%94%B9%E9%80%A0"><span class="toc-text">4.2 代码改造</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%9F%A5%E8%AF%A2%E8%8F%9C%E5%93%81%E7%BC%93%E5%AD%98"><span class="toc-text">1. 查询菜品缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%B8%85%E7%90%86%E8%8F%9C%E5%93%81%E7%BC%93%E5%AD%98"><span class="toc-text">2 清理菜品缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%EF%BC%9A"><span class="toc-text">测试：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF"><span class="toc-text">4.3 合并分支</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://cyh245689173.github.io/2022/08/10/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96day07%E7%AC%94%E8%AE%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="丸了鸭"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="丸了鸭的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">瑞吉外卖项目day07笔记</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <span class="post-meta-icon-text">发表于</span> <time title="创建时间：2022-08-10 19:24:34" itemprop="dateCreated datePublished" datetime="2022-08-10T19:24:34+08:00">2022-08-10</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">2.7k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">10m</span></span></span><span class="leancloud_visitors" id="/2022/08/10/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96day07%E7%AC%94%E8%AE%B0/" data-flag-title="瑞吉外卖项目day07笔记"><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读次数"><span class="icon iconify" data-icon="ri:eye-line"></span> <span class="leancloud-visitors-count"></span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E9%A1%B9%E7%9B%AE/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">项目</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h1 id="一、系统问题-amp-解决方法"><a href="#一、系统问题-amp-解决方法" class="headerlink" title="一、系统问题&amp;解决方法"></a>一、系统问题&amp;解决方法</h1><blockquote>
+<p>1). 当前系统存在的问题</p>
+</blockquote>
+<p>之前我们已经实现了移动端菜品展示、点餐、购物车、下单等功能，但是由于移动端是面向所有的消费者的，请求压力相对比较大，而我们当前所有的数据查询都是从数据库MySQL中直接查询的，那么可能就存在如下问题： &#x3D;&#x3D;频繁访问数据库，数据库访问压力大，系统性能下降，用户体验较差。&#x3D;&#x3D;</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193224946.png" alt="image-20220810193224946" loading="lazy"></p>
+<blockquote>
+<p>2). 解决该问题的方法</p>
+</blockquote>
+<p>要解决我们上述提到的问题，就可以通过Redis来做缓存，从而降低数据库的访问压力，提高系统的访问性能，从而提升用户体验。</p>
+<p>加入Redis做缓存之后，我们在进行数据查询时，就需要先查询缓存，如果缓存中有数据，直接返回，如果缓存中没有数据，则需要查询数据库，再将数据库查询的结果，缓存在redis中。</p>
+<h1 id="二、-环境搭建"><a href="#二、-环境搭建" class="headerlink" title="二、 环境搭建"></a>二、 环境搭建</h1><h3 id="2-1-版本控制"><a href="#2-1-版本控制" class="headerlink" title="2.1 版本控制"></a>2.1 版本控制</h3><p>接下来，我们就需要对我们的功能进行优化，但是需要说明的是，我们不仅仅要对上述提到的缓存进行优化，还需要对我们程序的各个方面进行优化。我们本章节主要是针对于缓存进行优化，为了方便的对我们各个优化版本的代码进行管理，我们使用Git来控制代码版本。 那么此时我们就需要将我们之前开发完成的代码提交到Git，并且推送到码云Gitee的远程仓库，执行步骤如下： </p>
+<p><strong>1). 创建Gitee远程仓库</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193036753.png" alt="image-20220810193036753" loading="lazy"></p>
+<p><strong>2). idea-创建本地仓库</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193522444.png" alt="image-20220810193522444" loading="lazy"></p>
+<p><strong>3). 准备忽略文件.gitignore</strong></p>
+<p>在我们的项目中, 有一些文件是无需提交的到git，比如: .idea，target&#x2F;，*.iml等。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193703687.png" alt="image-20220810193703687" loading="lazy"></p>
+<p>忽略文件代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">.git</span><br><span class="line">logs</span><br><span class="line">rebel.xml</span><br><span class="line">target/</span><br><span class="line">!.mvn/wrapper/maven-wrapper.jar</span><br><span class="line">log.path_IS_UNDEFINED</span><br><span class="line">.DS_Store</span><br><span class="line">offline_user.md</span><br><span class="line"></span><br><span class="line">### STS ###</span><br><span class="line">.apt_generated</span><br><span class="line">.classpath</span><br><span class="line">.factorypath</span><br><span class="line">.project</span><br><span class="line">.settings</span><br><span class="line">.springBeans</span><br><span class="line"></span><br><span class="line">### IntelliJ IDEA ###</span><br><span class="line">.idea</span><br><span class="line">*.iws</span><br><span class="line">*.iml</span><br><span class="line">*.ipr</span><br><span class="line"></span><br><span class="line">### NetBeans ###</span><br><span class="line">nbproject/private/</span><br><span class="line">build/</span><br><span class="line">nbbuild/</span><br><span class="line">dist/</span><br><span class="line">nbdist/</span><br><span class="line">.nb-gradle/</span><br><span class="line">generatorConfig.xml</span><br><span class="line"></span><br><span class="line">### nacos ###</span><br><span class="line">third-party/nacos/derby.log</span><br><span class="line">third-party/nacos/data/</span><br><span class="line">third-party/nacos/work/</span><br><span class="line"></span><br><span class="line">file/</span><br></pre></td></tr></table></figure>
+
+<p><strong>4). idea-提交并推送本地代码</strong></p>
+<p>A. 添加项目文件进暂存区</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194159338.png" alt="image-20220810194159338" loading="lazy"></p>
+<p>B. 提交代码</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194253288.png" alt="image-20220810194253288" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194417338.png" alt="image-20220810194417338" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194615417.png" alt="image-20220810194615417" loading="lazy"></p>
+<p>C.将代码推送至远程仓库</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194653916.png" alt="image-20220810194653916" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200751682.png" alt="image-20220810200751682" loading="lazy"></p>
+<p><strong>5). 查看gitee远程仓库</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200845451.png" alt="image-20220810200845451" loading="lazy"></p>
+<p><strong>6). 创建分支</strong></p>
+<p>目前默认git中只有一个主分支master，我们接下来进行缓存的优化，就不在master分支来操作了，我们需要在git上创建一个单独的分支v1.0，缓存的优化，我们就在该分支上进行操作。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200932712.png" alt="image-20220810200932712" loading="lazy"></p>
+<p>当前创建的v1.0分支，是基于master分支创建出来的，所以目前master分支的代码， 和v1.0分支的代码是完全一样的，接下来把v1.0的代码也推送至远程仓库。</p>
+<p><strong>7). 推送分支代码到远程</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810201040026.png" alt="image-20220810201040026" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810201130380.png" alt="image-20220810201130380" loading="lazy"></p>
+<h3 id="2-2-环境准备"><a href="#2-2-环境准备" class="headerlink" title="2.2 环境准备"></a>2.2 环境准备</h3><p><strong>1). 在项目的pom.xml文件中导入spring data redis的maven坐标</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>2). 在项目的application.yml中加入redis相关配置</strong></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">redis:</span></span><br><span class="line">  <span class="attr">host:</span> <span class="number">192.168</span><span class="number">.200</span><span class="number">.200</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">6379</span></span><br><span class="line">  <span class="attr">password:</span> <span class="string">root@123456</span></span><br><span class="line">  <span class="attr">database:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;注意: 引入上述依赖时,需要注意yml文件前面的缩进,上述配置应该配置在spring层级下面。&#x3D;&#x3D;</p>
+<p>这里如果redis没有设置密码的话直接将password注释就行了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810204720697.png" alt="image-20220810204720697" loading="lazy"></p>
+<p><strong>3). 编写Redis的配置类RedisConfig,定义RedisTemplate</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.cache.annotation.CachingConfigurerSupport;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.connection.RedisConnectionFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.serializer.StringRedisSerializer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisConfig</span> <span class="keyword">extends</span> <span class="title class_">CachingConfigurerSupport</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RedisTemplate&lt;Object, Object&gt; <span class="title function_">redisTemplate</span><span class="params">(RedisConnectionFactory connectionFactory)</span> &#123;</span><br><span class="line">        RedisTemplate&lt;Object, Object&gt; redisTemplate = <span class="keyword">new</span> <span class="title class_">RedisTemplate</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//默认的Key序列化器为：JdkSerializationRedisSerializer</span></span><br><span class="line">        redisTemplate.setKeySerializer(<span class="keyword">new</span> <span class="title class_">StringRedisSerializer</span>());</span><br><span class="line">        redisTemplate.setConnectionFactory(connectionFactory);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>解释说明:</strong> </p>
+<p>1). 在SpringBoot工程启动时, 会加载一个自动配置类 RedisAutoConfiguration, 在里面已经声明了RedisTemplate这个bean</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202310107.png" alt="image-20220810202310107" loading="lazy"></p>
+<p>上述框架默认声明的RedisTemplate用的key和value的序列化方式是默认的 JdkSerializationRedisSerializer，如果key采用这种方式序列化，最终我们在测试时通过redis的图形化界面查询不是很方便，如下形式：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202318332.png" alt="image-20220810202318332" loading="lazy"></p>
+<p>2). 如果使用我们自定义的RedisTemplate, key的序列化方式使用的是StringRedisSerializer, 也就是字符串形式, 最终效果如下: </p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202330410.png" alt="image-20220810202330410" loading="lazy"></p>
+<p>3). 定义了两个bean会不会出现冲突呢? 答案是不会, 因为源码如下:</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202339873.png" alt="image-20220810202339873" loading="lazy"></p>
+<h1 id="三、-缓存短信验证码"><a href="#三、-缓存短信验证码" class="headerlink" title="三、 缓存短信验证码"></a>三、 缓存短信验证码</h1><h3 id="3-1-思路分析"><a href="#3-1-思路分析" class="headerlink" title="3.1 思路分析"></a>3.1 思路分析</h3><p>前面移动端手机验证码登录随机生成的验证码是保存在HttpSession中的。</p>
+<p>但是在实际的业务场景中，一般验证码都是需要设置过期时间的，如果存在HttpSession中就无法设置过期时间，此时就需要对这一块的功能进行优化。</p>
+<p>现在需要改造为将验证码缓存在Redis中，具体的实现思路如下：</p>
+<p>1). 在服务端UserController中注入RedisTemplate对象，用于操作Redis;</p>
+<p>2). 在服务端UserController的sendMsg方法中，将随机生成的验证码缓存到Redis中，并设置有效期为5分钟;</p>
+<p>3). 在服务端UserController的login方法中，从Redis中获取缓存的验证码，如果登录成功则删除Redis中的验证码;</p>
+<h3 id="3-2-代码改造"><a href="#3-2-代码改造" class="headerlink" title="3.2 代码改造"></a>3.2 代码改造</h3><p>1). 在UserController中注入RedisTemplate对象，用于操作Redis</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> RedisTemplate redisTemplate;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2). 在UserController的sendMsg方法中，将生成的验证码保存到Redis</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需要将生成的验证码保存到Redis,设置过期时间</span></span><br><span class="line">redisTemplate.opsForValue().set(phone, code, <span class="number">5</span>, TimeUnit.MINUTES);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202903597.png" alt="image-20220810202903597" loading="lazy"></p>
+<p>3). 在UserController的login方法中，从Redis中获取生成的验证码，如果登录成功则删除Redis中缓存的验证码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从Redis中获取缓存的验证码</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">codeInSession</span> <span class="operator">=</span> redisTemplate.opsForValue().get(phone);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203208817.png" alt="image-20220810203208817" loading="lazy"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从Redis中删除缓存的验证码</span></span><br><span class="line">redisTemplate.delete(phone);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203200178.png" alt="image-20220810203200178" loading="lazy"></p>
+<h3 id="3-3-功能测试"><a href="#3-3-功能测试" class="headerlink" title="3.3 功能测试"></a>3.3 功能测试</h3><p><strong>1). 访问前端工程，获取验证码</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203834751.png" alt="image-20220810203834751" loading="lazy"></p>
+<p>后端验证码已经发过来了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203802623.png" alt="image-20220810203802623" loading="lazy"></p>
+<p><strong>2).查看Redis中的数据</strong></p>
+<p>在Redis中查看发现可以查到</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203732233.png" alt="image-20220810203732233" loading="lazy"></p>
+<p><strong>3). 在登录界面填写验证码登录完成后,查看Redis中的数据是否删除</strong></p>
+<p>登录成功后再查询就已经查不到了，数据已经正常删除了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203951457.png" alt="image-20220810203951457" loading="lazy"></p>
+<h1 id="四、-缓存菜品信息"><a href="#四、-缓存菜品信息" class="headerlink" title="四、 缓存菜品信息"></a>四、 缓存菜品信息</h1><h3 id="4-1-实现思路"><a href="#4-1-实现思路" class="headerlink" title="4.1 实现思路"></a>4.1 实现思路</h3><p>前面我们已经实现了移动端菜品查看功能，对应的服务端方法为DishController的list方法，此方法会根据前端提交的查询条件(categoryId)进行数据库查询操作。</p>
+<p><strong>在高并发的情况下，频繁查询数据库会导致系统性能下降，服务端响应时间增长。现在需要对此方法进行缓存优化，提高系统的性能。</strong></p>
+<p>那么,我们又需要思考一个问题, 具体缓存几份数据呢, 所有的菜品缓存一份 , 还是说需要缓存多份呢? 我们可以看一下我们之前做的移动端效果: </p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210707234.png" alt="image-20220810210707234" loading="lazy"></p>
+<p>我们点击哪一个分类,展示的就是该分类下的菜品, 其他菜品无需展示。所以，这里面我们在缓存时，</p>
+<p>可以根据菜品的分类，缓存多份数据，页面在查询时，点击的是哪个分类，我们就查询该分类下的菜品缓存数据。</p>
+<p><strong>具体的实现思路如下：</strong></p>
+<p>1). 改造DishController的list方法，先从Redis中获取分类对应的菜品数据，如果有则直接返回，无需查询数据库;如果没有则查询数据库，并将查询到的菜品数据存入Redis。</p>
+<p>2). 改造DishController的save和update方法，加入清理缓存的逻辑。</p>
+<blockquote>
+<p>注意： </p>
+<p>​	在使用缓存过程中，要注意保证数据库中的数据和缓存中的数据一致，如果数据库中的数据发生变化，需要及时清理缓存数据。否则就会造成缓存数据与数据库数据不一致的情况。</p>
+</blockquote>
+<h3 id="4-2-代码改造"><a href="#4-2-代码改造" class="headerlink" title="4.2 代码改造"></a>4.2 代码改造</h3><p>需要改造的代码为： DishController</p>
+<h4 id="1-查询菜品缓存"><a href="#1-查询菜品缓存" class="headerlink" title="1. 查询菜品缓存"></a>1. 查询菜品缓存</h4><table>
+<thead>
+<tr>
+<th>改造的方法</th>
+<th>redis的数据类型</th>
+<th>redis缓存的key</th>
+<th>redis缓存的value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>list</td>
+<td>string</td>
+<td>dish_分类Id_状态 , 比如: dish_12323232323_1</td>
+<td>List<DishDto></td>
+</tr>
+</tbody></table>
+<p><strong>1). 在DishController中注入RedisTemplate</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> RedisTemplate redisTemplate;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>2). 在list方法中,查询数据库之前,先查询缓存, 缓存中有数据, 直接返回</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List&lt;DishDto&gt; dishDtoList = <span class="literal">null</span>;</span><br><span class="line"><span class="comment">//动态构造key</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;dish_&quot;</span> + dish.getCategoryId() + <span class="string">&quot;_&quot;</span> + dish.getStatus();<span class="comment">//dish_1397844391040167938_1</span></span><br><span class="line"><span class="comment">//先从redis中获取缓存数据</span></span><br><span class="line">dishDtoList = (List&lt;DishDto&gt;) redisTemplate.opsForValue().get(key);</span><br><span class="line"><span class="keyword">if</span>(dishDtoList != <span class="literal">null</span>)&#123;</span><br><span class="line">    <span class="comment">//如果存在，直接返回，无需查询数据库</span></span><br><span class="line">    <span class="keyword">return</span> R.success(dishDtoList);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210819953.png" alt="image-20220810210819953" loading="lazy"></p>
+<p><strong>3). 如果redis不存在，查询数据库，并将数据库查询结果，缓存在redis，并设置过期时间</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果不存在，需要查询数据库，将查询到的菜品数据缓存到Redis</span></span><br><span class="line">redisTemplate.opsForValue().set(key,dishDtoList,<span class="number">60</span>, TimeUnit.MINUTES);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210832144.png" alt="image-20220810210832144" loading="lazy"></p>
+<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p>第二次访问页面时数据已经存入了Redis</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210510964.png" alt="image-20220810210510964" loading="lazy"></p>
+<h4 id="2-清理菜品缓存"><a href="#2-清理菜品缓存" class="headerlink" title="2 清理菜品缓存"></a>2 清理菜品缓存</h4><p>为了保证数据库中的数据和缓存中的数据一致，如果数据库中的数据发生变化，需要及时清理缓存数据。所以，我们需要在添加菜品、更新菜品时清空缓存数据。</p>
+<p><strong>1). 保存菜品,清空缓存</strong></p>
+<p>在保存菜品的方法save中，当菜品数据保存完毕之后，需要清空菜品的缓存。那么这里清理菜品缓存的方式存在两种：</p>
+<p>A. 清理所有分类下的菜品缓存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//清理所有菜品的缓存数据</span></span><br><span class="line"><span class="type">Set</span> <span class="variable">keys</span> <span class="operator">=</span> redisTemplate.keys(<span class="string">&quot;dish_*&quot;</span>); <span class="comment">//获取所有以dish_xxx开头的key</span></span><br><span class="line">redisTemplate.delete(keys); <span class="comment">//删除这些key</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>B. 清理当前添加菜品分类下的缓存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//清理某个分类下面的菜品缓存数据</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;dish_&quot;</span> + dishDto.getCategoryId() + <span class="string">&quot;_1&quot;</span>;</span><br><span class="line">redisTemplate.delete(key);</span><br></pre></td></tr></table></figure>
+
+<p>此处, 我们推荐使用第二种清理的方式, 只清理当前菜品关联的分类下的菜品数据。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212220603.png" alt="image-20220810212220603" loading="lazy"></p>
+<p><strong>2). 更新菜品,清空缓存</strong></p>
+<p>在更新菜品的方法update中，当菜品数据更新完毕之后，需要清空菜品的缓存。这里清理缓存的方式和上述基本一致。</p>
+<p>A. 清理所有分类下的菜品缓存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//清理所有菜品的缓存数据</span></span><br><span class="line"><span class="type">Set</span> <span class="variable">keys</span> <span class="operator">=</span> redisTemplate.keys(<span class="string">&quot;dish_*&quot;</span>); <span class="comment">//获取所有以dish_xxx开头的key</span></span><br><span class="line">redisTemplate.delete(keys); <span class="comment">//删除这些key</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>B. 清理当前添加菜品分类下的缓存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//清理某个分类下面的菜品缓存数据</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;dish_&quot;</span> + dishDto.getCategoryId() + <span class="string">&quot;_1&quot;</span>;</span><br><span class="line">redisTemplate.delete(key);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212316093.png" alt="image-20220810212316093" loading="lazy"></p>
+<h5 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h5><p>修改菜品数据前</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212502538.png" alt="image-20220810212502538" loading="lazy"></p>
+<p>修改数据</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212444924.png" alt="image-20220810212444924" loading="lazy"></p>
+<p>修改数据后，少了一条数据</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212535707.png" alt="image-20220810212535707" loading="lazy"></p>
+<h3 id="4-3-合并分支"><a href="#4-3-合并分支" class="headerlink" title="4.3 合并分支"></a>4.3 合并分支</h3><p>切换回master分支，然后和v1.0合并</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810213010639.png" alt="image-20220810213010639" loading="lazy"></p>
+</div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://cyh245689173.github.io/2022/08/10/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96day07%E7%AC%94%E8%AE%B0/" title="瑞吉外卖项目day07笔记">https://cyh245689173.github.io/2022/08/10/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96day07%E7%AC%94%E8%AE%B0/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2022/08/10/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96%E9%A1%B9%E7%9B%AEday07%E7%AC%94%E8%AE%B0/" rel="next" title="瑞吉外卖项目day07笔记"><span class="post-nav-text">瑞吉外卖项目day07笔记</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>要不要和我说些什么？</span><br></div><div id="valine-container"></div><script type="module">import { getScript } from '/js/utils.js'
+getScript("https://fastly.jsdelivr.net/npm/valine@latest/dist/Valine.min.js", () => {
+  const valineConfig = {"enable":true,"appId":"KE7GLrwmrIL3DMv4Lvy7NDwb-gzGzoHsz","appKey":"Ie0kEhvYU883vW9Mw4re3Vlg","placeholder":"期待您给我提出的改进","avatar":null,"pageSize":10,"visitor":true,"highlight":true,"recordIP":false,"enableQQ":true,"el":"#valine-container","lang":"zh-cn"}
+  valineConfig.path = "/2022/08/10/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96day07%E7%AC%94%E8%AE%B0/"
+  new Valine(valineConfig)
+}, window.Valine);</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2020 – 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> 丸了鸭</span></div><div class="live-time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(*╹▽╹*)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2021-01-03T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} 天 ${passHour} 小时 ${passMinute} 分 ${passSecond} 秒`;
+}
+blog_live_time();
+</script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="想要搜些什么？" value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
