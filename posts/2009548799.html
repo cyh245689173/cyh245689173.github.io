@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="丸了鸭"><meta name="copyright" content="丸了鸭"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>Java基础面试题整理 | 丸了鸭的博客</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link class="aplayer-style-marker" rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script class="aplayer-script-marker" src="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script class="meting-script-marker" src="https://fastly.jsdelivr.net/npm/meting@1/dist/Meting.min.js" defer></script><link rel="icon" type="image/png" href="/images/32x32.ico"><link rel="mask-icon" href="/images/32x32.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"www.kdy.icu","root":"/","title":"丸了鸭的博客","version":"1.10.4","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"想要搜些什么？","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":"auto","trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":["32, 242, 242"]},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="面向对象和面向过程的区别？ 面向过程：是指分析出解决问题的步骤，然后用函数将这些步骤一步步实现，然后在使用的时候一一调用即可。性能较高，所以单片机嵌入式等开发一般使用面向过程开发。 面向对象：是指把构成问题的事务分解成各种对象，建立对象的目的不是为了完成一个个步骤，而是为了描述该对象在解决整个问题的过程中所发生的行为。面向对象有封装继承多态的特性，所以易维护、易复用、易扩展。可以设计出低耦合的系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础面试题整理">
+<meta property="og:url" content="https://www.kdy.icu/posts/2009548799.html">
+<meta property="og:site_name" content="丸了鸭的博客">
+<meta property="og:description" content="面向对象和面向过程的区别？ 面向过程：是指分析出解决问题的步骤，然后用函数将这些步骤一步步实现，然后在使用的时候一一调用即可。性能较高，所以单片机嵌入式等开发一般使用面向过程开发。 面向对象：是指把构成问题的事务分解成各种对象，建立对象的目的不是为了完成一个个步骤，而是为了描述该对象在解决整个问题的过程中所发生的行为。面向对象有封装继承多态的特性，所以易维护、易复用、易扩展。可以设计出低耦合的系统">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-11T08:12:24.000Z">
+<meta property="article:modified_time" content="2022-08-14T11:40:11.952Z">
+<meta property="article:author" content="丸了鸭">
+<meta name="twitter:card" content="summary"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="丸了鸭"><img width="96" loading="lazy" src="/images/kedaya.jpg" alt="丸了鸭"><span class="site-author-status" title="再小的努力乘以365都很明显">😎</span></a><div class="site-author-name"><a href="/about/">丸了鸭</a></div><span class="site-name">丸了鸭的博客</span><sub class="site-subtitle">记录学习生活的点点滴滴</sub><div class="site-description">信手拈来的从容，都是厚积薄发的沉淀。</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">132</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">8</span></a></div><a class="site-state-item hty-icon-button" href="https://www.kdy.icu/" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/cyh245689173" title="GayHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=1696797616" title="网抑云音乐" target="_blank" style="color:#C20C0C"><span class="icon iconify" data-icon="ri:netease-cloud-music-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/248628386" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729090533.jpg" title="加我微信" target="_blank" style="color:#1AAD19"><span class="icon iconify" data-icon="ri:wechat-2-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="轻松一刻" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%92%8C%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">面向对象和面向过程的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E8%BD%BD%E5%92%8C%E9%87%8D%E5%86%99%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">重载和重写的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E3%80%81StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9FString%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%9A%84%EF%BC%9F"><span class="toc-text">String、StringBuffer和StringBuilder的区别是什么？String为什么是不可变的？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E5%8F%98%E6%80%A7%EF%BC%9A"><span class="toc-text">可变性：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%8F%8A%E6%80%A7%E8%83%BD"><span class="toc-text">线程安全及性能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A3%85%E7%AE%B1%E5%92%8C%E6%8B%86%E7%AE%B1"><span class="toc-text">自动装箱和拆箱</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">接口和抽象类的区别是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%94%A8%E4%BB%80%E4%B9%88%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%9F-%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BD%93%E5%92%8C%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8%E6%9C%89%E4%BD%95%E4%B8%8D%E5%90%8C"><span class="toc-text">创建一个对象用什么运算符？ 对象实体和对象引用有何不同?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E5%A6%82%E6%9E%9C%E4%B8%80%E4%B8%AA%E7%B1%BB%E6%B2%A1%E6%9C%89%E5%A3%B0%E6%98%8E%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%EF%BC%8C%E8%AF%A5%E7%A8%8B%E5%BA%8F%E8%83%BD%E6%AD%A3%E7%A1%AE%E6%89%A7%E8%A1%8C%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">一个类的构造方法的作用是什么？如果一个类没有声明构造方法，该程序能正确执行吗？为什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E5%92%8C%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95"><span class="toc-text">静态方法和实例方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x3D-x3D-%E5%92%8Cequals"><span class="toc-text">&#x3D;&#x3D;和equals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashCode%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">HashCode的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E6%B2%A1%E6%9C%89%E5%8F%AF%E8%83%BD%E4%B8%A4%E4%B8%AA%E4%B8%8D%E7%9B%B8%E7%AD%89%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%9C%89%E7%9B%B8%E5%90%8C%E7%9A%84HashCode"><span class="toc-text">有没有可能两个不相等的对象有相同的HashCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E5%86%99equals%E6%97%B6%E5%BF%85%E9%A1%BB%E9%87%8D%E5%86%99hashcode%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="toc-text">为什么重写equals时必须重写hashcode方法？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E4%B8%AD%E6%98%AF%E5%80%BC%E4%BC%A0%E9%80%92%E8%BF%98%E6%98%AF%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92"><span class="toc-text">Java中是值传递还是引用传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="toc-text">浅拷贝和深拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#final%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">final关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#static%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">static关键字</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://www.kdy.icu/posts/2009548799.html"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="丸了鸭"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="丸了鸭的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Java基础面试题整理</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <span class="post-meta-icon-text">发表于</span> <time title="创建时间：2022-07-11 16:12:24" itemprop="dateCreated datePublished" datetime="2022-07-11T16:12:24+08:00">2022-07-11</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <span class="post-meta-icon-text">更新于</span> <time title="修改时间：2022-08-14 19:40:11" itemprop="dateModified" datetime="2022-08-14T19:40:11+08:00">2022-08-14</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">2.5k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">8m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E9%9D%A2%E8%AF%95/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">面试</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="面向对象和面向过程的区别？"><a href="#面向对象和面向过程的区别？" class="headerlink" title="面向对象和面向过程的区别？"></a>面向对象和面向过程的区别？</h2><ul>
+<li><strong>面向过程：</strong>是指分析出解决问题的步骤，然后用函数将这些步骤一步步实现，然后在使用的时候一一调用即可。性能较高，所以单片机嵌入式等开发一般使用面向过程开发。</li>
+<li><strong>面向对象：</strong>是指把构成问题的事务分解成各种对象，建立对象的目的不是为了完成一个个步骤，而是为了描述该对象在解决整个问题的过程中所发生的行为。面向对象有封装继承多态的特性，所以易维护、易复用、易扩展。可以设计出低耦合的系统。但是性能比面向过程低。</li>
+</ul>
+<hr>
+<h2 id="重载和重写的区别"><a href="#重载和重写的区别" class="headerlink" title="重载和重写的区别"></a>重载和重写的区别</h2><ol>
+<li><p>重载就是在一个类中同名的方法具有不同的参数列表（<strong>参数类型、参数个数以及参数顺序不同</strong>）都被视为重载，但是重载对返回类型没有要求，可以相同也可以不同。</p>
+</li>
+<li><p>重写就是指子类继承了父类中原有的方法，但是有时候子类不想原封不动的继承父类中的某个方法，所以对方法体进行修改或者重写。</p>
+</li>
+<li><ol>
+<li>重写，<strong>方法名、参数列表和返回值必须相同</strong>，抛出的异常范围要小于等于父类，访问权限要大于等于父类。</li>
+<li>如果父类中的方法访问修饰符为<strong>private&#x2F;final&#x2F;static</strong>，则子类就不能重写该方法。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="String、StringBuffer和StringBuilder的区别是什么？String为什么是不可变的？"><a href="#String、StringBuffer和StringBuilder的区别是什么？String为什么是不可变的？" class="headerlink" title="String、StringBuffer和StringBuilder的区别是什么？String为什么是不可变的？"></a>String、StringBuffer和StringBuilder的区别是什么？String为什么是不可变的？</h2><h4 id="可变性："><a href="#可变性：" class="headerlink" title="可变性："></a>可变性：</h4><ol>
+<li>String类中使用final关键字修饰字符数组来保存字符串，所以String对象是不可变的。</li>
+<li>StringBuilder和StringBuffer都继承了AbstractStringBuilder类，在AbstractStringBuilder类中也是使用了字符数组进行保存字符串，但是没有使用final关键字修饰，所以这两种对象是可变的。</li>
+</ol>
+<h3 id="线程安全及性能"><a href="#线程安全及性能" class="headerlink" title="线程安全及性能"></a>线程安全及性能</h3><ol>
+<li><p>String中对象是不可变的，可以理解为常量，线程安全。</p>
+</li>
+<li><p>StringBuilder和StringBuffer都继承了AbstractStringBuilder类，而AbstractStringBuilder类中定义了一些字符串的基本操作方法。</p>
+</li>
+<li><ol>
+<li>而StringBuffer对这些方法或者对调用的方法加了同步锁，所以是线程安全的，效率相对较低。一般在多线程中使用。</li>
+<li>StringBuilder没有对这些方法加同步锁，所以是非线程安全的，效率相对较高。一般在单线程中使用。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="自动装箱和拆箱"><a href="#自动装箱和拆箱" class="headerlink" title="自动装箱和拆箱"></a>自动装箱和拆箱</h2><p><strong>每个基本数据类型都对应了一个包装类。</strong></p>
+<ol>
+<li><strong>自动装箱：</strong>是指将基本数据类型包装为一个包装类对象，例如像一个泛型为Integer的集合中添加int类型的变量。</li>
+<li><strong>自动拆箱：</strong>将一个包装类对象转换为一个基本数据类型，例如将一个包装类对象赋值给一个基本数据类型的变量。</li>
+</ol>
+<hr>
+<h2 id="接口和抽象类的区别是什么？"><a href="#接口和抽象类的区别是什么？" class="headerlink" title="接口和抽象类的区别是什么？"></a>接口和抽象类的区别是什么？</h2><ol>
+<li>接口的方法默认是public，且只能包含<strong>抽象方法和静态方法</strong>，所有方法在接口中不能有实现(Java8之后接口方法可以有默认实现)，而抽象类中可以包含<strong>普通方法。</strong></li>
+<li>接口中除了<strong>static、final变量</strong>，不能有其他的变量，而抽象类中的成员变量可以是<strong>各种类型</strong>的。</li>
+<li><strong>一个类可以实现多个接口，但是只能继承一个抽象类</strong>。接口自身也可以通过extends关键字来扩展多个接口。</li>
+<li>（<strong>是否有构造器</strong>）接口不能包含构造器，抽象类可以包含<strong>构造器</strong>，抽象类里的构造器并不是用于创建对象，而是<strong>让其子类调用这些构造器</strong>来<strong>完成</strong>属于<strong>抽象类的初始化操作</strong>。</li>
+<li>从设计层面来说，抽象是对类的抽象，是一种模板设计；而接口是对行为的抽象，是一种行为的规范。</li>
+</ol>
+<hr>
+<h2 id="创建一个对象用什么运算符？-对象实体和对象引用有何不同"><a href="#创建一个对象用什么运算符？-对象实体和对象引用有何不同" class="headerlink" title="创建一个对象用什么运算符？ 对象实体和对象引用有何不同?"></a>创建一个对象用什么运算符？ 对象实体和对象引用有何不同?</h2><p>使用new运算符，new用来创建对象实例，对象实例存在于堆内存中，对象引用存在于栈内存中，对象引用指向对象实例。</p>
+<hr>
+<h2 id="一个类的构造方法的作用是什么？如果一个类没有声明构造方法，该程序能正确执行吗？为什么？"><a href="#一个类的构造方法的作用是什么？如果一个类没有声明构造方法，该程序能正确执行吗？为什么？" class="headerlink" title="一个类的构造方法的作用是什么？如果一个类没有声明构造方法，该程序能正确执行吗？为什么？"></a>一个类的构造方法的作用是什么？如果一个类没有声明构造方法，该程序能正确执行吗？为什么？</h2><p>类的构造方法的主要作用是完成对类对象的初始化工作；可以执行；因为一个类即使没有声明构造方法也会有默认不带参数的构造方法。</p>
+<hr>
+<h2 id="静态方法和实例方法"><a href="#静态方法和实例方法" class="headerlink" title="静态方法和实例方法"></a>静态方法和实例方法</h2><ol>
+<li>在外部调用静态方法时，可以使用类名.方法名的方式也可以使用对象名.方法名的方式；而调用实例方法只能使用对象名.方法名的方式。</li>
+<li>静态方法在访问本类内部的成员时，只能访问静态成员（即静态变量和静态方法），而不允许访问实例成员变量和实例成员方法；实例方法没有这个限制。</li>
+</ol>
+<hr>
+<h2 id="x3D-x3D-和equals"><a href="#x3D-x3D-和equals" class="headerlink" title="&#x3D;&#x3D;和equals"></a>&#x3D;&#x3D;和equals</h2><ul>
+<li><p>&#x3D;&#x3D; 的作用：</p>
+</li>
+<li><ul>
+<li>基本类型：比较值是否相等</li>
+<li>引用类型：比较的是对象的内存地址值是否相等</li>
+</ul>
+</li>
+<li><p>equals 的作用:	</p>
+</li>
+<li><ul>
+<li>基本类型：<strong>不能</strong>用于判断基本数据类型的变量</li>
+<li>引用类型：用于比较两个对象的内容是否相等，<strong>默认况下，因为所有的类都继承了Object类，Object类中的equals方法使用的是&#x3D;&#x3D;，所以是比较内存地址值是否相等。</strong>也可以按照需求逻辑，重写覆盖掉对象的equals方法。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="HashCode的作用"><a href="#HashCode的作用" class="headerlink" title="HashCode的作用"></a>HashCode的作用</h2><ul>
+<li><p>Java中的集合有两类，一类是List，一类是Set。前者有序可重复，后者无序不可重复。当在Set集合汇总插入元素时怎么判断元素是否存在呢？可以通过equals方法。但是如果元素太多，就要使用很多次equals方法，就会比较慢。</p>
+</li>
+<li><p><strong>HashCode就是根据对象的内存地址换算出来的一个值。</strong>这样当集合添加新元素时，先调用这个元素的hashCode方法，就能定位到他应该放置的物理位置上。</p>
+</li>
+<li><ul>
+<li>如果该位置上没有元素，就不用进行任何比较，直接在这个位置上进行存储。</li>
+<li><strong>如果该位置上有元素，才调用equals方法与该元素进行比较，相同的话就不进行存储，不相同就散列到其他地址。</strong></li>
+</ul>
+</li>
+<li><p>这样调用equals方法次数就大大降低了，提升了效率。</p>
+</li>
+</ul>
+<hr>
+<h2 id="有没有可能两个不相等的对象有相同的HashCode"><a href="#有没有可能两个不相等的对象有相同的HashCode" class="headerlink" title="有没有可能两个不相等的对象有相同的HashCode"></a>有没有可能两个不相等的对象有相同的HashCode</h2><p>有可能</p>
+<p>两个对象具有相同的hashCode时代表发生了哈希冲突，一般有以下三种解决方式：</p>
+<ul>
+<li><strong>拉链法：</strong>每个哈希表节点都有一个next指针，多个哈希表节点可以通过next指针相连构成一条单链表，这样，发生哈希冲突的对象就可以使用这条单链表进行存储。</li>
+<li><strong>开发定址法：</strong>一旦发生了哈希冲突，就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将记录存入。</li>
+<li><strong>双哈希法：</strong>有多个哈希函数，当发生哈希冲突时，使用第二个、第三个哈希函数进行继续计算地址，直到没有冲突</li>
+</ul>
+<hr>
+<h2 id="为什么重写equals时必须重写hashcode方法？"><a href="#为什么重写equals时必须重写hashcode方法？" class="headerlink" title="为什么重写equals时必须重写hashcode方法？"></a>为什么重写equals时必须重写hashcode方法？</h2><ul>
+<li>因为如果两个对象相等，则HashCode也一定是相同的。</li>
+<li>但是两个对象有相同的hashcode值，他们不一定是相同的。</li>
+<li>因此重写equals方法时必须重写hashcode方法。</li>
+</ul>
+<hr>
+<h2 id="Java中是值传递还是引用传递"><a href="#Java中是值传递还是引用传递" class="headerlink" title="Java中是值传递还是引用传递"></a>Java中是值传递还是引用传递</h2><ol>
+<li>按值调用时值方法接收的是调用者提供的值；按引用调用是指方法接收的是调用者提供的变量地址。</li>
+<li>Java总是按值调用的，方法得到的是所有<strong>参数值的副本</strong>，传递对象时实际上方法接收到的是<strong>对象引用的副本。</strong></li>
+</ol>
+<hr>
+<h2 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h2><ul>
+<li>浅拷贝：只复制当前对象的基本数据类型和引用变量，但是引用变量指向的那些对象不进行复制，<strong>引用变量指向的仍然是原对象中引用变量所指向的值。</strong>修改克隆对象可能回影响原对象，不安全。</li>
+<li>深拷贝：完全拷贝了基本数据类型和引用数据类型以及引用数据类型指向的对象，也进行了复制。<strong>也就是说深拷贝把要复制的对象所引用的对象也全部进行了复制。</strong></li>
+</ul>
+<hr>
+<h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>final关键字主要用在三个地方：变量、方法、类</p>
+<ol>
+<li>对于一个final变量，如果是基本数据类型的变量，则其数值一旦初始化之后就<strong>不能改变</strong>；如果是引用类型的变量，则在对其进行初始化之后就<strong>不能再让其指向另一个对象。</strong></li>
+<li>final修饰的<strong>方法不能被重写</strong>，但是子类可以使用父类中final修饰的方法；</li>
+<li>当用final秀是一个类时，表明这个类<strong>不能被继承</strong>，final类中的所有成员方法都会被隐式的指定为final方法。</li>
+</ol>
+<hr>
+<h2 id="static关键字"><a href="#static关键字" class="headerlink" title="static关键字"></a>static关键字</h2><ul>
+<li><p>可以修饰变量和方法，被static关键字修饰的变量和方法被称为静态变量和静态方法，</p>
+</li>
+<li><ul>
+<li>都属于类的静态资源</li>
+<li>是被类的实例所共享的</li>
+<li>可以通过类名.对象或者方法名的方式直接调用</li>
+</ul>
+</li>
+<li><p>static还可以用于静态代码块，一般用于一些初始化操作</p>
+</li>
+</ul>
+</div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://www.kdy.icu/posts/2009548799.html" title="Java基础面试题整理">https://www.kdy.icu/posts/2009548799.html</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul><script>document.addEventListener('copy', function (event) {
+  const clipboardData = event.clipboardData || window.clipboardData;
+  if (!clipboardData) { return; }
+  const text = window.getSelection().toString();
+  if (text) {
+    event.preventDefault();
+    clipboardData.setData('text/plain', text + '\n\n本文作者：丸了鸭\n本文链接：https://www.kdy.icu/posts/2009548799.html\n版权声明：本博客所有文章除特别声明外，均默认采用 CC BY-NC-SA 4.0 许可协议。');
+  }
+});</script></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/posts/1965663023.html" rel="prev" title="org.springframework.beans.factory.BeanCreationException解决方法"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">org.springframework.beans.factory.BeanCreationException解决方法</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/posts/502339125.html" rel="next" title="Mybatis面试题整理"><span class="post-nav-text">Mybatis面试题整理</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>有没有什么要和我说的呢？</span><br></div><div id="tcomment"></div><script type="module">import { getScript } from '/js/utils.js'
+
+getScript("https://fastly.jsdelivr.net/npm/twikoo@latest/dist/twikoo.all.min.js", () => {
+  const twikooConfig = {"enable":true,"envId":"https://my-twikoo-omega.vercel.app/"}
+  twikooConfig.el = '#tcomment'
+  twikoo.init(twikooConfig)
+}, window.twikoo);</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2020 – 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> 丸了鸭</span></div><div class="live-time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(*╹▽╹*)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2021-01-03T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} 天 ${passHour} 小时 ${passMinute} 分 ${passSecond} 秒`;
+}
+blog_live_time();
+</script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="想要搜些什么？" value=""></div><div class="search-result-container"></div></div><div class="aplayer no-destroy" id="aplayer" data-id="308168565" data-server="netease" data-type="playlist" data-fixed="true" data-theme="#0078E7" data-loop="all" data-order="list" data-preload="auto" data-volume="0.7" data-mutex data-lrctype="0" data-listmaxheight="340px" data-storagename="metingjs"></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

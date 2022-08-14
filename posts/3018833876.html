@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="丸了鸭"><meta name="copyright" content="丸了鸭"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>计算机网络面试题整理 | 丸了鸭的博客</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link class="aplayer-style-marker" rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script class="aplayer-script-marker" src="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script class="meting-script-marker" src="https://fastly.jsdelivr.net/npm/meting@1/dist/Meting.min.js" defer></script><link rel="icon" type="image/png" href="/images/32x32.ico"><link rel="mask-icon" href="/images/32x32.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"www.kdy.icu","root":"/","title":"丸了鸭的博客","version":"1.10.4","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"想要搜些什么？","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":"auto","trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":["32, 242, 242"]},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="HTTP协议中浏览器和服务器进行交互的四种方法？基本方法有四种，分别是Get，Post，Put，Delete，这四种方法可以理解为对服务器资源的增删改查。  Get：从服务器上获取数据，也就是所谓的查，仅仅是获取服务器资源，不进行修改。 Post：向服务器提交数据，这涉及到了数据的更改，也就是更改服务器的数据。 Put：向服务器新添加数据 Delete：删除服务器的数据   Forword和Red">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络面试题整理">
+<meta property="og:url" content="https://www.kdy.icu/posts/3018833876.html">
+<meta property="og:site_name" content="丸了鸭的博客">
+<meta property="og:description" content="HTTP协议中浏览器和服务器进行交互的四种方法？基本方法有四种，分别是Get，Post，Put，Delete，这四种方法可以理解为对服务器资源的增删改查。  Get：从服务器上获取数据，也就是所谓的查，仅仅是获取服务器资源，不进行修改。 Post：向服务器提交数据，这涉及到了数据的更改，也就是更改服务器的数据。 Put：向服务器新添加数据 Delete：删除服务器的数据   Forword和Red">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-28T11:04:00.000Z">
+<meta property="article:modified_time" content="2022-08-14T11:40:12.287Z">
+<meta property="article:author" content="丸了鸭">
+<meta name="twitter:card" content="summary"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="丸了鸭"><img width="96" loading="lazy" src="/images/kedaya.jpg" alt="丸了鸭"><span class="site-author-status" title="再小的努力乘以365都很明显">😎</span></a><div class="site-author-name"><a href="/about/">丸了鸭</a></div><span class="site-name">丸了鸭的博客</span><sub class="site-subtitle">记录学习生活的点点滴滴</sub><div class="site-description">信手拈来的从容，都是厚积薄发的沉淀。</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">132</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">8</span></a></div><a class="site-state-item hty-icon-button" href="https://www.kdy.icu/" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/cyh245689173" title="GayHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=1696797616" title="网抑云音乐" target="_blank" style="color:#C20C0C"><span class="icon iconify" data-icon="ri:netease-cloud-music-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/248628386" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729090533.jpg" title="加我微信" target="_blank" style="color:#1AAD19"><span class="icon iconify" data-icon="ri:wechat-2-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="轻松一刻" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E5%8D%8F%E8%AE%AE%E4%B8%AD%E6%B5%8F%E8%A7%88%E5%99%A8%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%9B%E8%A1%8C%E4%BA%A4%E4%BA%92%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="toc-text">HTTP协议中浏览器和服务器进行交互的四种方法？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forword%E5%92%8CRedirect%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">Forword和Redirect的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Get%E8%AF%B7%E6%B1%82%E5%92%8CPost%E8%AF%B7%E6%B1%82%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">Get请求和Post请求的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-%E5%8D%8F%E8%AE%AE%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="toc-text">TCP 协议如何保证可靠传输</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E5%92%8CUDP%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%90%84%E8%87%AA%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="toc-text">TCP和UDP的区别，以及各自的优缺点？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E5%92%8C%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-text">滑动窗口和流量控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-text">拥塞控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8B-HTTP-%E5%92%8C-HTTPS-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">说一下 HTTP 和 HTTPS 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8BHTTP%E7%9A%84%E9%95%BF%E8%BF%9E%E6%8E%A5%E4%B8%8E%E7%9F%AD%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">说一下HTTP的长连接与短连接的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88-%E5%92%8CSession%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">Cookie的作用是什么?和Session有什么区别？</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://www.kdy.icu/posts/3018833876.html"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="丸了鸭"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="丸了鸭的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">计算机网络面试题整理</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <span class="post-meta-icon-text">发表于</span> <time title="创建时间：2022-07-28 19:04:00" itemprop="dateCreated datePublished" datetime="2022-07-28T19:04:00+08:00">2022-07-28</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <span class="post-meta-icon-text">更新于</span> <time title="修改时间：2022-08-14 19:40:12" itemprop="dateModified" datetime="2022-08-14T19:40:12+08:00">2022-08-14</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">2.8k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">9m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E9%9D%A2%E8%AF%95/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">面试</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="HTTP协议中浏览器和服务器进行交互的四种方法？"><a href="#HTTP协议中浏览器和服务器进行交互的四种方法？" class="headerlink" title="HTTP协议中浏览器和服务器进行交互的四种方法？"></a>HTTP协议中浏览器和服务器进行交互的四种方法？</h2><p>基本方法有四种，分别是Get，Post，Put，Delete，这四种方法可以理解为对服务器资源的增删改查。</p>
+<ul>
+<li><strong>Get：</strong>从服务器上获取数据，也就是所谓的查，仅仅是获取服务器资源，不进行修改。</li>
+<li><strong>Post：</strong>向服务器提交数据，这涉及到了数据的更改，也就是更改服务器的数据。</li>
+<li><strong>Put：</strong>向服务器新添加数据</li>
+<li><strong>Delete：</strong>删除服务器的数据</li>
+</ul>
+<hr>
+<h2 id="Forword和Redirect的区别？"><a href="#Forword和Redirect的区别？" class="headerlink" title="Forword和Redirect的区别？"></a>Forword和Redirect的区别？</h2><ul>
+<li><p>浏览器URL地址：</p>
+</li>
+<li><ul>
+<li>Forward是浏览器内部的重定向，服务器内部请求某个Servlet，然后获取响应的内容，浏览器的URL地址是不会变化的。</li>
+<li>Redirect是客户端请求服务器，然后服务器给客户端返回了一个302和一个新的location，客户端重新发起HTTP请求，服务器给客户端响应location对应的URL地址，浏览器的URL地址发生了变化。</li>
+</ul>
+</li>
+<li><p>数据的共享：</p>
+</li>
+<li><ul>
+<li>Forward是服务器内部的重定向，request请求在整个重定向的过程中是不变的，request中的信息在Servlet间是共享的。</li>
+<li>Redirect发起了两次的HTTP请求分别是使用的不同的request。</li>
+</ul>
+</li>
+<li><p>请求的次数：</p>
+</li>
+<li><ul>
+<li>Forward只有一次请求</li>
+<li>Redirect有两次请求。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Get请求和Post请求的区别？"><a href="#Get请求和Post请求的区别？" class="headerlink" title="Get请求和Post请求的区别？"></a>Get请求和Post请求的区别？</h2><ul>
+<li><p><strong>用途：</strong></p>
+</li>
+<li><ul>
+<li>get请求用来从服务器获取资源</li>
+<li>post请求用来想服务器提交数据</li>
+</ul>
+</li>
+<li><p><strong>请求参数：</strong></p>
+</li>
+<li><ul>
+<li>Get请求方式是不安全的，因为它会把参数<strong>明文放在url中</strong>；</li>
+<li>而Post请求方式是通过<strong>请求体</strong>来传递参数的。</li>
+</ul>
+</li>
+<li><p><strong>数据的大小：</strong></p>
+</li>
+<li><ul>
+<li>Get请求提交的url中数据最多<strong>只能是2048字节</strong>，这个限制是浏览器或者服务器添加的；</li>
+<li>Post请求传输的数据理论上没有大小限制。</li>
+</ul>
+</li>
+<li><p><strong>编码方式：</strong></p>
+</li>
+<li><ul>
+<li>GET 编码格式只<strong>能用ASCII码</strong></li>
+<li>POST没有限制</li>
+</ul>
+</li>
+<li><p><strong>缓存：</strong></p>
+</li>
+<li><ul>
+<li>get请求可以被浏览器缓存并可以被收藏为标签</li>
+<li>post请求不会被浏览器缓存也不能被收藏为标签</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="TCP-协议如何保证可靠传输"><a href="#TCP-协议如何保证可靠传输" class="headerlink" title="TCP 协议如何保证可靠传输"></a>TCP 协议如何保证可靠传输</h2><ol>
+<li>应用数据被分割成 TCP 认为最适合发送的数据块。</li>
+<li>TCP 给发送的每一个包进行编号，接收方对数据包进行排序，把有序数据传送给应用层。</li>
+<li><strong>校验和：</strong> TCP 将保持它首部和数据的检验和。这是一个端到端的检验和，目的是检测数据在传输过程中的任何变化。如果收到段的检验和有差错，TCP 将丢弃这个报文段和不确认收到此报文段。</li>
+<li>TCP 的接收端会丢弃重复的数据。</li>
+<li><strong>流量控制：</strong> TCP 连接的每一方都有固定大小的缓冲空间，TCP的接收端只允许发送端发送接收端缓冲区能接纳的数据。当接收方来不及处理发送方的数据，能提示发送方降低发送的速率，防止包丢失。TCP 使用的流量控制协议是可变大小的滑动窗口协议。 （TCP 利用滑动窗口实现流量控制）</li>
+<li><strong>拥塞控制：</strong> 当网络拥塞时，减少数据的发送。</li>
+<li><strong>ARQ协议：</strong> 也是为了实现可靠传输的，它的基本原理就是每发完一个分组就停止发送，等待对方确认。在收到确认后再发下一个分组。</li>
+<li><strong>超时重传：</strong> 当 TCP 发出一个段后，它启动一个定时器，等待目的端确认收到这个报文段。如果不能及时收到一个确认，将重发这个报文段。</li>
+</ol>
+<hr>
+<h2 id="TCP和UDP的区别，以及各自的优缺点？"><a href="#TCP和UDP的区别，以及各自的优缺点？" class="headerlink" title="TCP和UDP的区别，以及各自的优缺点？"></a>TCP和UDP的区别，以及各自的优缺点？</h2><ol>
+<li>TCP是面向连接的（比如打电话之前需要先拨号建立连接）；UDP是无连接的，即发送数据之前不需要建立连接；</li>
+<li>TCP提供可靠的传输，通过TCP传输的数据是无差错、不丢失、不重复且按序到达；UDP是尽最大努力交付，即不保证可靠交付。</li>
+<li>UDP具有较好的实时性，工作效率比TCP高，适用于对高速传输和实时性有较高要求的通信。</li>
+<li>每一条TCP连接都只能是点对点的；而UDP支持一对一、一对多、多对一、多对多的交互通信</li>
+<li>TCP对系统资源要求较多，UDP对系统资源要求较少。</li>
+</ol>
+<hr>
+<h2 id="滑动窗口和流量控制"><a href="#滑动窗口和流量控制" class="headerlink" title="滑动窗口和流量控制"></a>滑动窗口和流量控制</h2><p><strong>TCP 利用滑动窗口实现流量控制。流量控制是为了控制发送方发送速率，保证接收方来得及接收。</strong> 接收方发送的确认报文中的窗口字段可以用来控制发送方窗口大小，从而影响发送方的发送速率。将窗口字段设置为 0，则发送方不能发送数据。</p>
+<hr>
+<h2 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h2><p>在某段时间，若对网络中某一资源的需求超过了该资源所能提供的可用部分，网络的性能就要变坏。这种情况就叫拥塞。拥塞控制就是为了防止过多的数据注入到网络中，这样就可以使网络中的路由器或链路不致过载。拥塞控制所要做的都有一个前提，就是网络能够承受现有的网络负荷。拥塞控制是一个全局性的过程，涉及到所有的主机，所有的路由器，以及与降低网络传输性能有关的所有因素。相反，流量控制往往是点对点通信量的控制，是个端到端的问题。流量控制所要做到的就是抑制发送端发送数据的速率，以便使接收端来得及接收。</p>
+<p>为了进行拥塞控制，TCP 发送方要维持一个 <strong>拥塞窗口(cwnd)</strong> 的状态变量。拥塞控制窗口的大小取决于网络的拥塞程度，并且动态变化。发送方让自己的发送窗口取为拥塞窗口和接收方的接受窗口中较小的一个。</p>
+<p>TCP的拥塞控制采用了四种算法，即 <strong>慢开始</strong> 、 <strong>拥塞避免</strong> 、<strong>快重传</strong> 和 <strong>快恢复</strong>。在网络层也可以使路由器采用适当的分组丢弃策略（如主动队列管理 AQM），以减少网络拥塞的发生。</p>
+<ul>
+<li><strong>慢开始：</strong> 慢开始算法的思路是当主机开始发送数据时，如果立即把大量数据字节注入到网络，那么可能会引起网络阻塞，因为现在还不知道网络的符合情况。经验表明，较好的方法是先探测一下，即由小到大逐渐增大发送窗口，也就是由小到大逐渐增大拥塞窗口数值。cwnd初始值为1，每经过一个传播轮次，cwnd加倍。</li>
+<li><strong>拥塞避免：</strong> 拥塞避免算法的思路是让拥塞窗口cwnd缓慢增大，即每经过一个往返时间RTT就把发送放的cwnd加1.</li>
+<li><strong>快重传与快恢复：</strong> 在 TCP&#x2F;IP 中，快速重传和恢复（fast retransmit and recovery，FRR）是一种拥塞控制算法，它能快速恢复丢失的数据包。没有 FRR，如果数据包丢失了，TCP 将会使用定时器来要求传输暂停。在暂停的这段时间内，没有新的或复制的数据包被发送。有了 FRR，如果接收机接收到一个不按顺序的数据段，它会立即给发送机发送一个重复确认。如果发送机接收到三个重复确认，它会假定确认件指出的数据段丢失了，并立即重传这些丢失的数据段。有了 FRR，就不会因为重传时要求的暂停被耽误。 　当有单独的数据包丢失时，快速重传和恢复（FRR）能最有效地工作。当有多个数据信息包在某一段很短的时间内丢失时，它则不能很有效地工作。</li>
+</ul>
+<hr>
+<h2 id="说一下-HTTP-和-HTTPS-的区别"><a href="#说一下-HTTP-和-HTTPS-的区别" class="headerlink" title="说一下 HTTP 和 HTTPS 的区别"></a>说一下 HTTP 和 HTTPS 的区别</h2><ul>
+<li><strong>端口不同：</strong>HTTP和 HTTPS 的连接方式不同，的端口也不一样，HTTP是80， HTTPS 用的是443 </li>
+<li><strong>消耗资源：</strong>和HTTP相比，HTTPS通信会因为加解密的处理消耗更多的CPU和内存资源。 </li>
+<li><strong>开销：</strong> HTTPS 通信需要证书，这类证书通常需要向认证机构申请或者付费购买。</li>
+</ul>
+<hr>
+<h2 id="说一下HTTP的长连接与短连接的区别"><a href="#说一下HTTP的长连接与短连接的区别" class="headerlink" title="说一下HTTP的长连接与短连接的区别"></a>说一下HTTP的长连接与短连接的区别</h2><p>HTTP协议的长连接和短连接，实质上是TCP协议的长连接和短连接。 </p>
+<p><strong>短连接</strong> </p>
+<p>在HTTP&#x2F;1.0中默认使用短链接,也就是说，浏览器和服务器每进行一次HTTP操作，就建立一次连接，但任务结束就中断连接。如果客户端访问的某个HTML或其他类型的Web资源，如 JavaScript 文件、图像文件、 CSS 文件等。当浏览器每遇到这样一个Web资源，就会建立一个HTTP会话. </p>
+<p><strong>长连接</strong> </p>
+<p>从HTTP&#x2F;1.1起，默认使用长连接，用以保持连接特性。在使用长连接的情况下，当一个网页打开完 成后，客户端和服务器之间用于传输HTTP数据的 TCP连接不会关闭。如果客户端再次访问这个服务 器上的网页，会继续使用这一条已经建立的连接。Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同的服务器软件（如Apache）中设定这个时间。</p>
+<hr>
+<h2 id="Cookie的作用是什么-和Session有什么区别？"><a href="#Cookie的作用是什么-和Session有什么区别？" class="headerlink" title="Cookie的作用是什么?和Session有什么区别？"></a>Cookie的作用是什么?和Session有什么区别？</h2><p>Cookie 和 Session都是用来跟踪浏览器用户身份的会话方式，但是两者的应用场景不太一样。</p>
+<p><strong>Cookie 一般用来保存用户信息</strong> 比如①我们在 Cookie 中保存已经登录过得用户信息，下次访问网站的时候页面可以自动帮你登录的一些基本信息给填了；②一般的网站都会有保持登录也就是说下次你再访问网站的时候就不需要重新登录了，这是因为用户登录的时候我们可以存放了一个 Token 在 Cookie 中，下次登录的时候只需要根据 Token 值来查找用户即可(为了安全考虑，重新登录一般要将 Token 重写)；③登录一次网站后访问网站其他页面不需要重新登录。<strong>Session 的主要作用就是通过服务端记录用户的状态。</strong> 典型的场景是购物车，当你要添加商品到购物车的时候，系统不知道是哪个用户操作的，因为 HTTP 协议是无状态的。服务端给特定的用户创建特定的 Session 之后就可以标识这个用户并且跟踪这个用户了。</p>
+<p>Cookie 数据保存在客户端(浏览器端)，Session 数据保存在服务器端。</p>
+<p>Cookie 存储在客户端中，而Session存储在服务器上，相对来说 Session 安全性更高。如果要在 Cookie 中存储一些敏感信息，不要直接写入 Cookie 中，最好能将 Cookie 信息加密然后使用到的时候再去服务器端解密。</p>
+</div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://www.kdy.icu/posts/3018833876.html" title="计算机网络面试题整理">https://www.kdy.icu/posts/3018833876.html</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul><script>document.addEventListener('copy', function (event) {
+  const clipboardData = event.clipboardData || window.clipboardData;
+  if (!clipboardData) { return; }
+  const text = window.getSelection().toString();
+  if (text) {
+    event.preventDefault();
+    clipboardData.setData('text/plain', text + '\n\n本文作者：丸了鸭\n本文链接：https://www.kdy.icu/posts/3018833876.html\n版权声明：本博客所有文章除特别声明外，均默认采用 CC BY-NC-SA 4.0 许可协议。');
+  }
+});</script></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/posts/2296675065.html" rel="prev" title="Linux目录结构小结"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">Linux目录结构小结</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/posts/2124298461.html" rel="next" title="IO流&amp;反射面试题整理"><span class="post-nav-text">IO流&amp;反射面试题整理</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>有没有什么要和我说的呢？</span><br></div><div id="tcomment"></div><script type="module">import { getScript } from '/js/utils.js'
+
+getScript("https://fastly.jsdelivr.net/npm/twikoo@latest/dist/twikoo.all.min.js", () => {
+  const twikooConfig = {"enable":true,"envId":"https://my-twikoo-omega.vercel.app/"}
+  twikooConfig.el = '#tcomment'
+  twikoo.init(twikooConfig)
+}, window.twikoo);</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2020 – 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> 丸了鸭</span></div><div class="live-time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(*╹▽╹*)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2021-01-03T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} 天 ${passHour} 小时 ${passMinute} 分 ${passSecond} 秒`;
+}
+blog_live_time();
+</script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="想要搜些什么？" value=""></div><div class="search-result-container"></div></div><div class="aplayer no-destroy" id="aplayer" data-id="308168565" data-server="netease" data-type="playlist" data-fixed="true" data-theme="#0078E7" data-loop="all" data-order="list" data-preload="auto" data-volume="0.7" data-mutex data-lrctype="0" data-listmaxheight="340px" data-storagename="metingjs"></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

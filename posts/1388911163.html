@@ -1,0 +1,410 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="丸了鸭"><meta name="copyright" content="丸了鸭"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>瑞吉外卖项目day01笔记 | 丸了鸭的博客</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link class="aplayer-style-marker" rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script class="aplayer-script-marker" src="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script class="meting-script-marker" src="https://fastly.jsdelivr.net/npm/meting@1/dist/Meting.min.js" defer></script><link rel="icon" type="image/png" href="/images/32x32.ico"><link rel="mask-icon" href="/images/32x32.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"www.kdy.icu","root":"/","title":"丸了鸭的博客","version":"1.10.4","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"想要搜些什么？","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":"auto","trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":["32, 242, 242"]},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="一、 软件开发整体介绍作为一名软件开发工程师,我们需要了解在软件开发过程中的开发流程， 以及软件开发过程中涉及到的岗位角色，角色的分工、职责， 并了解软件开发中涉及到的三种软件环境。那么这一小节，我们将从 软件开发流程、角色分工、软件环境 三个方面，来整体上介绍一下软件开发。 1.1 软件开发流程 1). 第1阶段: 需求分析 完成产品原型、需求规格说明书的编写。   产品原型，一般是通过网页(h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="瑞吉外卖项目day01笔记">
+<meta property="og:url" content="https://www.kdy.icu/posts/1388911163.html">
+<meta property="og:site_name" content="丸了鸭的博客">
+<meta property="og:description" content="一、 软件开发整体介绍作为一名软件开发工程师,我们需要了解在软件开发过程中的开发流程， 以及软件开发过程中涉及到的岗位角色，角色的分工、职责， 并了解软件开发中涉及到的三种软件环境。那么这一小节，我们将从 软件开发流程、角色分工、软件环境 三个方面，来整体上介绍一下软件开发。 1.1 软件开发流程 1). 第1阶段: 需求分析 完成产品原型、需求规格说明书的编写。   产品原型，一般是通过网页(h">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192836128.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192901586.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192931824.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192941946.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192951200.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684689289-934107c8-0e0e-4725-897f-f06004ad1eb5.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684757252-9921f145-5b42-47d9-a188-58d81bb4b815.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684882309-a197a987-9962-406b-98d2-88fa8c46b867.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684955505-a7a3b622-9461-41d7-87c7-a4de1b9857a2.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684976072-4fafc762-59ba-406e-833d-a8b59eb0c134.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685010466-9c0ff67a-88f6-4991-88f7-16edee24fd17.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685415640-e16539f6-17b8-4464-b070-6e75bdbf9e37.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685531031-d3c30c89-9be3-404c-b551-9bbb763205d9.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685582738-090ff6c9-0094-404c-a206-8c92ef09f467.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685726432-7169ffed-cb7e-40d0-9370-08e9df95b523.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685816439-f80f0422-e62b-4cfd-bd0e-875ac75e5a01.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805155657827.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805161747443.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805161846988.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805162722841.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805162744591.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805164535814.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192611181.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805185327553.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805185353385.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805185502660.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805185256452.png">
+<meta property="article:published_time" content="2022-08-05T07:52:17.000Z">
+<meta property="article:modified_time" content="2022-08-14T11:40:12.270Z">
+<meta property="article:author" content="丸了鸭">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192836128.png"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="丸了鸭"><img width="96" loading="lazy" src="/images/kedaya.jpg" alt="丸了鸭"><span class="site-author-status" title="再小的努力乘以365都很明显">😎</span></a><div class="site-author-name"><a href="/about/">丸了鸭</a></div><span class="site-name">丸了鸭的博客</span><sub class="site-subtitle">记录学习生活的点点滴滴</sub><div class="site-description">信手拈来的从容，都是厚积薄发的沉淀。</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">132</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">8</span></a></div><a class="site-state-item hty-icon-button" href="https://www.kdy.icu/" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/cyh245689173" title="GayHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=1696797616" title="网抑云音乐" target="_blank" style="color:#C20C0C"><span class="icon iconify" data-icon="ri:netease-cloud-music-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/248628386" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729090533.jpg" title="加我微信" target="_blank" style="color:#1AAD19"><span class="icon iconify" data-icon="ri:wechat-2-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="轻松一刻" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%B4%E4%BD%93%E4%BB%8B%E7%BB%8D"><span class="toc-text">一、 软件开发整体介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="toc-text">1.1 软件开发流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E8%A7%92%E8%89%B2%E5%88%86%E5%B7%A5"><span class="toc-text">1.2 角色分工</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E8%BD%AF%E4%BB%B6%E7%8E%AF%E5%A2%83"><span class="toc-text">1.3 软件环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="toc-text">二、 瑞吉外卖项目介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="toc-text">2.1 项目介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E4%BA%A7%E5%93%81%E5%8E%9F%E5%9E%8B"><span class="toc-text">2.2 产品原型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="toc-text">2.3 技术选型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-%E5%8A%9F%E8%83%BD%E6%9E%B6%E6%9E%84"><span class="toc-text">2.4 功能架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-%E8%A7%92%E8%89%B2"><span class="toc-text">2.5 角色</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">三、开发环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">3.1 数据库环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-maven%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">3.2 maven环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E9%A1%B9%E7%9B%AE"><span class="toc-text">1、 创建一个新的项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81-%E5%AF%BC%E5%85%A5pom-xml%E6%96%87%E4%BB%B6"><span class="toc-text">2、 导入pom.xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6application-yml"><span class="toc-text">3、创建配置文件application.yml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E7%BC%96%E5%86%99%E5%90%AF%E5%8A%A8%E7%B1%BB"><span class="toc-text">4、编写启动类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%E3%80%81%E5%AF%BC%E5%85%A5%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90"><span class="toc-text">5、导入静态资源</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91"><span class="toc-text">四、后台登录功能开发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="toc-text">4.1 创建实体类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E5%AE%8C%E5%96%84%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95"><span class="toc-text">4.2 完善项目目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapper"><span class="toc-text">mapper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#service"><span class="toc-text">service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#controller"><span class="toc-text">controller</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#common"><span class="toc-text">common</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91"><span class="toc-text">4.3 处理逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-Controller%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99"><span class="toc-text">4.4 Controller代码编写</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%EF%BC%9A"><span class="toc-text">测试：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%90%8E%E5%8F%B0%E7%94%A8%E6%88%B7%E9%80%80%E5%87%BA%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91"><span class="toc-text">五、后台用户退出功能开发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91"><span class="toc-text">5.1 处理逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99"><span class="toc-text">5.2 代码编写</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://www.kdy.icu/posts/1388911163.html"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="丸了鸭"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="丸了鸭的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">瑞吉外卖项目day01笔记</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <span class="post-meta-icon-text">发表于</span> <time title="创建时间：2022-08-05 15:52:17" itemprop="dateCreated datePublished" datetime="2022-08-05T15:52:17+08:00">2022-08-05</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <span class="post-meta-icon-text">更新于</span> <time title="修改时间：2022-08-14 19:40:12" itemprop="dateModified" datetime="2022-08-14T19:40:12+08:00">2022-08-14</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">5k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">19m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E9%A1%B9%E7%9B%AE/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">项目</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h1 id="一、-软件开发整体介绍"><a href="#一、-软件开发整体介绍" class="headerlink" title="一、 软件开发整体介绍"></a>一、 软件开发整体介绍</h1><p>作为一名软件开发工程师,我们需要了解在软件开发过程中的开发流程， 以及软件开发过程中涉及到的岗位角色，角色的分工、职责， 并了解软件开发中涉及到的三种软件环境。那么这一小节，我们将从 软件开发流程、角色分工、软件环境 三个方面，来整体上介绍一下软件开发。</p>
+<h2 id="1-1-软件开发流程"><a href="#1-1-软件开发流程" class="headerlink" title="1.1 软件开发流程"></a>1.1 软件开发流程</h2><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192836128.png" alt="image-20220805192836128" loading="lazy"></p>
+<p><strong>1). 第1阶段: 需求分析</strong></p>
+<p>完成产品原型、需求规格说明书的编写。  </p>
+<p>产品原型，一般是通过网页(html)的形式展示当前的页面展示什么样的数据, 页面的布局是什么样子的，点击某个菜单，打开什么页面，点击某个按钮，出现什么效果，都可以通过产品原型看到。 </p>
+<p>需求规格说明书， 一般来说就是使用 Word 文档来描述当前项目有哪些功能，每一项功能的需求及业务流程是什么样的，都会在文档中描述。</p>
+<p><strong>2). 第2阶段: 设计</strong></p>
+<p>设计的内容包含 产品设计、UI界面设计、概要设计、详细设计、数据库设计。</p>
+<p>在设计阶段，会出具相关的UI界面、及相关的设计文档。比如数据库设计，需要设计当前项目中涉及到哪些数据库，每一个数据库里面包含哪些表，这些表结构之间的关系是什么样的，表结构中包含哪些字段，字段类型都会在文档中描述清楚。</p>
+<p><strong>3). 第3阶段: 编码</strong></p>
+<p>编写项目代码、并完成单元测试。</p>
+<p>作为软件开发工程师，我们主要的工作就是在该阶段， 对分配给我们的模块功能，进行编码实现。编码实现完毕后，进行单元测试，单元测试通过后再进入到下一阶段。</p>
+<p><strong>4). 第4阶段: 测试</strong></p>
+<p>在该阶段中主要由测试人员, 对部署在测试环境的项目进行功能测试, 并出具测试报告。</p>
+<p><strong>5). 第5阶段: 上线运维</strong></p>
+<p>在项目上线之前， 会由运维人员准备服务器上的软件环境安装、配置， 配置完毕后， 再将我们开发好的项目，部署在服务器上运行。</p>
+<p>我们作为软件开发工程师， 我们主要的任务是在编码阶段， 但是在一些小的项目组当中， 也会涉及到数据库的设计、测试等方面的工作。</p>
+<h2 id="1-2-角色分工"><a href="#1-2-角色分工" class="headerlink" title="1.2 角色分工"></a>1.2 角色分工</h2><p>学习了软件开发的流程之后， 我们还有必要了解一下在整个软件开发过程中涉及到的岗位角色，以及各个角色的职责分工。 </p>
+<table>
+<thead>
+<tr>
+<th>岗位&#x2F;角色</th>
+<th>职责&#x2F;分工</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>项目经理</td>
+<td>对整个项目负责，任务分配、把控进度</td>
+</tr>
+<tr>
+<td>产品经理</td>
+<td>进行需求调研，输出需求调研文档、产品原型等</td>
+</tr>
+<tr>
+<td>UI设计师</td>
+<td>根据产品原型输出界面效果图</td>
+</tr>
+<tr>
+<td>架构师</td>
+<td>项目整体架构设计、技术选型等</td>
+</tr>
+<tr>
+<td><font color='red'>开发工程师</font></td>
+<td><font color='red'>功能代码实现</font></td>
+</tr>
+<tr>
+<td>测试工程师</td>
+<td>编写测试用例，输出测试报告</td>
+</tr>
+<tr>
+<td>运维工程师</td>
+<td>软件环境搭建、项目上线</td>
+</tr>
+</tbody></table>
+<p>上述我们讲解的角色分工, 是在一个项目组中比较标准的角色分工, 但是在实际的项目中, 有一些项目组由于人员配置紧张, 可能并没有专门的架构师或测试人员, 这个时候可能需要有项目经理或者程序员兼任。</p>
+<h2 id="1-3-软件环境"><a href="#1-3-软件环境" class="headerlink" title="1.3 软件环境"></a>1.3 软件环境</h2><p>在我们日常的软件开发中，会涉及到软件开发中的三套环境， 那么这三套环境分别是: 开发环境、测试环境、生产环境。 接下来，我们分别介绍一下这三套环境的作用和特点。</p>
+<p><strong>1). 开发环境(development)</strong></p>
+<p>我们作为软件开发人员，在开发阶段使用的环境，就是开发环境，一般外部用户无法访问。</p>
+<p>比如，我们在开发中使用的MySQL数据库和其他的一些常用软件，我们可以安装在本地， 也可以安装在一台专门的服务器中， 这些应用软件仅仅在软件开发过程中使用， 项目测试、上线时，我们不会使用这套环境了，这个环境就是开发环境。</p>
+<p><strong>2). 测试环境(testing)</strong></p>
+<p>当软件开发工程师，将项目的功能模块开发完毕，并且单元测试通过后，就需要将项目部署到测试服务器上，让测试人员对项目进行测试。那这台测试服务器就是专门给测试人员使用的环境， 也就是测试环境，用于项目测试，一般外部用户无法访问。</p>
+<p><strong>3). 生产环境(production)</strong></p>
+<p>当项目开发完毕，并且由测试人员测试通过之后，就可以上线项目，将项目部署到线上环境，并正式对外提供服务，这个线上环境也称之为生产环境。</p>
+<blockquote>
+<p><font color='gree'> <b>拓展知识:</b></font> </p>
+<p>​	<strong>准生产环境:</strong> 对于有的公司来说，项目功能开发好, 并测试通过以后，并不是直接就上生产环境。为了保证我们开发的项目在上线之后能够完全满足要求，就需要把项目部署在真实的环境中, 测试一下是否完全符合要求啊，这时候就诞生了准生产环境，你可以把他当做生产环境的克隆体，准生产环境的服务器配置, 安装的应用软件(JDK、Tomcat、数据库、中间件 …) 的版本都一样，这种环境也称为 “仿真环境”。</p>
+<p>​	ps.由于项目的性质和类型不同，有的项目可能不需要这个环境</p>
+</blockquote>
+<h1 id="二、-瑞吉外卖项目介绍"><a href="#二、-瑞吉外卖项目介绍" class="headerlink" title="二、 瑞吉外卖项目介绍"></a>二、 瑞吉外卖项目介绍</h1><p>在开发瑞吉外卖这个项目之前，我们需要全方位的来介绍一下当前我们学习的这个项目。接下来，我们将从以下的五个方面， 来介绍瑞吉外卖这个项目。</p>
+<h2 id="2-1-项目介绍"><a href="#2-1-项目介绍" class="headerlink" title="2.1 项目介绍"></a>2.1 项目介绍</h2><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192901586.png" alt="image-20220805192901586" loading="lazy"></p>
+<p>本项目（瑞吉外卖）是专门为餐饮企业（餐厅、饭店）定制的一款软件产品，包括 系统管理后台 和 移动端应用 两部分。其中系统管理后台主要提供给餐饮企业内部员工使用，可以对餐厅的分类、菜品、套餐、订单、员工等进行管理维护。移动端应用主要提供给消费者使用，可以在线浏览菜品、添加购物车、下单等。</p>
+<p>本项目共分为3期进行开发：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>功能实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一期</td>
+<td>主要实现基本需求，其中移动端应用通过H5实现，用户可以通过手机浏览器访问</td>
+</tr>
+<tr>
+<td>第二期</td>
+<td>主要针对移动端应用进行改进，使用微信小程序实现，用户使用起来更加方便</td>
+</tr>
+<tr>
+<td>第三期</td>
+<td>主要针对系统进行优化升级，提高系统的访问性能</td>
+</tr>
+</tbody></table>
+<h2 id="2-2-产品原型"><a href="#2-2-产品原型" class="headerlink" title="2.2 产品原型"></a>2.2 产品原型</h2><p><strong>产品原型</strong>，就是一款产品成型之前，由产品经理绘制的一个简单的框架，就是将页面的排版布局展现出来，使产品的初步构思有一个可视化的展示。通过原型展示，可以更加直观的了解项目的需求和提供的功能。</p>
+<blockquote>
+<p><strong><font color='red'>注意事项：</font></strong> 产品原型主要用于展示项目的功能，并不是最终的页面效果。</p>
+</blockquote>
+<p>在课程资料的产品原型文件夹下,提供了两份产品原型。</p>
+<p> <img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192931824.png" alt="image-20220805192931824" loading="lazy"> </p>
+<p><strong>1). 管理端</strong></p>
+<p>餐饮企业内部员工使用。 主要功能有: </p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>登录&#x2F;退出</td>
+<td>内部员工必须登录后,才可以访问系统管理后台</td>
+</tr>
+<tr>
+<td>员工管理</td>
+<td>管理员可以在系统后台对员工信息进行管理，包含查询、新增、编辑、禁用等功能</td>
+</tr>
+<tr>
+<td>分类管理</td>
+<td>主要对当前餐厅经营的 菜品分类 或 套餐分类 进行管理维护， 包含查询、新增、修改、删除等功能</td>
+</tr>
+<tr>
+<td>菜品管理</td>
+<td>主要维护各个分类下的菜品信息，包含查询、新增、修改、删除、启售、停售等功能</td>
+</tr>
+<tr>
+<td>套餐管理</td>
+<td>主要维护当前餐厅中的套餐信息，包含查询、新增、修改、删除、启售、停售等功能</td>
+</tr>
+<tr>
+<td>订单明细</td>
+<td>主要维护用户在移动端下的订单信息，包含查询、取消、派送、完成，以及订单报表下载等功能</td>
+</tr>
+</tbody></table>
+<p><strong>2). 用户端</strong></p>
+<p>移动端应用主要提供给消费者使用。主要功能有:</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>登录&#x2F;退出</td>
+<td>在移动端, 用户也需要登录后使用APP进行点餐</td>
+</tr>
+<tr>
+<td>点餐-菜单</td>
+<td>在点餐界面需要展示出菜品分类&#x2F;套餐分类, 并根据当前选择的分类加载其中的菜品信息, 供用户查询选择</td>
+</tr>
+<tr>
+<td>点餐-购物车</td>
+<td>用户选中的菜品就会加入用户的购物车, 主要包含 查询购物车、加入购物车、删除购物车、清空购物车等功能</td>
+</tr>
+<tr>
+<td>订单支付</td>
+<td>用户选完菜品&#x2F;套餐后, 可以对购物车菜品进行结算支付, 这时就需要进行订单的支付</td>
+</tr>
+<tr>
+<td>个人信息</td>
+<td>在个人中心页面中会展示当前用户的基本信息, 用户可以管理收货地址, 也可以查询历史订单数据</td>
+</tr>
+</tbody></table>
+<h2 id="2-3-技术选型"><a href="#2-3-技术选型" class="headerlink" title="2.3 技术选型"></a>2.3 技术选型</h2><p>关于本项目的技术选型, 我们将会从 用户层、网关层、应用层、数据层 这几个方面进行介绍，而对于我们服务端开发工程师来说，在项目开发过程中，我们主要关注应用层及数据层技术的应用。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192941946.png" alt="image-20220805192941946" loading="lazy"> </p>
+<p><strong>1). 用户层</strong></p>
+<p>本项目中在构建系统管理后台的前端页面，我们会用到H5、Vue.js、ElementUI等技术。而在构建移动端应用时，我们会使用到微信小程序。</p>
+<p><strong>2). 网关层</strong></p>
+<p>Nginx是一个服务器，主要用来作为Http服务器，部署静态资源，访问性能高。在Nginx中还有两个比较重要的作用： 反向代理和负载均衡， 在进行项目部署时，要实现Tomcat的负载均衡，就可以通过Nginx来实现。</p>
+<p><strong>3). 应用层</strong></p>
+<p>SpringBoot： 快速构建Spring项目, 采用 “约定优于配置” 的思想, 简化Spring项目的配置开发。</p>
+<p>Spring: 统一管理项目中的各种资源(bean), 在web开发的各层中都会用到。</p>
+<p>SpringMVC：SpringMVC是spring框架的一个模块，springmvc和spring无需通过中间整合层进行整合，可以无缝集成。</p>
+<p>SpringSession: 主要解决在集群环境下的Session共享问题。</p>
+<p>lombok：能以简单的注解形式来简化java代码，提高开发人员的开发效率。例如开发中经常需要写的javabean，都需要花时间去添加相应的getter&#x2F;setter，也许还要去写构造器、equals等方法。</p>
+<p>Swagger： 可以自动的帮助开发人员生成接口文档，并对接口进行测试。</p>
+<p><strong>4). 数据层</strong></p>
+<p>MySQL： 关系型数据库, 本项目的核心业务数据都会采用MySQL进行存储。</p>
+<p>MybatisPlus： 本项目持久层将会使用MybatisPlus来简化开发, 基本的单表增删改查直接调用框架提供的方法即可。</p>
+<p>Redis： 基于key-value格式存储的内存数据库, 访问速度快, 经常使用它做缓存(降低数据库访问压力, 提供访问效率), 在后面的性能优化中会使用。</p>
+<p><strong>5). 工具</strong></p>
+<p>git: 版本控制工具, 在团队协作中, 使用该工具对项目中的代码进行管理。</p>
+<p>maven: 项目构建工具。</p>
+<p>junit：单元测试工具，开发人员功能实现完毕后，需要通过junit对功能进行单元测试。</p>
+<h2 id="2-4-功能架构"><a href="#2-4-功能架构" class="headerlink" title="2.4 功能架构"></a>2.4 功能架构</h2><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192951200.png" alt="image-20220805192951200" loading="lazy"> </p>
+<p><strong>1). 移动端前台功能</strong></p>
+<p>手机号登录 , 微信登录 , 收件人地址管理 , 用户历史订单查询 , 菜品规格查询 , 购物车功能 , 下单 , 分类及菜品浏览。</p>
+<p><strong>2). 系统管理后台功能</strong></p>
+<p>员工登录&#x2F;退出 , 员工信息管理 , 分类管理 , 菜品管理 , 套餐管理 , 菜品口味管理 , 订单管理 。</p>
+<h2 id="2-5-角色"><a href="#2-5-角色" class="headerlink" title="2.5 角色"></a>2.5 角色</h2><p>在瑞吉外卖这个项目中，存在以下三种用户，这三种用户对应三个角色： 后台系统管理员、后台系统普通员工、C端(移动端)用户。</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>权限操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>后台系统管理员</td>
+<td>登录后台管理系统，拥有后台系统中的所有操作权限</td>
+</tr>
+<tr>
+<td>后台系统普通员工</td>
+<td>登录后台管理系统，对菜品、套餐、订单等进行管理 (不包含员工管理)</td>
+</tr>
+<tr>
+<td>C端用户</td>
+<td>登录移动端应用，可以浏览菜品、添加购物车、设置地址、在线下单等</td>
+</tr>
+</tbody></table>
+<h1 id="三、开发环境搭建"><a href="#三、开发环境搭建" class="headerlink" title="三、开发环境搭建"></a>三、开发环境搭建</h1><h2 id="3-1-数据库环境搭建"><a href="#3-1-数据库环境搭建" class="headerlink" title="3.1 数据库环境搭建"></a>3.1 数据库环境搭建</h2><p>打开Navicat，右键连接，新建数据库</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684689289-934107c8-0e0e-4725-897f-f06004ad1eb5.png" alt="img" loading="lazy"></p>
+<p>新建数据库</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684757252-9921f145-5b42-47d9-a188-58d81bb4b815.png" alt="img" loading="lazy"></p>
+<p>导入表结构和表信息，右键，运行SQL文件</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684882309-a197a987-9962-406b-98d2-88fa8c46b867.png" alt="img" loading="lazy"></p>
+<p>找到SQL文件，选中，运行</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684955505-a7a3b622-9461-41d7-87c7-a4de1b9857a2.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659684976072-4fafc762-59ba-406e-833d-a8b59eb0c134.png" alt="img" loading="lazy"></p>
+<p>导入成功~</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685010466-9c0ff67a-88f6-4991-88f7-16edee24fd17.png" alt="img" loading="lazy"></p>
+<p>数据库表说明</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685415640-e16539f6-17b8-4464-b070-6e75bdbf9e37.png" alt="img" loading="lazy"></p>
+<h2 id="3-2-maven环境搭建"><a href="#3-2-maven环境搭建" class="headerlink" title="3.2 maven环境搭建"></a>3.2 maven环境搭建</h2><h3 id="1、-创建一个新的项目"><a href="#1、-创建一个新的项目" class="headerlink" title="1、 创建一个新的项目"></a>1、 创建一个新的项目</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685531031-d3c30c89-9be3-404c-b551-9bbb763205d9.png" alt="img" loading="lazy"></p>
+<p>选择创建Maven项目</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685582738-090ff6c9-0094-404c-a206-8c92ef09f467.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685726432-7169ffed-cb7e-40d0-9370-08e9df95b523.png" alt="img" loading="lazy"></p>
+<p>检查Maven</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659685816439-f80f0422-e62b-4cfd-bd0e-875ac75e5a01.png" alt="img" loading="lazy"></p>
+<h3 id="2、-导入pom-xml文件"><a href="#2、-导入pom-xml文件" class="headerlink" title="2、 导入pom.xml文件"></a>2、 导入pom.xml文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.itheima<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>reggie_take_out<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.20<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.76<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-lang<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-lang<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.23<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3、创建配置文件application-yml"><a href="#3、创建配置文件application-yml" class="headerlink" title="3、创建配置文件application.yml"></a>3、创建配置文件application.yml</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805155657827.png" alt="image-20220805155657827" loading="lazy"></p>
+<p>代码：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">reggie_take_out</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">druid:</span></span><br><span class="line">      <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">      <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=false&amp;allowPublicKeyRetrieval=true</span></span><br><span class="line">      <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">      <span class="attr">password:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="comment">#在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="attr">id-type:</span> <span class="string">ASSIGN_ID</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、编写启动类"><a href="#4、编写启动类" class="headerlink" title="4、编写启动类"></a>4、编写启动类</h3><p>创建启动类ReggieApplication</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805161747443.png" alt="image-20220805161747443" loading="lazy"></p>
+<p>并写入以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@auther</span> xiaochen</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2022-08-05 16:05</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReggieApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(ReggieApplication.class,args);</span><br><span class="line">        <span class="comment">//输出日志</span></span><br><span class="line">        log.info(<span class="string">&quot;项目启动成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行测试，启动成功。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805161846988.png" alt="image-20220805161846988" loading="lazy"></p>
+<h3 id="5、导入静态资源"><a href="#5、导入静态资源" class="headerlink" title="5、导入静态资源"></a>5、导入静态资源</h3><p>在resources目录下创建static目录，将前端资料复制到static</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805162722841.png" alt="image-20220805162722841" loading="lazy"></p>
+<p>测试，可以访问到。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805162744591.png" alt="image-20220805162744591" loading="lazy"></p>
+<h1 id="四、后台登录功能开发"><a href="#四、后台登录功能开发" class="headerlink" title="四、后台登录功能开发"></a>四、后台登录功能开发</h1><h2 id="4-1-创建实体类"><a href="#4-1-创建实体类" class="headerlink" title="4.1 创建实体类"></a>4.1 创建实体类</h2><p>在reggie目录下新建entity包，新建Employee类</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805164535814.png" alt="image-20220805164535814" loading="lazy"></p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.itheima.reggie.entity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.annotation.FieldFill;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.annotation.TableField;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"><span class="keyword">import</span> java.time.LocalDateTime;</span><br><span class="line"></span><br><span class="line"><span class="comment">//员工实体类</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Employee</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String phone;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String sex;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String idNumber;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer status;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime createTime;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime updateTime;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> Long createUser;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> Long updateUser;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-完善项目目录"><a href="#4-2-完善项目目录" class="headerlink" title="4.2 完善项目目录"></a>4.2 完善项目目录</h2><h3 id="mapper"><a href="#mapper" class="headerlink" title="mapper"></a>mapper</h3><p>创建mapper目录并创建EmployeeMapper接口继承BaseMapper</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmployeeMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;Employee&gt; &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><p>创建service目录并创建EmployeeService接口继承IService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmployeeService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;Employee&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在service目录中创建impl并创建EmployeeServiceImpl</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;EmployeeMapper, Employee&gt; <span class="keyword">implements</span> <span class="title class_">EmployeeService</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h3><p>创建controller目录并创建EmployeeController</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/employee&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmployeeService employeeService;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="common"><a href="#common" class="headerlink" title="common"></a>common</h3><p>创建common目录并创建R通用返回结果类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通用返回结果类</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">R</span>&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer code; <span class="comment">//编码：1成功，0和其它数字为失败</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String msg; <span class="comment">//错误信息</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T data; <span class="comment">//数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Map</span> <span class="variable">map</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>(); <span class="comment">//动态数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; R&lt;T&gt; <span class="title function_">success</span><span class="params">(T object)</span> &#123;</span><br><span class="line">        R&lt;T&gt; r = <span class="keyword">new</span> <span class="title class_">R</span>&lt;T&gt;();</span><br><span class="line">        r.data = object;</span><br><span class="line">        r.code = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; R&lt;T&gt; <span class="title function_">error</span><span class="params">(String msg)</span> &#123;</span><br><span class="line">        <span class="type">R</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">R</span>();</span><br><span class="line">        r.msg = msg;</span><br><span class="line">        r.code = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> R&lt;T&gt; <span class="title function_">add</span><span class="params">(String key, Object value)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.map.put(key, value);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-处理逻辑"><a href="#4-3-处理逻辑" class="headerlink" title="4.3 处理逻辑"></a>4.3 处理逻辑</h2><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805192611181.png" alt="image-20220805192611181" loading="lazy"></p>
+<ol>
+<li>将页面提交的代码password进行md5加密处理</li>
+<li>根据页面提交的用户名username查询数据库</li>
+<li>如果没有查询到则返回登录失败结果</li>
+<li>查询到了进行密码比对，如果密码不一致返回登录失败结果</li>
+<li>查看员工状态，如果为已禁用状态，则返回员工已禁用结果</li>
+<li>登陆成功，将员工id存入Session并返回登录成功结果</li>
+</ol>
+<h2 id="4-4-Controller代码编写"><a href="#4-4-Controller代码编写" class="headerlink" title="4.4 Controller代码编写"></a>4.4 Controller代码编写</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@PostMapping(&quot;/login&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;Employee&gt; <span class="title function_">login</span><span class="params">(HttpServletRequest request, <span class="meta">@RequestBody</span> Employee employee)</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//        1. 将页面提交的代码password进行md5加密处理</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> employee.getPassword();</span><br><span class="line">        password = DigestUtils.md5DigestAsHex(password.getBytes());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//        2. 根据页面提交的用户名username查询数据库</span></span><br><span class="line">        LambdaQueryWrapper&lt;Employee&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">        queryWrapper.eq(Employee::getUsername, employee.getUsername());</span><br><span class="line">        <span class="type">Employee</span> <span class="variable">emp</span> <span class="operator">=</span> employeeService.getOne(queryWrapper);</span><br><span class="line"></span><br><span class="line"><span class="comment">//        3. 如果没有查询到则返回登录失败结果</span></span><br><span class="line">        <span class="keyword">if</span> (emp == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.error(<span class="string">&quot;登陆失败!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        4. 查询到了进行密码比对，如果密码不一致返回登录失败结果</span></span><br><span class="line">        <span class="keyword">if</span> (!emp.getPassword().equals(password)) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.error(<span class="string">&quot;登陆失败&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//        5. 查看员工状态，如果为已禁用状态，则返回员工已禁用结果</span></span><br><span class="line">        <span class="keyword">if</span> (emp.getStatus() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.error(<span class="string">&quot;账号已被禁用&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        6. 登陆成功，将员工id存入Session并返回登录成功结果</span></span><br><span class="line">        request.getSession().setAttribute(<span class="string">&quot;employee&quot;</span>, emp.getId());</span><br><span class="line">        <span class="keyword">return</span> R.success(emp);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h4><p>用户名不存在，登陆失败</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805185327553.png" alt="image-20220805185327553" loading="lazy"></p>
+<p>用户名存在，密码错误</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805185353385.png" alt="image-20220805185353385" loading="lazy"></p>
+<p>用户禁用，首先在数据库中将用户状态改为0，然后进行测试。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805185502660.png" alt="image-20220805185502660" loading="lazy"></p>
+<p>登陆成功</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805185256452.png" alt="image-20220805185256452" loading="lazy"></p>
+<h1 id="五、后台用户退出功能开发"><a href="#五、后台用户退出功能开发" class="headerlink" title="五、后台用户退出功能开发"></a>五、后台用户退出功能开发</h1><h2 id="5-1-处理逻辑"><a href="#5-1-处理逻辑" class="headerlink" title="5.1 处理逻辑"></a>5.1 处理逻辑</h2><ol>
+<li>清理Session中的用户id</li>
+<li>返回结果</li>
+</ol>
+<h2 id="5-2-代码编写"><a href="#5-2-代码编写" class="headerlink" title="5.2 代码编写"></a>5.2 代码编写</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 员工退出功能</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> request</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@PostMapping(&quot;/logout&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">login</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">    <span class="comment">//清理Session中保存的当前登录的员工的id</span></span><br><span class="line">    request.getSession().removeAttribute(<span class="string">&quot;employee&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> R.success(<span class="string">&quot;退出成功！&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://www.kdy.icu/posts/1388911163.html" title="瑞吉外卖项目day01笔记">https://www.kdy.icu/posts/1388911163.html</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul><script>document.addEventListener('copy', function (event) {
+  const clipboardData = event.clipboardData || window.clipboardData;
+  if (!clipboardData) { return; }
+  const text = window.getSelection().toString();
+  if (text) {
+    event.preventDefault();
+    clipboardData.setData('text/plain', text + '\n\n本文作者：丸了鸭\n本文链接：https://www.kdy.icu/posts/1388911163.html\n版权声明：本博客所有文章除特别声明外，均默认采用 CC BY-NC-SA 4.0 许可协议。');
+  }
+});</script></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/posts/1663107238.html" rel="prev" title="瑞吉外卖项目day02笔记"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">瑞吉外卖项目day02笔记</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/posts/683593723.html" rel="next" title="JVM学习笔记"><span class="post-nav-text">JVM学习笔记</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>有没有什么要和我说的呢？</span><br></div><div id="tcomment"></div><script type="module">import { getScript } from '/js/utils.js'
+
+getScript("https://fastly.jsdelivr.net/npm/twikoo@latest/dist/twikoo.all.min.js", () => {
+  const twikooConfig = {"enable":true,"envId":"https://my-twikoo-omega.vercel.app/"}
+  twikooConfig.el = '#tcomment'
+  twikoo.init(twikooConfig)
+}, window.twikoo);</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2020 – 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> 丸了鸭</span></div><div class="live-time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(*╹▽╹*)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2021-01-03T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} 天 ${passHour} 小时 ${passMinute} 分 ${passSecond} 秒`;
+}
+blog_live_time();
+</script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="想要搜些什么？" value=""></div><div class="search-result-container"></div></div><div class="aplayer no-destroy" id="aplayer" data-id="308168565" data-server="netease" data-type="playlist" data-fixed="true" data-theme="#0078E7" data-loop="all" data-order="list" data-preload="auto" data-volume="0.7" data-mutex data-lrctype="0" data-listmaxheight="340px" data-storagename="metingjs"></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

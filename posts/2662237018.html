@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="丸了鸭"><meta name="copyright" content="丸了鸭"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>CentOS的下载与安装 | 丸了鸭的博客</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link class="aplayer-style-marker" rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script class="aplayer-script-marker" src="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script class="meting-script-marker" src="https://fastly.jsdelivr.net/npm/meting@1/dist/Meting.min.js" defer></script><link rel="icon" type="image/png" href="/images/32x32.ico"><link rel="mask-icon" href="/images/32x32.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"www.kdy.icu","root":"/","title":"丸了鸭的博客","version":"1.10.4","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"想要搜些什么？","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":"auto","trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":["32, 242, 242"]},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><meta name="description" content="1.CentOS的下载首先进入CentOS官网：https:&#x2F;&#x2F;www.centos.org&#x2F;，点击下载  根据自己的机型选择合适的安装包  进入之后找到镜像包isos，点击进入  继续点击  这题提供了好多镜像站点地址，可以随便选一个，我选的阿里云的  点击进入，下载7-2009最新版  然后等待下载完成即可 2.VMware安装因为我已经装过了就懒得重新装了，可以参考一下这个博文：https:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS的下载与安装">
+<meta property="og:url" content="https://www.kdy.icu/posts/2662237018.html">
+<meta property="og:site_name" content="丸了鸭的博客">
+<meta property="og:description" content="1.CentOS的下载首先进入CentOS官网：https:&#x2F;&#x2F;www.centos.org&#x2F;，点击下载  根据自己的机型选择合适的安装包  进入之后找到镜像包isos，点击进入  继续点击  这题提供了好多镜像站点地址，可以随便选一个，我选的阿里云的  点击进入，下载7-2009最新版  然后等待下载完成即可 2.VMware安装因为我已经装过了就懒得重新装了，可以参考一下这个博文：https:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231220596-df7f1634-e7ad-4a7d-be2a-ba3c2717934c.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231265442-875e031b-b419-412c-8d6a-fb8e5f81a93c.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231296469-e6ce2f49-0164-4dcc-b597-a064dde52fc8.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231327649-020afdb7-43cd-4c19-9daa-5d2acf94b736.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231379189-79526c75-ffab-4787-a77a-8ef38d53e139.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231401646-b7c3de38-bf0b-42ac-86a9-3644cdde5db7.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232500822-2f3934ca-97a1-4638-9127-ec4c130679ca.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232549890-42aa7d3a-516a-4230-898c-0e5cc06bbfba.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232622614-0e23342b-f17b-4b0b-be2e-4969006ec95e.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232641021-b714d36e-184d-466e-a9ba-ef257666f6a3.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232714694-26ecb1cd-27c0-4f30-b500-64e4557aef30.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232858399-bb4d2e35-a70f-46ee-a5d5-9612577a5d47.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233115074-45341843-65dd-44b9-af5b-00aaf07df2e1.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233165012-96c45947-fc03-404b-ab88-fa75a17191a7.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233191274-37301360-57fb-4431-afc9-4cb055cca466.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233262472-733f0cf5-b334-4d51-9fca-512658fe442b.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233287179-fee900dc-1593-4ab7-982a-6e0a4bd3e67d.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233311100-eb9df757-10aa-425b-a22a-fb47d96d5a7d.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233372623-00f4eea1-92d3-46c2-9155-a24d9e827752.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233467702-92ce0ab4-f7d5-42a5-8828-d6ab90da03e3.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233499894-81ca332f-7357-4932-9f41-cbdfe85b10ee.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233683338-1f820e37-567f-44eb-8ea9-9a42e98eaa98.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235094018-3563eedc-1c9a-49a5-9889-c1360252a10a.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235153870-b2fd05b9-d123-464e-98d4-3168d353db9c.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235245994-32db4bed-f267-47ae-b884-b9d218d43a73.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235321405-bdcc2377-3f03-4cbb-8317-0b2680850609.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235464221-5f5a1b42-1f57-4863-ae30-f2688b29cb8d.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235513113-51afa97c-3f9f-4ea4-9bb9-9ab92713e34f.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235763041-6c2b43b9-5988-4276-b653-1086ce6fd8e9.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236122427-c1cc8877-3f25-458c-bba1-f0ed9950f12a.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236163540-647c29f8-a3bc-4a84-b0ad-2a2f3a22f4a3.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236244161-5b607f28-8995-4499-a8ec-7ee51a925855.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236284915-f3970ee9-67bb-4380-88ef-ad802048fb6f.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236323413-629ceca6-0bfb-4b2b-ac65-753ee6620b92.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236458317-48c26481-600a-48c4-8011-d786b1f64777.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236530449-5539b319-7f57-4617-9cca-a93b5c893e2f.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236591652-e7ada09a-cff8-45cc-8199-b8c658cef2ce.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236740919-a667e4f8-0695-4d7e-aee6-6c9d6b70e1f3.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236783117-c05b6cc4-db4d-41f1-b3fe-66cf905720f8.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236854028-3a50addd-6156-4498-bec1-927c58b3d362.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236921375-0e9cee5f-a8be-4eed-93e8-50693445d88c.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236985781-88b0b3e2-16c1-4ece-b54b-5383e2fc587d.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237042139-64b7ff5a-14fa-44ef-9eb4-5470b0810138.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237082173-04f47e0e-9ec6-4651-af57-3edc0829cebc.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237092620-e9c594ba-e977-49f0-b72f-9f9fd98dbac9.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237127031-f7781776-8452-49b2-8f03-5dcb079f7ebb.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237164660-9ff74995-fbc3-4ff9-bf63-5e6a73b96178.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237522099-13789eb2-0067-4629-94b6-0784eb21ba5d.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237563080-b4bed926-4592-42ef-b381-f2752dde3351.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237590984-9c43a186-7b34-480f-beac-1b80540db7a2.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237628218-e8d47a8a-32b3-4aed-a748-268248dd3ba9.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237678455-b5104bd7-bdbc-454b-a3e3-79f5cb9cc801.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237724695-5af6da86-5e9f-4e69-8640-eccdb63dd7be.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237759307-c9cec92b-ead5-4f19-9e40-f8025d25be8e.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237789204-310805a8-9d6d-4167-a0e2-7800d684c8f7.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237807545-dd0b24ea-ca02-40cf-97ea-76abf97b60fd.png">
+<meta property="og:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237816836-12f1995f-84ce-4081-9f4e-845d5e655463.png">
+<meta property="article:published_time" content="2022-07-11T03:30:54.000Z">
+<meta property="article:modified_time" content="2022-08-14T11:40:11.932Z">
+<meta property="article:author" content="丸了鸭">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231220596-df7f1634-e7ad-4a7d-be2a-ba3c2717934c.png"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="丸了鸭"><img width="96" loading="lazy" src="/images/kedaya.jpg" alt="丸了鸭"><span class="site-author-status" title="再小的努力乘以365都很明显">😎</span></a><div class="site-author-name"><a href="/about/">丸了鸭</a></div><span class="site-name">丸了鸭的博客</span><sub class="site-subtitle">记录学习生活的点点滴滴</sub><div class="site-description">信手拈来的从容，都是厚积薄发的沉淀。</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">132</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">8</span></a></div><a class="site-state-item hty-icon-button" href="https://www.kdy.icu/" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/cyh245689173" title="GayHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=1696797616" title="网抑云音乐" target="_blank" style="color:#C20C0C"><span class="icon iconify" data-icon="ri:netease-cloud-music-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/248628386" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729090533.jpg" title="加我微信" target="_blank" style="color:#1AAD19"><span class="icon iconify" data-icon="ri:wechat-2-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="轻松一刻" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CentOS%E7%9A%84%E4%B8%8B%E8%BD%BD"><span class="toc-text">1.CentOS的下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-VMware%E5%AE%89%E8%A3%85"><span class="toc-text">2.VMware安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">3.创建虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-CentOS%E5%AE%89%E8%A3%85"><span class="toc-text">4.CentOS安装</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://www.kdy.icu/posts/2662237018.html"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="丸了鸭"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="丸了鸭的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">CentOS的下载与安装</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <span class="post-meta-icon-text">发表于</span> <time title="创建时间：2022-07-11 11:30:54" itemprop="dateCreated datePublished" datetime="2022-07-11T11:30:54+08:00">2022-07-11</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <span class="post-meta-icon-text">更新于</span> <time title="修改时间：2022-08-14 19:40:11" itemprop="dateModified" datetime="2022-08-14T19:40:11+08:00">2022-08-14</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">949</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">3m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Linux/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Linux</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="1-CentOS的下载"><a href="#1-CentOS的下载" class="headerlink" title="1.CentOS的下载"></a>1.CentOS的下载</h2><p>首先进入CentOS官网：<a target="_blank" rel="noopener" href="https://www.centos.org/%EF%BC%8C%E7%82%B9%E5%87%BB%E4%B8%8B%E8%BD%BD">https://www.centos.org/，点击下载</a></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231220596-df7f1634-e7ad-4a7d-be2a-ba3c2717934c.png" alt="img" loading="lazy"></p>
+<p>根据自己的机型选择合适的安装包</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231265442-875e031b-b419-412c-8d6a-fb8e5f81a93c.png" alt="img" loading="lazy"></p>
+<p>进入之后找到镜像包isos，点击进入</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231296469-e6ce2f49-0164-4dcc-b597-a064dde52fc8.png" alt="img" loading="lazy"></p>
+<p>继续点击</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231327649-020afdb7-43cd-4c19-9daa-5d2acf94b736.png" alt="img" loading="lazy"></p>
+<p>这题提供了好多镜像站点地址，可以随便选一个，我选的阿里云的</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231379189-79526c75-ffab-4787-a77a-8ef38d53e139.png" alt="img" loading="lazy"></p>
+<p>点击进入，下载7-2009最新版</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659231401646-b7c3de38-bf0b-42ac-86a9-3644cdde5db7.png" alt="img" loading="lazy"></p>
+<p>然后等待下载完成即可</p>
+<h2 id="2-VMware安装"><a href="#2-VMware安装" class="headerlink" title="2.VMware安装"></a>2.VMware安装</h2><p>因为我已经装过了就懒得重新装了，可以参考一下这个博文：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45912291/article/details/108894737">https://blog.csdn.net/weixin_45912291/article/details/108894737</a></p>
+<h2 id="3-创建虚拟机"><a href="#3-创建虚拟机" class="headerlink" title="3.创建虚拟机"></a>3.创建虚拟机</h2><p>打开VMware，创建一个新的虚拟机</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232500822-2f3934ca-97a1-4638-9127-ec4c130679ca.png" alt="img" loading="lazy"></p>
+<p>选择自定义高级模式，这样我们可以了解到该虚拟机的更多细节</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232549890-42aa7d3a-516a-4230-898c-0e5cc06bbfba.png" alt="img" loading="lazy"></p>
+<p>然后，下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232622614-0e23342b-f17b-4b0b-be2e-4969006ec95e.png" alt="img" loading="lazy"></p>
+<p>这里选择稍后安装操作系统，继续下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232641021-b714d36e-184d-466e-a9ba-ef257666f6a3.png" alt="img" loading="lazy"></p>
+<p>这里版本选择CentOS 7 64位</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232714694-26ecb1cd-27c0-4f30-b500-64e4557aef30.png" alt="img" loading="lazy"></p>
+<p>然后这里名称随便起，位置根据自己的需求，最好不要放在C盘</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659232858399-bb4d2e35-a70f-46ee-a5d5-9612577a5d47.png" alt="img" loading="lazy"></p>
+<p>然后这里的处理器数量不超过自己的主机即可，继续下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233115074-45341843-65dd-44b9-af5b-00aaf07df2e1.png" alt="img" loading="lazy"></p>
+<p>然后这里选择4GB，下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233165012-96c45947-fc03-404b-ab88-fa75a17191a7.png" alt="img" loading="lazy"></p>
+<p>这里选择NAT，下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233191274-37301360-57fb-4431-afc9-4cb055cca466.png" alt="img" loading="lazy"></p>
+<p>然后这里直接按照推荐的来，继续下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233262472-733f0cf5-b334-4d51-9fca-512658fe442b.png" alt="img" loading="lazy"></p>
+<p>继续按照推荐的来，下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233287179-fee900dc-1593-4ab7-982a-6e0a4bd3e67d.png" alt="img" loading="lazy"></p>
+<p>这里选择创建新的虚拟磁盘</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233311100-eb9df757-10aa-425b-a22a-fb47d96d5a7d.png" alt="img" loading="lazy"></p>
+<p>这里的磁盘大小根据自己的需求来，大数据的朋友最好选的大一点，然后下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233372623-00f4eea1-92d3-46c2-9155-a24d9e827752.png" alt="img" loading="lazy"></p>
+<p>然后这里不用管，直接下一步</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233467702-92ce0ab4-f7d5-42a5-8828-d6ab90da03e3.png" alt="img" loading="lazy"></p>
+<p>然后最后一步，看一眼没什么问题，就点击完成。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233499894-81ca332f-7357-4932-9f41-cbdfe85b10ee.png" alt="img" loading="lazy"></p>
+<p>然后虚拟机的创建就已经完成了~</p>
+<h2 id="4-CentOS安装"><a href="#4-CentOS安装" class="headerlink" title="4.CentOS安装"></a>4.CentOS安装</h2><p>虚拟机已经创建完成了，接下来就是安装操作系统了</p>
+<p>需要在光驱里进行安装，点击CD&#x2F;DVD</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659233683338-1f820e37-567f-44eb-8ea9-9a42e98eaa98.png" alt="img" loading="lazy"></p>
+<p>然后选择使用ISO映像文件，找到我们刚才在下载的CentOS镜像</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235094018-3563eedc-1c9a-49a5-9889-c1360252a10a.png" alt="img" loading="lazy"></p>
+<p>然后点击确定就可以了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235153870-b2fd05b9-d123-464e-98d4-3168d353db9c.png" alt="img" loading="lazy"></p>
+<p>然后开启虚拟机</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235245994-32db4bed-f267-47ae-b884-b9d218d43a73.png" alt="img" loading="lazy"></p>
+<p>然后键盘操作，上下键选择Install CentOS 7，点击回车</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235321405-bdcc2377-3f03-4cbb-8317-0b2680850609.png" alt="img" loading="lazy"></p>
+<p>然后这里选择简体中文（方便学习使用），不过还是建议安装成英文，避免产生一些不兼容问题</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235464221-5f5a1b42-1f57-4863-ae30-f2688b29cb8d.png" alt="img" loading="lazy"></p>
+<p>然后这里，选择软件选择</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235513113-51afa97c-3f9f-4ea4-9bb9-9ab92713e34f.png" alt="img" loading="lazy"></p>
+<p>软件的基本环境中选择GNOME桌面，后面的附加选项根据需求进行选择</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659235763041-6c2b43b9-5988-4276-b653-1086ce6fd8e9.png" alt="img" loading="lazy"></p>
+<p>然后点击完成继续回到安装信息，选择安装位置</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236122427-c1cc8877-3f25-458c-bba1-f0ed9950f12a.png" alt="img" loading="lazy"></p>
+<p>将自动配置分区改为我要配置分区，点击完成</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236163540-647c29f8-a3bc-4a84-b0ad-2a2f3a22f4a3.png" alt="img" loading="lazy"></p>
+<p>进入到手动分区模块，分区方案选择标准分区</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236244161-5b607f28-8995-4499-a8ec-7ee51a925855.png" alt="img" loading="lazy"></p>
+<p>点击加号新增挂载点</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236284915-f3970ee9-67bb-4380-88ef-ad802048fb6f.png" alt="img" loading="lazy"></p>
+<p>填入参数，然后添加boot挂载点（引导分区，系统启动时需要靠它进行启动）</p>
+<p>这里的挂载点就像当我们Windows里的 分盘</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236323413-629ceca6-0bfb-4b2b-ac65-753ee6620b92.png" alt="img" loading="lazy"></p>
+<p>再添加一个交换挂载点，相当于虚拟内存</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236458317-48c26481-600a-48c4-8011-d786b1f64777.png" alt="img" loading="lazy"></p>
+<p>然后添加根挂载点</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236530449-5539b319-7f57-4617-9cca-a93b5c893e2f.png" alt="img" loading="lazy"></p>
+<p>效果如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236591652-e7ada09a-cff8-45cc-8199-b8c658cef2ce.png" alt="img" loading="lazy"></p>
+<p>然后点击完成，接受更改</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236740919-a667e4f8-0695-4d7e-aee6-6c9d6b70e1f3.png" alt="img" loading="lazy"></p>
+<p>然后点击KDUMP</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236783117-c05b6cc4-db4d-41f1-b3fe-66cf905720f8.png" alt="img" loading="lazy">这是一个在系统崩溃时转储加捕获信息的工具，会耗费系统资源，我们用不大着，崩溃了就重启呗，将这里的启动关闭。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236854028-3a50addd-6156-4498-bec1-927c58b3d362.png" alt="img" loading="lazy"></p>
+<p>然后来到网络和主机名</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236921375-0e9cee5f-a8be-4eed-93e8-50693445d88c.png" alt="img" loading="lazy"></p>
+<p>把以太网连接上，起一个好记一点的主机名，点击应用，完成。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659236985781-88b0b3e2-16c1-4ece-b54b-5383e2fc587d.png" alt="img" loading="lazy"></p>
+<p>然后点击开始安装</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237042139-64b7ff5a-14fa-44ef-9eb4-5470b0810138.png" alt="img" loading="lazy"></p>
+<p>然后点击这里设置root密码</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237082173-04f47e0e-9ec6-4651-af57-3edc0829cebc.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237092620-e9c594ba-e977-49f0-b72f-9f9fd98dbac9.png" alt="img" loading="lazy"></p>
+<p>然后创建一个用户</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237127031-f7781776-8452-49b2-8f03-5dcb079f7ebb.png" alt="img" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237164660-9ff74995-fbc3-4ff9-bf63-5e6a73b96178.png" alt="img" loading="lazy"></p>
+<p>然后等待安装完成，点击重启</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237522099-13789eb2-0067-4629-94b6-0784eb21ba5d.png" alt="img" loading="lazy"></p>
+<p>点击这里的未接受许可证</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237563080-b4bed926-4592-42ef-b381-f2752dde3351.png" alt="img" loading="lazy"></p>
+<p>点击我同意，然后完成</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237590984-9c43a186-7b34-480f-beac-1b80540db7a2.png" alt="img" loading="lazy"></p>
+<p>然后完成配置</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237628218-e8d47a8a-32b3-4aed-a748-268248dd3ba9.png" alt="img" loading="lazy"></p>
+<p>然后来到登陆页面，输入自己的密码，点击登录</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237678455-b5104bd7-bdbc-454b-a3e3-79f5cb9cc801.png" alt="img" loading="lazy"></p>
+<p>然后进来有一个欢迎页面，选择汉语，前进</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237724695-5af6da86-5e9f-4e69-8640-eccdb63dd7be.png" alt="img" loading="lazy"></p>
+<p>输入，选择汉语，继续前进</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237759307-c9cec92b-ead5-4f19-9e40-f8025d25be8e.png" alt="img" loading="lazy"></p>
+<p>隐私关掉，前进</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237789204-310805a8-9d6d-4167-a0e2-7800d684c8f7.png" alt="img" loading="lazy"></p>
+<p>剩下的就可以跳过了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237807545-dd0b24ea-ca02-40cf-97ea-76abf97b60fd.png" alt="img" loading="lazy"></p>
+<p>然后就安装完成了</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/1659237816836-12f1995f-84ce-4081-9f4e-845d5e655463.png" alt="img" loading="lazy"></p>
+</div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://www.kdy.icu/posts/2662237018.html" title="CentOS的下载与安装">https://www.kdy.icu/posts/2662237018.html</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul><script>document.addEventListener('copy', function (event) {
+  const clipboardData = event.clipboardData || window.clipboardData;
+  if (!clipboardData) { return; }
+  const text = window.getSelection().toString();
+  if (text) {
+    event.preventDefault();
+    clipboardData.setData('text/plain', text + '\n\n本文作者：丸了鸭\n本文链接：https://www.kdy.icu/posts/2662237018.html\n版权声明：本博客所有文章除特别声明外，均默认采用 CC BY-NC-SA 4.0 许可协议。');
+  }
+});</script></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/posts/3683273048.html" rel="prev" title="集合类面试题整理"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">集合类面试题整理</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/posts/318688148.html" rel="next" title="多线程笔记"><span class="post-nav-text">多线程笔记</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>有没有什么要和我说的呢？</span><br></div><div id="tcomment"></div><script type="module">import { getScript } from '/js/utils.js'
+
+getScript("https://fastly.jsdelivr.net/npm/twikoo@latest/dist/twikoo.all.min.js", () => {
+  const twikooConfig = {"enable":true,"envId":"https://my-twikoo-omega.vercel.app/"}
+  twikooConfig.el = '#tcomment'
+  twikoo.init(twikooConfig)
+}, window.twikoo);</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2020 – 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> 丸了鸭</span></div><div class="live-time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(*╹▽╹*)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2021-01-03T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} 天 ${passHour} 小时 ${passMinute} 分 ${passSecond} 秒`;
+}
+blog_live_time();
+</script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="想要搜些什么？" value=""></div><div class="search-result-container"></div></div><div class="aplayer no-destroy" id="aplayer" data-id="308168565" data-server="netease" data-type="playlist" data-fixed="true" data-theme="#0078E7" data-loop="all" data-order="list" data-preload="auto" data-volume="0.7" data-mutex data-lrctype="0" data-listmaxheight="340px" data-storagename="metingjs"></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
