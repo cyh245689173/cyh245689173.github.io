@@ -55,17 +55,17 @@ IconifyProviders = {
 </li>
 </ul>
 <h2 id="2-HashMap的底层实现原理？"><a href="#2-HashMap的底层实现原理？" class="headerlink" title="2.HashMap的底层实现原理？"></a>2.HashMap的底层实现原理？</h2><ul>
-<li><p>JDK7 底层实现是数组 + <a href>链表</a>，</p>
+<li><p>JDK7 底层实现是数组 + <a href="">链表</a>，</p>
 </li>
-<li><p>JDK8 改为数组 + <a href>链表</a>+<a href>红黑树</a>，节点类型从Entry 变更为 Node。</p>
+<li><p>JDK8 改为数组 + <a href="">链表</a>+<a href="">红黑树</a>，节点类型从Entry 变更为 Node。</p>
 </li>
 <li><p>主要成员变量包括存储数据的 table 数组、元素数量 size、加载因子 loadFactor。</p>
 </li>
-<li><p>table 数组记录 HashMap 的数据，每个下标对应一条<a href>链表</a>，所有哈希冲突的数据都会被存放到同一条<a href>链表</a>。</p>
+<li><p>table 数组记录 HashMap 的数据，每个下标对应一条<a href="">链表</a>，所有哈希冲突的数据都会被存放到同一条<a href="">链表</a>。</p>
 </li>
 <li><p>Node&#x2F;Entry 节点包含四个成员变量：key、value、next 指针和 hash 值。</p>
 </li>
-<li><p>HashMap 中数据以键值对的形式存在，键对应的 hash 值用来计算数组下标，如果两个元素 key 的 hash 值一样，就会发生哈希冲突，被放到同一个<a href>链表</a>上，当底层数组的某一个索引位置上的元素以链表形式存在的<strong>数据个数大于8</strong> ，且当前<strong>数组的长度大于64时</strong>，此时这个索引位置上的数据改为使用红黑树存储。为使查询效率尽可能高，键的 hash 值要尽可能分散。</p>
+<li><p>HashMap 中数据以键值对的形式存在，键对应的 hash 值用来计算数组下标，如果两个元素 key 的 hash 值一样，就会发生哈希冲突，被放到同一个<a href="">链表</a>上，当底层数组的某一个索引位置上的元素以链表形式存在的<strong>数据个数大于8</strong> ，且当前<strong>数组的长度大于64时</strong>，此时这个索引位置上的数据改为使用红黑树存储。为使查询效率尽可能高，键的 hash 值要尽可能分散。</p>
 </li>
 <li><p>当添加数据超出临界值(且数据要存放的位置非空)时，需要对数组扩容。默认的扩容方式：扩容为原来容量的2倍，并将原来的数据复制过来。</p>
 </li>

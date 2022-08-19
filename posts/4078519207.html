@@ -263,7 +263,7 @@ IconifyProviders = {
 <p>关闭之后，再次访问Tomcat，就可以访问到了。</p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202252954.png" alt="image-20220809202252954" loading="lazy"></p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202317417.png" alt="image-20220809202317417" loading="lazy"></p>
-<p><font color="red">注意: 直接关闭系统的防火墙，是不建议的，因为这样会造成系统不安全。</font></p>
+<p><font color='red'>注意: 直接关闭系统的防火墙，是不建议的，因为这样会造成系统不安全。</font></p>
 <p><strong>B. 开放Tomcat的端口号8080</strong></p>
 <p>执行指令: </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">①. 先开启系统防火墙</span><br><span class="line">systemctl start firewalld</span><br><span class="line"></span><br><span class="line">②. 再开放8080端口号</span><br><span class="line">firewall-cmd --zone=public --add-port=8080/tcp --permanent</span><br><span class="line"></span><br><span class="line">③. 重新加载防火墙</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
@@ -353,11 +353,11 @@ IconifyProviders = {
 
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809210535760.png" alt="image-20220809210535760" loading="lazy"></p>
 <blockquote>
-<p><font color="red">备注: </font></p>
-<p>​	<font color="red">A. netstat命令用来打印Linux中网络系统的状态信息，可让你得知整个Linux系统的网络情况。</font></p>
+<p><font color='red'>备注: </font></p>
+<p>​	<font color='red'>A. netstat命令用来打印Linux中网络系统的状态信息，可让你得知整个Linux系统的网络情况。</font></p>
 <p>​		参数说明: </p>
 <p>​		-l或–listening：显示监控中的服务器的Socket；<br>​		-n或–numeric：直接使用ip地址，而不通过域名服务器；<br>​		-p或–programs：显示正在使用Socket的程序识别码和程序名称；<br>​		-t或–tcp：显示TCP传输协议的连线状况；<br>​		-u或–udp：显示UDP传输协议的连线状况；</p>
-<p>​	<font color="red">B. ps命令用于查看Linux中的进程数据。</font></p>
+<p>​	<font color='red'>B. ps命令用于查看Linux中的进程数据。</font></p>
 </blockquote>
 <h4 id="3-MySQL登录"><a href="#3-MySQL登录" class="headerlink" title="3. MySQL登录"></a>3. MySQL登录</h4><h5 id="1-查阅临时密码"><a href="#1-查阅临时密码" class="headerlink" title="1. 查阅临时密码"></a>1. 查阅临时密码</h5><p>MySQL启动起来之后，我们就可以测试一下登录操作，但是我们要想登录MySQL，需要一个访问密码，而刚才在安装MySQL的过程中，并没有看到让我们设置访问密码，那这个访问密码是多少呢? 那实际上，对于rpm安装的mysql，在mysql第一次启动时，会自动帮我们生成root用户的访问密码，并且输出在mysql的日志文件 &#x2F;var&#x2F;log&#x2F;mysqld.log中，我们可以查看这份日志文件，从而获取到访问密码。</p>
 <p>可以执行如下指令：</p>
@@ -383,7 +383,7 @@ IconifyProviders = {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=3306/tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
 
 <p>&#x3D;&#x3D;注意： 这里要保证防火墙开放了端口并且Linux上的Mysql是处于启动状态的&#x3D;&#x3D;</p>
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810082552895.png" alt="image-20220810082552895" style="zoom: 50%;" loading="lazy">
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810082552895.png" alt="image-20220810082552895" style="zoom: 50%;" / loading="lazy">
 
 <h3 id="1-5-安装lrzsz"><a href="#1-5-安装lrzsz" class="headerlink" title="1.5 安装lrzsz"></a>1.5 安装lrzsz</h3><p>lrzsz 是用于在Linux系统中文件上传下载的软件。大家可能会存在疑问，我们用finalShell图形化界面就可以很方便的完成上传下载，为什么还要使用这个软件来完成上传下载呢？实际上是这样的，Linux的远程连接工具有很多，而finalShell只是其中的一种，而还有很多的远程连接工具并没有上传下载的功能，这个时候就需要依赖于lrzsz这个软件了。</p>
 <p>对于lrzsz的安装，我们需要通过第三种软件安装方式yum来进行安装。这里，我们先对yum做一个简单介绍。</p>
@@ -545,7 +545,7 @@ IconifyProviders = {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;localRepository&gt;/usr/local/repo&lt;/localRepository&gt;</span><br></pre></td></tr></table></figure>
 
 <p><img src="C:/Users/%E9%99%88%E7%8E%89%E7%9A%93/AppData/Roaming/Typora/typora-user-images/image-20220810095644113.png" alt="image-20220810095644113" loading="lazy"></p>
-<p>并在settings.xml中的<mirrors>标签中,配置阿里云的私服:</mirrors></p>
+<p>并在settings.xml中的<mirrors>标签中,配置阿里云的私服:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span> </span><br></pre></td></tr></table></figure>
 
 
