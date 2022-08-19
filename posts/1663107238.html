@@ -80,14 +80,14 @@ IconifyProviders = {
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 检查用户是否已经完成登陆</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@auther</span> xiaochen</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2022-08-05 19:58</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@WebFilter(filterName = &quot;loginCheckFilter&quot;, urlPatterns = &quot;/*&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginCheckFilter</span> <span class="keyword">implements</span> <span class="title class_">Filter</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line">        <span class="type">HttpServletRequest</span> <span class="variable">request</span> <span class="operator">=</span> (HttpServletRequest) servletRequest;</span><br><span class="line">        <span class="type">HttpServletResponse</span> <span class="variable">response</span> <span class="operator">=</span> (HttpServletResponse) servletResponse;</span><br><span class="line">        log.info(<span class="string">&quot;拦截到请求:&#123;&#125;&quot;</span>, request.getRequestURI());</span><br><span class="line">        filterChain.doFilter(request, response);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在启动类上加上Servlet组件扫描的注解, 来扫描过滤器配置的@WebFilter注解， 扫描上之后， 过滤器在运行时就生效了。</p>
-<p><font color='red'><b>@ServletComponentScan 的作用: </b></font></p>
+<p><font color="red"><b>@ServletComponentScan 的作用: </b></font></p>
 <p>​	在SpringBoot项目中, 在引导类&#x2F;配置类上加了该注解后, 会自动扫描项目中(当前包及其子包下)的@WebServlet , @WebFilter , @WebListener 注解, 自动注册Servlet的相关组件 ;</p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805200436655.png" alt="image-20220805200436655" loading="lazy"></p>
 <p>测试一下：</p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220805200544004.png" alt="image-20220805200544004" loading="lazy"></p>
 <p>发现过滤器是可以生效的。</p>
 <blockquote>
-<p><font color='red'><b>AntPathMatcher 拓展:</b></font></p>
+<p><font color="red"><b>AntPathMatcher 拓展:</b></font></p>
 <p><strong>介绍:</strong> Spring中提供的路径匹配器 ;</p>
 <p><strong>通配符规则:</strong> 		</p>
 <table>
@@ -159,7 +159,7 @@ IconifyProviders = {
 
 
 <blockquote>
-<p><font color='red'><b>注解说明:</b></font></p>
+<p><font color="red"><b>注解说明:</b></font></p>
 <p>​	上述的全局异常处理器上使用了的两个注解 @ControllerAdvice , @ResponseBody , 他们的作用分别为: </p>
 <p>​	@ControllerAdvice : 指定拦截那些类型的控制器;</p>
 <p>​	@ResponseBody: 将方法的返回值 R 对象转换为json格式的数据, 响应给页面;</p>
@@ -248,7 +248,7 @@ IconifyProviders = {
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220806081831536.png" alt="image-20220806081831536" loading="lazy"></p>
 <p>后端也执行了查询</p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220806081916191.png" alt="image-20220806081916191" loading="lazy"></p>
-<h1 id="五、启动、禁用员工账号"><a href="#五、启动、禁用员工账号" class="headerlink" title="五、启动、禁用员工账号"></a>五、启动、禁用员工账号</h1><h2 id="5-1-需求分析"><a href="#5-1-需求分析" class="headerlink" title="5.1 需求分析"></a>5.1 需求分析</h2><p>在员工管理列表页面，可以对某个员工账号进行<font color='gree'>启用</font>或者<font color='red'>禁用</font>操作。账号禁用的员工不能登录系统，启用后的员工可以正常登录。如果某个员工账号状态为正常，则按钮显示为 “禁用”，如果员工账号状态为已禁用，则按钮显示为”启用”。</p>
+<h1 id="五、启动、禁用员工账号"><a href="#五、启动、禁用员工账号" class="headerlink" title="五、启动、禁用员工账号"></a>五、启动、禁用员工账号</h1><h2 id="5-1-需求分析"><a href="#5-1-需求分析" class="headerlink" title="5.1 需求分析"></a>5.1 需求分析</h2><p>在员工管理列表页面，可以对某个员工账号进行<font color="gree">启用</font>或者<font color="red">禁用</font>操作。账号禁用的员工不能登录系统，启用后的员工可以正常登录。如果某个员工账号状态为正常，则按钮显示为 “禁用”，如果员工账号状态为已禁用，则按钮显示为”启用”。</p>
 <p>&#x3D;&#x3D;注意：只有管理员（admin用户）可以对其他普通用户进行启用、禁用操作，所以普通用户登录系统后启用、禁用按钮不显示。&#x3D;&#x3D;</p>
 <h2 id="5-2-程序执行流程"><a href="#5-2-程序执行流程" class="headerlink" title="5.2 程序执行流程"></a>5.2 程序执行流程</h2><h3 id="1-页面按钮动态展示"><a href="#1-页面按钮动态展示" class="headerlink" title="1 页面按钮动态展示"></a>1 页面按钮动态展示</h3><p>1). 当管理员admin点击 “启用” 或 “禁用” 按钮时, 调用方法statusHandle</p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220806091557779.png" alt="image-20220806091557779" loading="lazy"></p>

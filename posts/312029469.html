@@ -15,10 +15,13 @@ document.addEventListener("pjax:success", initScrollReveal);
 <meta property="og:site_name" content="丸了鸭的博客">
 <meta property="og:description" content="36. 有效的数独请你判断一个 9 x 9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。  数字 1-9 在每一行只能出现一次。 数字 1-9 在每一列只能出现一次。 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。（请参考示例图）  注意：  一个有效的数独（部分已被填充）不一定是可解的。 只需要根据以上规则，验证已经填入的数字是否有效即可。 空白格用">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.kdy.icu/posts/312029469/312029469/shudu.png">
+<meta property="og:image" content="https://www.kdy.icu/posts/312029469/312029469/box.png">
 <meta property="article:published_time" content="2022-03-29T00:45:54.000Z">
 <meta property="article:modified_time" content="2022-08-14T11:40:12.098Z">
 <meta property="article:author" content="丸了鸭">
-<meta name="twitter:card" content="summary"><script>(function() {
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.kdy.icu/posts/312029469/312029469/shudu.png"><script>(function() {
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   const setting = localStorage.getItem('darken-mode') || 'auto'
   if (setting === 'dark' || (prefersDark && setting !== 'light'))
@@ -47,7 +50,7 @@ IconifyProviders = {
 <li>空白格用 <code>&#39;.&#39;</code> 表示。</li>
 </ul>
 <p><strong>示例 1：</strong></p>
- 
+ <img src="/posts/312029469/312029469/shudu.png" class loading="lazy">
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">输入：board = </span><br><span class="line">[[&quot;5&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;]</span><br><span class="line">,[&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;]</span><br><span class="line">,[&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;]</span><br><span class="line">,[&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;]</span><br><span class="line">,[&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;]</span><br><span class="line">,[&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;]</span><br><span class="line">,[&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;]</span><br><span class="line">,[&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;]</span><br><span class="line">,[&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
 
@@ -70,7 +73,7 @@ IconifyProviders = {
 </li>
 <li>index的取值</li>
 </ol>
- 
+ <img src="/posts/312029469/312029469/box.png" class loading="lazy">
 
 <ul>
 <li>从图中可以看出，box是由i和j共同确定的，对于第一排的三个box，序号是可以通过纵坐标唯一确定的，即j&#x2F;3,但是第二排就需要用到横坐标了</li>

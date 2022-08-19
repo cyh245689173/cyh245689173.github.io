@@ -140,8 +140,8 @@ IconifyProviders = {
 
 <p>虚晃一枪，先给前端一个假数据。</p>
 <h2 id="2-3-代码实现"><a href="#2-3-代码实现" class="headerlink" title="2.3 代码实现"></a>2.3 代码实现</h2><h3 id="1-查询菜品方法修改"><a href="#1-查询菜品方法修改" class="headerlink" title="1. 查询菜品方法修改"></a>1. 查询菜品方法修改</h3><p>由于之前实现的根据分类查询菜品列表，仅仅查询了菜品的基本信息，未查询菜品口味信息，而移动端用户在点餐时，是需要选择口味信息的，所以需要对之前的代码实现进行完善.</p>
-<p>我们需要修改DishController的list方法，原来此方法的返回值类型为：R&lt;List<Dish>&gt;。</p>
-<p>为了满足移动端对数据的要求(菜品基本信息和菜品对应的口味信息)，现在需要将方法的返回值类型改为：R&lt;List<DishDto>&gt; ，因为在DishDto中封装了菜品对应的口味信息： </p>
+<p>我们需要修改DishController的list方法，原来此方法的返回值类型为：R&lt;List<Dish>&gt;。</Dish></p>
+<p>为了满足移动端对数据的要求(菜品基本信息和菜品对应的口味信息)，现在需要将方法的返回值类型改为：R&lt;List<DishDto>&gt; ，因为在DishDto中封装了菜品对应的口味信息： </DishDto></p>
 <p>这是原来的list方法</p>
 <p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809102617478.png" alt="image-20220809102617478" loading="lazy"></p>
 <p><strong>代码逻辑:</strong> </p>
