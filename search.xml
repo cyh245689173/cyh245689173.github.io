@@ -14179,4 +14179,329 @@ public class sendEmail &#123;
         <category>后端</category>
       </categories>
   </entry>
+  <entry>
+    <title>RabbitMQ学习笔记day01</title>
+    <url>/posts/2224567829.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting@1/dist/Meting.min.js"></script><h1 id="一、MQ基本概念"><a href="#一、MQ基本概念" class="headerlink" title="一、MQ基本概念"></a>一、MQ基本概念</h1><h2 id="1-1-MQ概述"><a href="#1-1-MQ概述" class="headerlink" title="1.1 MQ概述"></a>1.1 MQ概述</h2><p>MQ全称<strong>Message Queue（消息队列）</strong>，是在消息传输的过程中用于保存消息的容器，多用于分布式系统之间进行通信。</p>
+<p><strong>直接远程调用：</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820085901418.png" alt="image-20220820085901418" loading="lazy"></p>
+<p><strong>借助第三方完成间接通信</strong>，发送方称为生产者，接收方称为消费者。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820085719389.png" alt="image-20220820085719389" loading="lazy"></p>
+<hr>
+<h2 id="1-2-MQ优势"><a href="#1-2-MQ优势" class="headerlink" title="1.2 MQ优势"></a>1.2 MQ优势</h2><ul>
+<li>应用解耦：提高系统的容错性和可维护性</li>
+<li>异步提速：提升用户体验和系统吞吐量</li>
+<li>削峰填谷：提高系统稳定性</li>
+</ul>
+<h4 id="1-应用解耦"><a href="#1-应用解耦" class="headerlink" title="1. 应用解耦"></a>1. 应用解耦</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820090114772.png" alt="image-20220820090114772" loading="lazy"></p>
+<p>上图的系统耦合性太高，如果需要新添加或者更新后台系统都要修改订单系统的代码。</p>
+<p><strong>系统耦合性越高，容错性就越低，可维护性就越低。</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820090229425.png" alt="image-20220820090229425" loading="lazy"></p>
+<p>使用了MQ之后，就实现了订单系统和后台系统之间的<strong>解耦</strong>，更改后台系统不用修改订单系统的代码，<strong>提升了容错性和可维护性。</strong></p>
+<hr>
+<h4 id="2-异步提速"><a href="#2-异步提速" class="headerlink" title="2.异步提速"></a>2.异步提速</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820090427640.png" alt="image-20220820090427640" loading="lazy"></p>
+<p>上图系统的一个下单操作耗时：</p>
+<p>20 + 300 + 300 +300 &#x3D; 920ms</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820090524556.png" alt="image-20220820090524556" loading="lazy"></p>
+<p>加入消息队列后下单操作耗时：</p>
+<p>5 + 20 &#x3D; 25ms</p>
+<p><strong>类似于先斩后奏，先给用户返回，然后后台系统慢慢从MQ中获取服务。</strong></p>
+<p><strong>提升了用户的体验和系统吞吐量（单位时间内处理请求的数目）。</strong></p>
+<hr>
+<h4 id="3-削峰填谷"><a href="#3-削峰填谷" class="headerlink" title="3.削峰填谷"></a>3.削峰填谷</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820090809420.png" alt="image-20220820090809420" loading="lazy"></p>
+<p>常见于商品秒杀时，请求量爆发，但是系统每秒最大只能处理1000，这样就会对系统造成很大压力，甚至崩掉。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820091112442.png" alt="image-20220820091112442" loading="lazy"></p>
+<p>这时可以通过引入MQ来进行并发量的削峰，把5000个请求存入MQ，然后每次拉出来1000个请求进行处理，这样高峰并发量就被削掉了，这就叫做<strong>“削峰”</strong>。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820091253875.png" alt="image-20220820091253875" loading="lazy"></p>
+<p>但是因为消息积压，在高峰期过后的一段时间内，消费消息的速度还是会维持在1000，直到消费完积压的消息，这就叫做**”填谷”**</p>
+<p>所以<strong>使用MQ可以提高系统的稳定性。</strong></p>
+<hr>
+<h2 id="1-3-MQ劣势"><a href="#1-3-MQ劣势" class="headerlink" title="1.3 MQ劣势"></a>1.3 MQ劣势</h2><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820091701004.png" alt="image-20220820091701004" loading="lazy"></p>
+<ul>
+<li>系统可用性降低<ul>
+<li>系统引入的外部依赖越多，系统稳定性越差。（原来只要保证A、B系统正常运行即可，现在还要保证MQ的正常运行）。</li>
+<li>怎么保证MQ的高可用？</li>
+</ul>
+</li>
+<li>系统复杂度提高<ul>
+<li>MQ的加入大大增加了系统的复杂度，以前系统间是同步的远程调用，现在是通过MQ进行异步调用。</li>
+<li>如何保证消息没有被重复消费？</li>
+<li>怎么处理消息丢失？</li>
+<li>怎么保证消息的传递性？</li>
+</ul>
+</li>
+<li>一致性<ul>
+<li>A系统处理完业务，通过MQ给B、C、D三个系统发消息数据，如果B系统、C系统处理成功，D系统处理失败。</li>
+<li>如何保证消息数据处理的一致性？</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="1-4-小结"><a href="#1-4-小结" class="headerlink" title="1.4 小结"></a>1.4 小结</h2><p>既然 MQ 有优势也有劣势，那么使用 MQ 需要满足什么条件呢？</p>
+<ol>
+<li>生产者不需要从消费者处获得反馈。引入消息队列之前的直接调用，其接口的返回值应该为空，这才让明明下层的动作还没做，上层却当成动作做完了继续往后走，即所谓异步成为了可能。</li>
+<li>容许短暂的不一致性。</li>
+<li>确实是用了有效果。即解耦、提速、削峰这些方面的收益，超过加入MQ，管理MQ这些成本。</li>
+</ol>
+<hr>
+<h1 id="二、RabbitMQ"><a href="#二、RabbitMQ" class="headerlink" title="二、RabbitMQ"></a>二、RabbitMQ</h1><h2 id="2-1-RabbitMQ简介"><a href="#2-1-RabbitMQ简介" class="headerlink" title="2.1 RabbitMQ简介"></a>2.1 RabbitMQ简介</h2><p>RabbitMQ 采用 Erlang 语言开发。Erlang 语言由 Ericson 设计，专门为开发高并发和分布式系统的一种语言，在电信领域使用广泛。</p>
+<p>RabbitMQ 基础架构如下图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820094015693.png" alt="image-20220820094015693" loading="lazy"></p>
+<hr>
+<h2 id="2-2-RabbitMQ中的相关概念"><a href="#2-2-RabbitMQ中的相关概念" class="headerlink" title="2.2 RabbitMQ中的相关概念"></a>2.2 RabbitMQ中的相关概念</h2><ul>
+<li><p><strong>Broker：</strong>接收和分发消息的应用，RabbitMQ Server就是 Message Broker</p>
+</li>
+<li><p><strong>Virtual host：</strong>出于多租户和安全因素设计的，把 AMQP 的基本组件划分到一个虚拟的分组中，类似于网络中的 namespace 概念。当多个不同的用户使用同一个 RabbitMQ server 提供的服务时，可以划分出多个vhost，每个用户在自己的 vhost 创建 exchange／queue 等 </p>
+</li>
+<li><p><strong>Connection：</strong>publisher／consumer 和 broker 之间的 TCP 连接</p>
+</li>
+<li><p><strong>Channel：</strong>如果每一次访问 RabbitMQ 都建立一个 Connection，在消息量大的时候建立 TCP Connection的开销将是巨大的，效率也较低。Channel 是在 connection 内部建立的逻辑连接，如果应用程序支持多线程，通常每个thread创建单独的 channel 进行通讯，AMQP method 包含了channel id 帮助客户端和message broker 识别 channel，所以 channel 之间是完全隔离的。Channel 作为轻量级的 Connection 极大减少了操作系统建立 TCP connection 的开销</p>
+</li>
+<li><p><strong>Exchange：</strong>message 到达 broker 的第一站，根据分发规则，匹配查询表中的 routing key，分发消息到queue 中去。常用的类型有：direct (point-to-point), topic (publish-subscribe) and fanout (multicast)</p>
+</li>
+<li><p><strong>Queue：</strong>消息最终被送到这里等待 consumer 取走</p>
+</li>
+<li><p><strong>Binding：</strong>exchange 和 queue 之间的虚拟连接，binding 中可以包含 routing key。Binding 信息被保存到 exchange 中的查询表中，用于 message 的分发依据</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-3-六种工作模式"><a href="#2-3-六种工作模式" class="headerlink" title="2.3 六种工作模式"></a>2.3 六种工作模式</h2><ol>
+<li>简单模式</li>
+<li>work queues</li>
+<li>Publish&#x2F;Subscribe 发布与订阅模式</li>
+<li>Routing路由模式</li>
+<li>Topics 主题模式</li>
+<li>RPC 远程调用模式（远程调用，不太算 MQ）</li>
+</ol>
+<p>官网对应模式介绍：<a href="https://www.rabbitmq.com/getstarted.html">https://www.rabbitmq.com/getstarted.html</a></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820094356999.png" alt="image-20220820094356999" loading="lazy"></p>
+<hr>
+<h2 id="2-4-JMS"><a href="#2-4-JMS" class="headerlink" title="2.4 JMS"></a>2.4 JMS</h2><ul>
+<li><p>JMS 即 Java 消息服务（JavaMessage Service）应用程序接口，是一个 Java 平台中关于面向消息中间件的API</p>
+</li>
+<li><p>JMS 是 JavaEE 规范中的一种，<strong>类比JDBC</strong></p>
+</li>
+<li><p>很多消息中间件都实现了JMS规范，例如：ActiveMQ。RabbitMQ 官方没有提供 JMS 的实现包，但是开源社区有</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-5-RabbitMQ安装和配置"><a href="#2-5-RabbitMQ安装和配置" class="headerlink" title="2.5 RabbitMQ安装和配置"></a>2.5 RabbitMQ安装和配置</h2><h3 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a>1.下载</h3><p>RabbitMQ 官方地址：<a href="http://www.rabbitmq.com/">http://www.rabbitmq.com/</a></p>
+<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h3><p>这里因为是学习，为了和视频同步，就不在官网安装新版的了，等学会了在进行更新</p>
+<p>1、上传资料</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820095149576.png" alt="image-20220820095149576" loading="lazy"></p>
+<p>2、安装Erlang</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">rpm -ivh erlang-18.3-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820095524147.png" alt="image-20220820095524147" loading="lazy"></p>
+<p>3、安装RabbitMQ</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">rpm -ivh socat-1.7.3.2-5.el7.lux.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">rpm -ivh rabbitmq-server-3.6.5-1.noarch.rpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>4、开启管理页面及配置</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启管理界面</span></span><br><span class="line">rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br><span class="line"><span class="comment"># 修改默认配置信息</span></span><br><span class="line">vim /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.5/ebin/rabbit.app </span><br><span class="line"><span class="comment"># 比如修改密码、配置等等，例如：loopback_users 中的 &lt;&lt;&quot;guest&quot;&gt;&gt;,只保留guest</span></span><br></pre></td></tr></table></figure>
+
+<p>端口：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820100522381.png" alt="image-20220820100522381" loading="lazy"></p>
+<p>用户名密码：</p>
+<p>将这里的&lt;&lt;”guest”&gt;&gt;改为guest</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820103223168.png" alt="image-20220820103223168" loading="lazy"></p>
+<p><code>注意：这里开放的端口是15672</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">开放指定端口</span><br><span class="line">firewall-cmd --zone=public --add-port=15672/tcp --permanent</span><br><span class="line"></span><br><span class="line">防火墙立即生效</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5、启动RabbitMQ</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">service rabbitmq-server start <span class="comment"># 启动服务</span></span><br><span class="line">service rabbitmq-server stop <span class="comment"># 停止服务</span></span><br><span class="line">service rabbitmq-server restart <span class="comment"># 重启服务</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>6、访问</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820102811813.png" alt="image-20220820102811813" loading="lazy"></p>
+<p>安装依赖环境</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install build-essential openssl openssl-devel unixODBC unixODBC-devel make gcc gcc-c++ kernel-devel m4 ncurses-devel tk tc xz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="2-6-RabbitMQ快速入门"><a href="#2-6-RabbitMQ快速入门" class="headerlink" title="2.6 RabbitMQ快速入门"></a>2.6 RabbitMQ快速入门</h2><p>未完待续</p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>消息队列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>微服务学习笔记day01</title>
+    <url>/posts/3702598085.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting@1/dist/Meting.min.js"></script><h1 id="一、认识微服务"><a href="#一、认识微服务" class="headerlink" title="一、认识微服务"></a>一、认识微服务</h1><h2 id="1-1-单体架构"><a href="#1-1-单体架构" class="headerlink" title="1.1.单体架构"></a>1.1.单体架构</h2><p><strong>单体架构</strong>：将业务的所有功能集中在一个项目中开发，打成一个包部署。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820144652691.png" alt="image-20220820144652691" loading="lazy"></p>
+<p>单体架构的优缺点如下：</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>架构简单</li>
+<li>部署成本低</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>耦合度高（维护困难、升级困难）</li>
+</ul>
+<hr>
+<h2 id="1-2-分布式架构"><a href="#1-2-分布式架构" class="headerlink" title="1.2.分布式架构"></a>1.2.分布式架构</h2><p><strong>分布式架构</strong>：根据业务功能对系统做拆分，每个业务功能模块作为独立项目开发，称为一个服务。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820144704396.png" alt="image-20220820144704396" loading="lazy"></p>
+<p>分布式架构的优缺点：</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>降低服务耦合</li>
+<li>有利于服务升级和拓展</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>服务调用关系错综复杂</li>
+</ul>
+<p>分布式架构虽然降低了服务耦合，但是服务拆分时也有很多问题需要思考：</p>
+<ul>
+<li>服务拆分的<strong>粒度</strong>如何界定？</li>
+<li>服务<strong>之间如何调用</strong>？</li>
+<li>服务的<strong>调用关系如何管理</strong>？</li>
+</ul>
+<p>人们需要制定一套行之有效的标准来约束分布式架构。</p>
+<hr>
+<h2 id="1-3-微服务"><a href="#1-3-微服务" class="headerlink" title="1.3.微服务"></a>1.3.微服务</h2><p>微服务的架构特征：</p>
+<ul>
+<li><strong>单一职责：</strong>微服务拆分粒度更小，每一个服务都对应唯一的业务能力，做到单一职责</li>
+<li><strong>自治：</strong>团队独立、技术独立、数据独立，独立部署和交付</li>
+<li><strong>面向服务：</strong>服务提供统一标准的接口，与语言和技术无关</li>
+<li><strong>隔离性强：</strong>服务调用做好隔离、容错、降级，避免出现级联问题</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820144823344.png" alt="image-20220820144823344" loading="lazy"></p>
+<p>微服务的上述特性其实是在给分布式架构制定一个标准，进一步降低服务之间的耦合度，提供服务的独立性和灵活性。做到高内聚，低耦合。</p>
+<p>因此，可以认为<strong>微服务</strong>是一种经过良好架构设计的<strong>分布式架构方案</strong> 。</p>
+<h2 id="1-4-SpringCloud"><a href="#1-4-SpringCloud" class="headerlink" title="1.4.SpringCloud"></a>1.4.SpringCloud</h2><p>SpringCloud是目前国内使用最广泛的微服务框架。官网地址：<a href="https://spring.io/projects/spring-cloud%E3%80%82">https://spring.io/projects/spring-cloud。</a></p>
+<p>SpringCloud集成了各种微服务功能组件，并基于SpringBoot实现了这些组件的自动装配，从而提供了良好的开箱即用体验。</p>
+<p>其中常见的组件包括：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820144847085.png" alt="image-20220820144847085" loading="lazy"></p>
+<hr>
+<h2 id="1-5-总结"><a href="#1-5-总结" class="headerlink" title="1.5.总结"></a>1.5.总结</h2><ul>
+<li><p>单体架构：简单方便，高度耦合，扩展性差，适合小型项目。例如：学生管理系统</p>
+</li>
+<li><p>分布式架构：松耦合，扩展性好，但架构复杂，难度大。适合大型互联网项目，例如：京东、淘宝</p>
+</li>
+<li><p>微服务：一种良好的分布式架构方案</p>
+<p>①优点：拆分粒度更小、服务更独立、耦合度更低</p>
+<p>②缺点：架构非常复杂，运维、监控、部署难度提高</p>
+</li>
+<li><p>SpringCloud是微服务架构的一站式解决方案，集成了各种优秀微服务功能组件</p>
+</li>
+</ul>
+<hr>
+<h1 id="二、服务拆分和远程调用"><a href="#二、服务拆分和远程调用" class="headerlink" title="二、服务拆分和远程调用"></a>二、服务拆分和远程调用</h1><p>任何分布式架构都离不开服务的拆分，微服务也是一样。</p>
+<h2 id="2-1-服务拆分原则"><a href="#2-1-服务拆分原则" class="headerlink" title="2.1.服务拆分原则"></a>2.1.服务拆分原则</h2><p>这里我总结了微服务拆分时的几个原则：</p>
+<ul>
+<li>不同微服务，不要重复开发相同业务</li>
+<li>微服务数据独立，不要访问其它微服务的数据库</li>
+<li>微服务可以将自己的业务暴露为接口，供其它微服务调用</li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820144932834.png" alt="image-20220820144932834" loading="lazy"></p>
+<h2 id="2-2-服务拆分示例"><a href="#2-2-服务拆分示例" class="headerlink" title="2.2.服务拆分示例"></a>2.2.服务拆分示例</h2><p>以课前资料中的微服务cloud-demo为例，其结构如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820145028022.png" alt="image-20220820145028022" loading="lazy"></p>
+<p>cloud-demo：父工程，管理依赖</p>
+<ul>
+<li>order-service：订单微服务，负责订单相关业务</li>
+<li>user-service：用户微服务，负责用户相关业务</li>
+</ul>
+<p>要求：</p>
+<ul>
+<li>订单微服务和用户微服务都必须有各自的数据库，相互独立</li>
+<li>订单服务和用户服务都对外暴露Restful的接口</li>
+<li>订单服务如果需要查询用户信息，只能调用用户服务的Restful接口，不能查询用户数据库</li>
+</ul>
+<hr>
+<h3 id="1-导入数据库"><a href="#1-导入数据库" class="headerlink" title="1.导入数据库"></a>1.导入数据库</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820145457622.png" alt="image-20220820145457622" loading="lazy"></p>
+<h3 id="2-导入工程"><a href="#2-导入工程" class="headerlink" title="2.导入工程"></a>2.导入工程</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820145943892.png" alt="image-20220820145943892" loading="lazy"></p>
+<h3 id="3-将数据库信息修改为自己的"><a href="#3-将数据库信息修改为自己的" class="headerlink" title="3.将数据库信息修改为自己的"></a>3.将数据库信息修改为自己的</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820150524840.png" alt="image-20220820150524840" loading="lazy"></p>
+<h3 id="4-运行测试"><a href="#4-运行测试" class="headerlink" title="4.运行测试"></a>4.运行测试</h3><h4 id="1-查询用户"><a href="#1-查询用户" class="headerlink" title="1.查询用户"></a>1.查询用户</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820150651703.png" alt="image-20220820150651703" loading="lazy"></p>
+<h4 id="2-查询订单"><a href="#2-查询订单" class="headerlink" title="2.查询订单"></a>2.查询订单</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820150704689.png" alt="image-20220820150704689" loading="lazy"></p>
+<hr>
+<h2 id="2-3-实现远程调用案例"><a href="#2-3-实现远程调用案例" class="headerlink" title="2.3.实现远程调用案例"></a>2.3.实现远程调用案例</h2><p>可以看到我们查询订单的时候查出来的用户是null，那怎么在订单服务中获取用户服务的数据呢</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820151604787.png" alt="image-20220820151604787" loading="lazy"></p>
+<hr>
+<h3 id="1-案例需求"><a href="#1-案例需求" class="headerlink" title="1.案例需求"></a>1.案例需求</h3><p>修改order-service中的根据id查询订单业务，要求在查询订单的同时，根据订单中包含的userId查询出用户信息，一起返回。</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820151718999.png" alt="image-20220820151718999" loading="lazy"></p>
+<p>不同的服务之间不能调用对方的数据库，所以我们需要向userService提供的接口发起请求，然后根据userService的返回值对订单数据进行包装。</p>
+<p>步骤：</p>
+<ul>
+<li>注册一个RestTemplate的实例到Spring容器</li>
+<li>修改order-service服务中的OrderService类中的queryOrderById方法，根据Order对象中的userId查询User</li>
+<li>将查询的User填充到Order对象，一起返回</li>
+</ul>
+<h3 id="2-注册RestTemplate"><a href="#2-注册RestTemplate" class="headerlink" title="2.注册RestTemplate"></a>2.注册RestTemplate</h3><p>在order-service服务中的OrderApplication启动类中，注册RestTemplate实例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> RestTemplate <span class="title function_">restTemplate</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820152117193.png" alt="image-20220820152117193" loading="lazy"></p>
+<h3 id="3-实现远程调用"><a href="#3-实现远程调用" class="headerlink" title="3.实现远程调用"></a>3.实现远程调用</h3><p>修改order-service服务中的cn.itcast.order.service包下的OrderService类中的queryOrderById方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> Order <span class="title function_">queryOrderById</span><span class="params">(Long orderId)</span> &#123;</span><br><span class="line">       <span class="comment">// 1.查询订单</span></span><br><span class="line">       <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> orderMapper.findById(orderId);</span><br><span class="line"></span><br><span class="line">       <span class="comment">//2.远程查询user</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">//url      id根据order动态获取</span></span><br><span class="line">       <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;http://localhost:8081/user/&quot;</span> + order.getUserId();</span><br><span class="line"></span><br><span class="line">       <span class="comment">//调用</span></span><br><span class="line">       <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> restTemplate.getForObject(url, User.class);</span><br><span class="line"></span><br><span class="line">       <span class="comment">//将返回的user存入order</span></span><br><span class="line">       order.setUser(user);</span><br><span class="line">       <span class="comment">// 4.返回</span></span><br><span class="line">       <span class="keyword">return</span> order;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820153040157.png" alt="image-20220820153040157" loading="lazy"></p>
+<h3 id="4-测试"><a href="#4-测试" class="headerlink" title="4.测试"></a>4.测试</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820153049967.png" alt="image-20220820153049967" loading="lazy"></p>
+<hr>
+<h2 id="2-4-提供者与消费者"><a href="#2-4-提供者与消费者" class="headerlink" title="2.4.提供者与消费者"></a>2.4.提供者与消费者</h2><p>在服务调用关系中，会有两个不同的角色：</p>
+<p><strong>服务提供者</strong>：一次业务中，被其它微服务调用的服务。（提供接口给其它微服务）</p>
+<p><strong>服务消费者</strong>：一次业务中，调用其它微服务的服务。（调用其它微服务提供的接口）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820160431105.png" alt="image-20220820160431105" loading="lazy"></p>
+<p>但是，服务提供者与服务消费者的角色并<strong>不是绝对的</strong>，而<strong>是相对于业务而言</strong>。</p>
+<p>如果服务A调用了服务B，而服务B又调用了服务C，服务B的角色是什么？</p>
+<ul>
+<li>对于A调用B的业务而言：A是服务消费者，B是服务提供者</li>
+<li>对于B调用C的业务而言：B是服务消费者，C是服务提供者</li>
+</ul>
+<p>因此，服务B既可以是服务提供者，也可以是服务消费者。</p>
+<hr>
+<h1 id="三、Eureka注册中心"><a href="#三、Eureka注册中心" class="headerlink" title="三、Eureka注册中心"></a>三、Eureka注册中心</h1><p>假如我们的服务提供者user-service部署了多个实例，如图：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820160547742.png" alt="image-20220820160547742" loading="lazy"></p>
+<p>大家思考几个问题：</p>
+<ul>
+<li>order-service在发起远程调用的时候，该<strong>如何得知user-service实例的ip地址和端口？</strong></li>
+<li>有<strong>多个user-service实例地址，order-service调用时该如何选择？</strong></li>
+<li>order-service<strong>如何得知某个user-service实例是否依然健康</strong>，是不是已经宕机？</li>
+</ul>
+<hr>
+<h2 id="3-1-Eureka的结构和作用"><a href="#3-1-Eureka的结构和作用" class="headerlink" title="3.1.Eureka的结构和作用"></a>3.1.Eureka的结构和作用</h2><p>这些问题都需要利用SpringCloud中的<strong>注册中心</strong>来解决，其中最广为人知的注册中心就是Eureka，其结构如下：</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220820160633378.png" alt="image-20220820160633378" loading="lazy"></p>
+<p><strong>解答上述的三个问题：</strong></p>
+<p><strong>问题1：</strong>order-service如何得知user-service实例地址？</p>
+<p>获取地址信息的流程如下：</p>
+<ul>
+<li>user-service服务实例启动后，将自己的信息注册到eureka-server（Eureka服务端）。这个叫<strong>服务注册</strong></li>
+<li>eureka-serve<strong>r保存服务名称到服务实例地址列表的映射关系</strong></li>
+<li>order-service根据服务名称，拉取实例地址列表。这个叫服务发现或<strong>服务拉取</strong></li>
+</ul>
+<p><strong>问题2：</strong>order-service如何从多个user-service实例中选择具体的实例？</p>
+<ul>
+<li>order-service从实例列表中<strong>利用负载均衡算法</strong>选中一个实例地址</li>
+<li>向该实例地址发起远程调用</li>
+</ul>
+<p><strong>问题3：</strong>order-service如何得知某个user-service实例是否依然健康，是不是已经宕机？</p>
+<ul>
+<li>user-service会<strong>每隔一段时间（默认30秒）向eureka-server发起请求</strong>，报告自己状态，称为<strong>心跳</strong></li>
+<li>当<strong>超过一定时间没有发送心跳时</strong>，eureka-server会认为微服务实例故障，<strong>将该实例从服务列表中剔除</strong></li>
+<li>order-service拉取服务时，就能将故障实例排除了</li>
+</ul>
+<blockquote>
+<p>注意：一个微服务，既可以是服务提供者，又可以是服务消费者，因此eureka将服务注册、服务发现等功能统一封装到了eureka-client端</p>
+</blockquote>
+<p><strong>eureka-server使用步骤</strong>：</p>
+<p><img src="C:/Users/%E9%99%88%E7%8E%89%E7%9A%93/Desktop/image-20220820160835481.png" alt="image-20220820160835481" loading="lazy"></p>
+<hr>
+<h2 id="3-2-搭建eureka-server"><a href="#3-2-搭建eureka-server" class="headerlink" title="3.2.搭建eureka-server"></a>3.2.搭建eureka-server</h2><p>首先注册中心服务端：eureka-server，<strong>这必须是一个独立的微服务</strong></p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>微服务</tag>
+      </tags>
+  </entry>
 </search>
