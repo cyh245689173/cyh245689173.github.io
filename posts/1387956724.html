@@ -324,7 +324,7 @@ IconifyProviders = {
 </ul>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--byName   根据当前bean的属性名在Spring容器中寻找匹配的对象，如果根据name找到了bean但是类型不匹配则会抛出异常--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;clazz2&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.qfedu.ioc.bean.Clazz&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;stu1&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.qfedu.ioc.bean.Student&quot;</span> <span class="attr">autowire</span>=<span class="string">&quot;byType&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="2-8-SpringIoC工作原理"><a href="#2-8-SpringIoC工作原理" class="headerlink" title="2.8 SpringIoC工作原理"></a>2.8 SpringIoC工作原理</h2><p><img src="/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220415090803104.png" alt="image-20220415090803104" loading="lazy"></p>
+<h2 id="2-8-SpringIoC工作原理"><a href="#2-8-SpringIoC工作原理" class="headerlink" title="2.8 SpringIoC工作原理"></a>2.8 SpringIoC工作原理</h2><p><img src="/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220415090803104.png" alt="image-20220415090803104"></p>
 <h1 id="三、Spring-IoC-基于注解"><a href="#三、Spring-IoC-基于注解" class="headerlink" title="三、Spring IoC-基于注解"></a>三、Spring IoC-基于注解</h1><blockquote>
 <p>SpringIoC的使用，需要通过xml将类声明给Spring容器进行管理，进而通过Spring工厂完成对象的创建以及属性值的注入；</p>
 <p>Spring除了提供基于xml的配置方式，同时还提供了注解的配置：直接在实体类中添加注解声明给Spring容器管理，以简化开发步骤。</p>
@@ -376,12 +376,12 @@ IconifyProviders = {
 <li>属性注解，也用于声明属性自动装配</li>
 <li>默认装配方式为byName，如果根据byName没有找到对应的bean，则继续根据byType继续寻找对应的bean，根据byType也没有找到对应的bean或者找到了不止一个类型匹配的bean，则抛出异常。</li>
 </ul>
-<h1 id="四、代理设计模式"><a href="#四、代理设计模式" class="headerlink" title="四、代理设计模式"></a>四、代理设计模式</h1><h2 id="4-1-生活中的代理"><a href="#4-1-生活中的代理" class="headerlink" title="4.1 生活中的代理"></a>4.1 生活中的代理</h2><p><img src="/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1616999162162.png" alt="1616999162162" loading="lazy"></p>
+<h1 id="四、代理设计模式"><a href="#四、代理设计模式" class="headerlink" title="四、代理设计模式"></a>四、代理设计模式</h1><h2 id="4-1-生活中的代理"><a href="#4-1-生活中的代理" class="headerlink" title="4.1 生活中的代理"></a>4.1 生活中的代理</h2><p><img src="/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1616999162162.png" alt="1616999162162"></p>
 <p>代理设计模式的优点：将通用性的工作都交给代理对象完成，被代理对象只需专注自己的核心业务。</p>
 <h2 id="4-2-静态代理"><a href="#4-2-静态代理" class="headerlink" title="4.2 静态代理"></a>4.2 静态代理</h2><blockquote>
 <p>静态代理，代理类只能够为特定的类生产代理对象，不能代理任意类</p>
 </blockquote>
-<p><img src="/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1617001027208.png" alt="1617001027208" loading="lazy"></p>
+<p><img src="/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1617001027208.png" alt="1617001027208"></p>
 <p><strong>使用代理的好处：</strong></p>
 <ol>
 <li>被代理类中只需要关注核心业务的实现，将通用的管理型逻辑（事务处理、日志管理等操作）和业务逻辑分离</li>
@@ -430,7 +430,7 @@ IconifyProviders = {
 <p>Aspect Oriented Programming ，面向切面编程，是一种利用”横切”的技术（底层实现就是动态代理），对原有的业务逻辑进行拦截，并且可以在这个拦截的横切面上添加特定的业务逻辑，对原有的业务进行增强。</p>
 <p>基于动态代理的实现可以在不改变原有业务的情况下对业务进行增强。</p>
 </blockquote>
-<p><img src="/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220415184022329.png" alt="image-20220415184022329" loading="lazy"></p>
+<p><img src="/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220415184022329.png" alt="image-20220415184022329"></p>
 <h2 id="5-2-Spring-AOP框架部署"><a href="#5-2-Spring-AOP框架部署" class="headerlink" title="5.2 Spring AOP框架部署"></a>5.2 Spring AOP框架部署</h2><h3 id="1-创建Maven项目-1"><a href="#1-创建Maven项目-1" class="headerlink" title="1. 创建Maven项目"></a>1. 创建Maven项目</h3><p>略</p>
 <h3 id="2-添加依赖"><a href="#2-添加依赖" class="headerlink" title="2. 添加依赖"></a>2. 添加依赖</h3><ul>
 <li>context</li>

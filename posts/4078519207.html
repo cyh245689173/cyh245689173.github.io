@@ -133,17 +133,17 @@ IconifyProviders = {
 </tr>
 </tbody></table>
 <h3 id="1-2-安装JDK"><a href="#1-2-安装JDK" class="headerlink" title="1.2 安装JDK"></a>1.2 安装JDK</h3><h4 id="1-上传安装包"><a href="#1-上传安装包" class="headerlink" title="1. 上传安装包"></a><strong>1. 上传安装包</strong></h4><p>使用FinalShell自带的上传工具将jdk的二进制发布包上传到Linux</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809194738668.png" alt="image-20220809194738668" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809194738668.png" alt="image-20220809194738668"></p>
 <p>由于上述在进行文件上传时，选择的上传目录为根目录 &#x2F;，上传完毕后，我们执行指令 cd &#x2F; 切换到根目录下，可以看到安装包已经上传成功了。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809194748923.png" alt="image-20220809194748923" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809194748923.png" alt="image-20220809194748923"></p>
 <h4 id="2-解压安装包"><a href="#2-解压安装包" class="headerlink" title="2.解压安装包"></a>2.解压安装包</h4><p>执行如下指令，将上传上来的压缩包进行解压，并通过-C参数指定解压文件存放目录为 &#x2F;usr&#x2F;local。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf jdk-8u171-linux-x64.tar.gz -C /usr/local</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809195212651.png" alt="image-20220809195212651" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809195212651.png" alt="image-20220809195212651"></p>
 <p>来到&#x2F;usr&#x2F;local，查看文件，解压成功。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809195019071.png" alt="image-20220809195019071" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809195019071.png" alt="image-20220809195019071"></p>
 <h4 id="3-配置环境变量"><a href="#3-配置环境变量" class="headerlink" title="3.配置环境变量"></a>3.配置环境变量</h4><p>环境变量要在&#x2F;etc&#x2F;profile文件中进行配置，使用vim命令修改&#x2F;etc&#x2F;profile文件</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809195653433.png" alt="image-20220809195653433" loading="lazy">在文件末尾加入如下配置</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809195653433.png" alt="image-20220809195653433">在文件末尾加入如下配置</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/local/jdk1.8.0_171</span><br><span class="line">PATH=$JAVA_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
 
 <p>具体操作指令如下: </p>
@@ -156,30 +156,30 @@ IconifyProviders = {
 
 <h4 id="5-检查安装是否成功"><a href="#5-检查安装是否成功" class="headerlink" title="5. 检查安装是否成功"></a><strong>5. 检查安装是否成功</strong></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809195916518.png" alt="image-20220809195916518" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809195916518.png" alt="image-20220809195916518"></p>
 <p>JDK安装成功~</p>
 <h3 id="1-3-安装Tomcat"><a href="#1-3-安装Tomcat" class="headerlink" title="1.3 安装Tomcat"></a>1.3 安装Tomcat</h3><p>和安装JDK几乎一样的步骤</p>
-<h4 id="1-上传安装包-1"><a href="#1-上传安装包-1" class="headerlink" title="1.上传安装包"></a>1.上传安装包</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809200123231.png" alt="image-20220809200123231" loading="lazy"></p>
+<h4 id="1-上传安装包-1"><a href="#1-上传安装包-1" class="headerlink" title="1.上传安装包"></a>1.上传安装包</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809200123231.png" alt="image-20220809200123231"></p>
 <h4 id="2-解压安装包-1"><a href="#2-解压安装包-1" class="headerlink" title="2.解压安装包"></a>2.解压安装包</h4><p>将上传上来的安装包解压到指定目录&#x2F;usr&#x2F;local下，执行命令为</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf apache-tomcat-7.0.57.tar.gz -C /usr/local</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809200343732.png" alt="image-20220809200343732" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809200343732.png" alt="image-20220809200343732"></p>
 <h4 id="3-启动Tomcat"><a href="#3-启动Tomcat" class="headerlink" title="3. 启动Tomcat"></a><strong>3. 启动Tomcat</strong></h4><p>进入Tomcat的bin目录启动服务。执行命令为: </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/apache-tomcat-7.0.57/</span><br><span class="line"></span><br><span class="line">cd bin</span><br><span class="line"></span><br><span class="line">sh startup.sh或者./startup.sh</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809200518775.png" alt="image-20220809200518775" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809200518775.png" alt="image-20220809200518775"></p>
 <h4 id="4-Tomcat进程查看"><a href="#4-Tomcat进程查看" class="headerlink" title="4. Tomcat进程查看"></a>4. Tomcat进程查看</h4><p>上述我们将Tomcat启动完成之后，并不能知道Tomcat是否正常运行，那么我们验证Tomcat启动是否成功，有多种方式，我们这里主要介绍常见的两种方式： </p>
 <p><strong>1). 查看启动日志</strong></p>
 <p>Tomcat的启动日志输出在Tomcat的安装目录下的logs目录中，Tomcat的启动及运行日志文件名为 catalina.out，所以我们查看Tomcat启动日志，主要可以通过两条指令，如下： </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1). 分页查询Tomcat的日志信息</span><br><span class="line">more /usr/local/apache-tomcat-7.0.57/logs/catalina.out</span><br><span class="line"></span><br><span class="line">2). 查询日志文件尾部的50行记录</span><br><span class="line">tail -50 /usr/local/apache-tomcat-7.0.57/logs/catalina.out</span><br></pre></td></tr></table></figure>
 
 <p>只要Tomcat在启动的过程中，日志输出没有报错，基本可以判定Tomcat启动成功了。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809200702095.png" alt="image-20220809200702095" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809200702095.png" alt="image-20220809200702095"></p>
 <p><strong>2). 查询系统进程</strong></p>
 <p>我们也可以通过Linux系统的查看系统进程的指令，来判定Tomcat进程是否存在，从而判定Tomcat是否启动。执行如下指令： </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep tomcat</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809201223933.png" alt="image-20220809201223933" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809201223933.png" alt="image-20220809201223933"></p>
 <p><strong>说明:</strong> </p>
 <ul>
 <li><p>&#x3D;&#x3D;ps&#x3D;&#x3D;命令是linux下非常强大的进程查看命令，通过ps -ef可以查看当前运行的所有进程的详细信息</p>
@@ -191,7 +191,7 @@ IconifyProviders = {
 </ul>
 <h4 id="5-防火墙操作"><a href="#5-防火墙操作" class="headerlink" title="5.防火墙操作"></a>5.防火墙操作</h4><p>我的Linuxip地址为：192.168.2.130</p>
 <p>这里来访问一下tomcat，发现访问不到</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809201453330.png" alt="image-20220809201453330" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809201453330.png" alt="image-20220809201453330"></p>
 <p>那为什么tomcat启动成功了，但就是访问不到呢？</p>
 <p>原因就在于Linux系统的防火墙，系统安装完毕后，系统启动时，防火墙自动启动，防火墙拦截了所有端口的访问。</p>
 <p>接下来需要学习一下如何操作防火墙，具体指令如下： </p>
@@ -261,27 +261,27 @@ IconifyProviders = {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure>
 
 <p>关闭之后，再次访问Tomcat，就可以访问到了。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202252954.png" alt="image-20220809202252954" loading="lazy"></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202317417.png" alt="image-20220809202317417" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202252954.png" alt="image-20220809202252954"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202317417.png" alt="image-20220809202317417"></p>
 <p><font color='red'>注意: 直接关闭系统的防火墙，是不建议的，因为这样会造成系统不安全。</font></p>
 <p><strong>B. 开放Tomcat的端口号8080</strong></p>
 <p>执行指令: </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">①. 先开启系统防火墙</span><br><span class="line">systemctl start firewalld</span><br><span class="line"></span><br><span class="line">②. 再开放8080端口号</span><br><span class="line">firewall-cmd --zone=public --add-port=8080/tcp --permanent</span><br><span class="line"></span><br><span class="line">③. 重新加载防火墙</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
 
 <p>执行上述的操作之后，就开放了当前系统中的8080端口号，再次访问Tomcat。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202355093.png" alt="image-20220809202355093" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202355093.png" alt="image-20220809202355093"></p>
 <h4 id="6-停止Tomcat"><a href="#6-停止Tomcat" class="headerlink" title="6.停止Tomcat"></a>6.停止Tomcat</h4><p>在Linux系统中，停止Tomcat服务的方式主要有两种： </p>
 <p><strong>1). 运行Tomcat提供的脚本文件</strong></p>
 <p>在Tomcat安装目录下有一个bin目录，这个目录中存放的是tomcat的运行脚本文件，其中有一个脚本就是用于停止tomcat服务的。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202658764.png" alt="image-20220809202658764" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202658764.png" alt="image-20220809202658764"></p>
 <p>我们可以切换到bin目录，并执行如下指令，来停止Tomcat服务：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sh shutdown.sh</span><br><span class="line">./shutdown.sh</span><br></pre></td></tr></table></figure>
 
 <p>停掉之后，这边就访问不到了</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202649088.png" alt="image-20220809202649088" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809202649088.png" alt="image-20220809202649088"></p>
 <p><strong>2). 结束Tomcat进程</strong></p>
 <p>我们可以先通过 <code>ps -ef|grep tomcat</code> 指令查看tomcat进程的信息，从进程信息中获取tomcat服务的进程号。然后通过kill -9 的形式，来杀死系统进程。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809203042728.png" alt="image-20220809203042728" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809203042728.png" alt="image-20220809203042728"></p>
 <p>通过上述的指令，我们可以获取到tomcat的进程号为 79947。接下来，我们就可以通过指令 ，来杀死tomcat的进程 ：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -940292</span><br></pre></td></tr></table></figure>
 
@@ -304,7 +304,7 @@ IconifyProviders = {
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa							查询当前系统中安装的所有软件</span><br><span class="line">rpm -qa | grep mysql			查询当前系统中安装的名称带mysql的软件</span><br><span class="line">rpm -qa | grep mariadb			查询当前系统中安装的名称带mariadb的软件</span><br></pre></td></tr></table></figure>
 
 <p>通过rpm -qa 查询到系统通过rpm安装的所有软件，太多了，不方便查看，所以我们可以通过管道符 | 配合着grep进行过滤查询。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809203920807.png" alt="image-20220809203920807" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809203920807.png" alt="image-20220809203920807"></p>
 <p>通过查询，我们发现在当前系统中存在mariadb数据库，是CentOS7中自带的，而这个数据库和MySQL数据库是冲突的，所以要想保证MySQL成功安装，需要卸载mariadb数据库。</p>
 <p><strong>2). 卸载现有的MySQL数据库</strong></p>
 <p>在rpm中，卸载软件的语法为： </p>
@@ -313,15 +313,15 @@ IconifyProviders = {
 <p>那么，我们就可以通过指令，卸载 mariadb，具体指令为： </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps  mariadb-libs-5.5.60-1.el7_5.x86_64</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809204030308.png" alt="image-20220809204030308" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809204030308.png" alt="image-20220809204030308"></p>
 <p>我们看到执行完毕之后， 再次查询 mariadb，就查不到了，因为已经被成功卸载了。</p>
 <p><strong>3). 上传MySQL安装包到Linux并解压</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809204436045.png" alt="image-20220809204436045" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809204436045.png" alt="image-20220809204436045"></p>
 <p>B. 解压到&#x2F;usr&#x2F;local&#x2F;mysql</p>
 <p>执行如下指令: </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/local/mysql</span><br><span class="line">tar -zxvf mysql-5.7.25-1.el7.x86_64.rpm-bundle.tar.gz -C /usr/local/mysql</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809204816780.png" alt="image-20220809204816780" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809204816780.png" alt="image-20220809204816780"></p>
 <p><strong>4). 安装顺序安装rpm安装包</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh mysql-community-common-5.7.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-libs-5.7.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-devel-5.7.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-libs-compat-5.7.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-client-5.7.25-1.el7.x86_64.rpm</span><br><span class="line">yum install net-tools</span><br><span class="line">rpm -ivh mysql-community-server-5.7.25-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
 
@@ -335,7 +335,7 @@ IconifyProviders = {
 <li>可以通过指令(yum update)升级现有软件及系统内核</li>
 </ul>
 </blockquote>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809205320537.png" alt="image-20220809205320537" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809205320537.png" alt="image-20220809205320537"></p>
 <h4 id="2-MySQL启动"><a href="#2-MySQL启动" class="headerlink" title="2.MySQL启动"></a>2.MySQL启动</h4><p>MySQL安装完成之后，会自动注册为系统的服务，服务名为mysqld。那么，我们就可以通过systemctl指令来查看mysql的状态、启动mysql、停止mysql。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl status mysqld		查看mysql服务状态</span><br><span class="line">systemctl start mysqld		启动mysql服务</span><br><span class="line">systemctl stop mysqld		停止mysql服务</span><br></pre></td></tr></table></figure>
 
@@ -351,7 +351,7 @@ IconifyProviders = {
 
 
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809210535760.png" alt="image-20220809210535760" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809210535760.png" alt="image-20220809210535760"></p>
 <blockquote>
 <p><font color='red'>备注: </font></p>
 <p>​	<font color='red'>A. netstat命令用来打印Linux中网络系统的状态信息，可让你得知整个Linux系统的网络情况。</font></p>
@@ -362,28 +362,28 @@ IconifyProviders = {
 <h4 id="3-MySQL登录"><a href="#3-MySQL登录" class="headerlink" title="3. MySQL登录"></a>3. MySQL登录</h4><h5 id="1-查阅临时密码"><a href="#1-查阅临时密码" class="headerlink" title="1. 查阅临时密码"></a>1. 查阅临时密码</h5><p>MySQL启动起来之后，我们就可以测试一下登录操作，但是我们要想登录MySQL，需要一个访问密码，而刚才在安装MySQL的过程中，并没有看到让我们设置访问密码，那这个访问密码是多少呢? 那实际上，对于rpm安装的mysql，在mysql第一次启动时，会自动帮我们生成root用户的访问密码，并且输出在mysql的日志文件 &#x2F;var&#x2F;log&#x2F;mysqld.log中，我们可以查看这份日志文件，从而获取到访问密码。</p>
 <p>可以执行如下指令：</p>
 <p>1). cat &#x2F;var&#x2F;log&#x2F;mysqld.log</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809210733783.png" alt="image-20220809210733783" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809210733783.png" alt="image-20220809210733783"></p>
 <p>2). cat &#x2F;var&#x2F;log&#x2F;mysqld.log | grep password</p>
 <p>我们可以通过上述指令，查询日志文件内容中包含password的行信息。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809210835247.png" alt="image-20220809210835247" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809210835247.png" alt="image-20220809210835247"></p>
 <h5 id="2-登录MySQL"><a href="#2-登录MySQL" class="headerlink" title="2.登录MySQL"></a>2.登录MySQL</h5><p>获取到root用户的临时密码之后，我们就可以登录mysql数据库，修改root的密码，为root设置一个新的密码。并且我们还需要开启root用户远程访问该数据库的权限，这样的话，我们就可以在windows上来访问这台MySQL数据库。</p>
 <p>执行如下指令： </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">①. 登录mysql（复制日志中的临时密码登录）</span><br><span class="line">	mysql -uroot -p								</span><br><span class="line"></span><br><span class="line">②. 修改密码</span><br><span class="line">    set global validate_password_length=4;			设置密码长度最低位数</span><br><span class="line">    set global validate_password_policy=LOW;		设置密码安全等级低，便于密码可以修改成root</span><br><span class="line">    set password = password(&#x27;root&#x27;);				设置密码为root</span><br><span class="line">    </span><br><span class="line">③. 开启访问权限</span><br><span class="line">    grant all on *.* to &#x27;root&#x27;@&#x27;%&#x27; identified by &#x27;root&#x27;;</span><br><span class="line">    flush privileges;</span><br></pre></td></tr></table></figure>
 
 <p>操作完上述的指令之后，数据库root用户的密码以及远程访问我们就配置好了，接下来，可以执行exit退出mysql，再次通过新的密码进行登录。</p>
 <p>1.临时密码登录</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809211015860.png" alt="image-20220809211015860" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809211015860.png" alt="image-20220809211015860"></p>
 <p>2.修改密码，设置安全等级</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809211243646.png" alt="image-20220809211243646" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809211243646.png" alt="image-20220809211243646"></p>
 <p>3.重新登陆</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809211309735.png" alt="image-20220809211309735" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220809211309735.png" alt="image-20220809211309735"></p>
 <h5 id="3-外部连接"><a href="#3-外部连接" class="headerlink" title="3.外部连接"></a>3.外部连接</h5><p>使用安装在windows系统中的sNavicat来远程连接linux上的MySQL</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810082202546.png" alt="image-20220810082202546" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810082202546.png" alt="image-20220810082202546"></p>
 <p>&#x3D;&#x3D;注意： 要想在windows上能够访问MySQL，还需要开放防火墙的3306端口，执行如下指令：&#x3D;&#x3D;</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=3306/tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
 
 <p>&#x3D;&#x3D;注意： 这里要保证防火墙开放了端口并且Linux上的Mysql是处于启动状态的&#x3D;&#x3D;</p>
-<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810082552895.png" alt="image-20220810082552895" style="zoom: 50%;" / loading="lazy">
+<img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810082552895.png" alt="image-20220810082552895" style="zoom: 50%;" />
 
 <h3 id="1-5-安装lrzsz"><a href="#1-5-安装lrzsz" class="headerlink" title="1.5 安装lrzsz"></a>1.5 安装lrzsz</h3><p>lrzsz 是用于在Linux系统中文件上传下载的软件。大家可能会存在疑问，我们用finalShell图形化界面就可以很方便的完成上传下载，为什么还要使用这个软件来完成上传下载呢？实际上是这样的，Linux的远程连接工具有很多，而finalShell只是其中的一种，而还有很多的远程连接工具并没有上传下载的功能，这个时候就需要依赖于lrzsz这个软件了。</p>
 <p>对于lrzsz的安装，我们需要通过第三种软件安装方式yum来进行安装。这里，我们先对yum做一个简单介绍。</p>
@@ -399,17 +399,17 @@ IconifyProviders = {
 
 <p><strong>3). 测试</strong></p>
 <p>在命令行中输入 rz , 就会自动打开一个文件选择的窗口，然后选择要上传的文件。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810083052358.png" alt="image-20220810083052358" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810083052358.png" alt="image-20220810083052358"></p>
 <blockquote>
 <p><strong>yum拓展知识:</strong></p>
 <p>​	 1). 如果在不更改软件来源的情况下，是需要联网才能使用yum的，那么我们安装的软件是从哪儿下载的呢，这里就涉及到一个概念： yum源。</p>
 <p>​		</p>
 <p>​	 2). 我们可以通过一个指令，来检查当前的yum源</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810083153345.png" alt="image-20220810083153345" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810083153345.png" alt="image-20220810083153345"></p>
 <p>​		从图中，我们可以看到我们安装的 CentOS7 采用的是网易的163yum源。</p>
 <p>​		</p>
 <p>​	  3). 网络 yum 源配置文件位于 &#x2F;etc&#x2F;yum.repos.d&#x2F; 目录下，文件扩展名为”*.repo”</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810083203179.png" alt="image-20220810083203179" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810083203179.png" alt="image-20220810083203179"></p>
 <p>​		可以看到，该目录下有 7 个 yum 配置文件，通常情况下 CentOS-Base.repo 文件生效。</p>
 <p>​		</p>
 <p>​	  4). 添加阿里云yum源</p>
@@ -424,26 +424,26 @@ IconifyProviders = {
 <p>​			yum clean all</p>
 <p>​			yum makecache</p>
 <p>​		E. 再次查看yum源</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810083211997.png" alt="image-20220810083211997" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810083211997.png" alt="image-20220810083211997"></p>
 <p>​		之后，我们通过yum指令安装软件，就是从阿里云下载的。</p>
 </blockquote>
 <h1 id="二、项目部署"><a href="#二、项目部署" class="headerlink" title="二、项目部署"></a>二、项目部署</h1><h3 id="2-1-手动部署"><a href="#2-1-手动部署" class="headerlink" title="2.1 手动部署"></a>2.1 手动部署</h3><p><strong>1). 在IDEA中开发SpringBoot项目并打成jar包</strong></p>
 <p>项目是一个很简单的springboot项目，结构如下： </p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085825310.png" alt="image-20220810085825310" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085825310.png" alt="image-20220810085825310"></p>
 <p>执行package指令，进行打包操作，将当前的springboot项目，打成一个jar包。 </p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085847982.png" alt="image-20220810085847982" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085847982.png" alt="image-20220810085847982"></p>
 <p><strong>2). 将jar包上传到Linux服务器</strong></p>
 <p>通过 rz 指令，将打好的jar包上传至Linux服务器的 &#x2F;usr&#x2F;local&#x2F;app 目录下。 先执行指令创建app目录。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">A. 在/usr/local下创建目录app</span><br><span class="line">mkdir /usr/local/app</span><br><span class="line"></span><br><span class="line">B. 切换到app目录下</span><br><span class="line">cd /usr/local/app</span><br><span class="line"></span><br><span class="line">C. 执行指令,进行jar包上传</span><br><span class="line">rz</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085858897.png" alt="image-20220810085858897" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085858897.png" alt="image-20220810085858897"></p>
 <p>此时这个jar包就上传到 &#x2F;usr&#x2F;local&#x2F;app 目录了。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085907341.png" alt="image-20220810085907341" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085907341.png" alt="image-20220810085907341"></p>
 <p><strong>3). 启动SpringBoot程序</strong></p>
 <p>由于我们的项目已经打成jar包上传上来到Linux服务器，我们只需要运行这个jar包项目就启动起来了，所以只需要执行如下指令即可： </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar helloworld-1.0-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20210815131812582.png" alt="image-20210815131812582" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20210815131812582.png" alt="image-20210815131812582"></p>
 <p>&#x3D;&#x3D;注意： 由于前面安装的Tomcat在启动时，会占用端口号8080，而当前springboot项目我们没有配置端口号，默认也是8080，所以我们要想启动springboot项目，需要把之前运行的Tomcat停止掉。&#x3D;&#x3D;</p>
 <p><strong>4). 检查防火墙，确保8080端口对外开放，访问SpringBoot项目</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --list-ports</span><br></pre></td></tr></table></figure>
@@ -455,11 +455,11 @@ IconifyProviders = {
 
 <p><strong>5). 访问测试</strong></p>
 <p><a target="_blank" rel="noopener" href="http://192.168.138.130:8080/hello">http://192.168.138.130:8080/hello</a></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085951284.png" alt="image-20220810085951284" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810085951284.png" alt="image-20220810085951284"></p>
 <p><strong>6). 后台运行项目</strong></p>
 <p>当前这个demo工程我们已经部署成功了，并且我们也可以访问项目了。但是这个工程目前是存在问题的，就是当前我们项目启动的这个窗口被霸屏占用了，如果我们把这个窗口关闭掉(或ctrl+c)，当前服务也就访问不到了，我们可以试一下。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20210815133510405.png" alt="image-20210815133510405" loading="lazy"></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20210815133719642.png" alt="image-20210815133719642" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20210815133510405.png" alt="image-20210815133510405"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20210815133719642.png" alt="image-20210815133719642"></p>
 <p><strong>目前程序运行的问题：</strong></p>
 <p>A. 线上程序不会采用控制台霸屏的形式运行程序，而是将程序在后台运行</p>
 <p>B. 线上程序不会将日志输出到控制台，而是输出到日志文件，方便运维查阅信息</p>
@@ -479,11 +479,11 @@ IconifyProviders = {
 <p>那么经过上面的介绍，我们可以推测中，我们要想让当前部署的项目后台运行，就可以使用下面的指令： </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup java -jar helloworld-1.0-SNAPSHOT.jar &amp;&gt; hello.log &amp;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090051909.png" alt="image-20220810090051909" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090051909.png" alt="image-20220810090051909"></p>
 <p>这样的话，我们的项目就已经启动成功了，我们可以通过ps指令，查看到系统的进程。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090102647.png" alt="image-20220810090102647" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090102647.png" alt="image-20220810090102647"></p>
 <p>接下来，我们再次访问我们的项目，来看看服务是否可用。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090110436.png" alt="image-20220810090110436" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090110436.png" alt="image-20220810090110436"></p>
 <p><strong>7). 停止SpringBoot项目</strong></p>
 <ul>
 <li><p>先查找到项目当前的进程</p>
@@ -491,9 +491,9 @@ IconifyProviders = {
 <li><p>杀死进程</p>
 </li>
 </ul>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090116739.png" alt="image-20220810090116739" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090116739.png" alt="image-20220810090116739"></p>
 <h3 id="2-2-基于Shell脚本自动部署"><a href="#2-2-基于Shell脚本自动部署" class="headerlink" title="2.2 基于Shell脚本自动部署"></a>2.2 基于Shell脚本自动部署</h3><h4 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h4><p>前面介绍的项目部署是手动部署，也就是部署过程中的每一步操作都需要我们手动操作。接下来，我们需要再讲解一下项目的自动部署，从而来简化项目部署的操作，那么我们先来整体上了解一下项目自动部署的流程及操作步骤。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090216596.png" alt="image-20220810090216596" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090216596.png" alt="image-20220810090216596"></p>
 <p>操作步骤如下： </p>
 <p>1). 在Gitee上创建远程仓库，并将本地的项目代码推送到远程仓库中</p>
 <p>2). 在Linux中安装Git,克隆代码</p>
@@ -501,50 +501,50 @@ IconifyProviders = {
 <p>4). 编写Shell脚本（拉取代码、编译、打包、启动）</p>
 <p>5). 为用户授予执行Shell脚本的权限</p>
 <p>6). 执行Shell脚本</p>
-<h4 id="2-推送代码到远程"><a href="#2-推送代码到远程" class="headerlink" title="2.推送代码到远程"></a>2.推送代码到远程</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810091635264.png" alt="image-20220810091635264" loading="lazy"></p>
+<h4 id="2-推送代码到远程"><a href="#2-推送代码到远程" class="headerlink" title="2.推送代码到远程"></a>2.推送代码到远程</h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810091635264.png" alt="image-20220810091635264"></p>
 <p>上传成功</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810091754629.png" alt="image-20220810091754629" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810091754629.png" alt="image-20220810091754629"></p>
 <h4 id="3-Git操作"><a href="#3-Git操作" class="headerlink" title="3. Git操作"></a>3. Git操作</h4><p><strong>1). Git软件安装</strong></p>
 <p>通过yum命令在线安装git，执行如下指令： </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum list git			列出git安装包</span><br><span class="line">yum install git			在线安装git</span><br></pre></td></tr></table></figure>
 
 
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090729882.png" alt="image-20220810090729882" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090729882.png" alt="image-20220810090729882"></p>
 <p>通过上述指令，安装好git之后，我们就可以通过 git –version去验证git的环境。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090827296.png" alt="image-20220810090827296" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810090827296.png" alt="image-20220810090827296"></p>
 <p><strong>2). Git克隆代码</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/</span><br><span class="line">git clone https://gitee.com/ChuanZhiBoKe/helloworld.git</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:/Users/%E9%99%88%E7%8E%89%E7%9A%93/AppData/Roaming/Typora/typora-user-images/image-20220810094547676.png" alt="image-20220810094547676" loading="lazy"></p>
+<p><img src="C:/Users/%E9%99%88%E7%8E%89%E7%9A%93/AppData/Roaming/Typora/typora-user-images/image-20220810094547676.png" alt="image-20220810094547676"></p>
 <h4 id="4-Maven安装"><a href="#4-Maven安装" class="headerlink" title="4. Maven安装"></a>4. Maven安装</h4><p>由于我们的工程是maven工程，我们要想进行项目的编译打包，需要用到maven的指令，所以需要安装maven。具体操作步骤如下：</p>
 <p><strong>1). 上传maven的安装包</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095224571.png" alt="image-20220810095224571" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095224571.png" alt="image-20220810095224571"></p>
 <p><strong>2). 解压maven安装包到&#x2F;usr&#x2F;local目录</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf apache-maven-3.5.4-bin.tar.gz -C /usr/local</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095238957.png" alt="image-20220810095238957" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095238957.png" alt="image-20220810095238957"></p>
 <p><strong>3). 在&#x2F;etc&#x2F;profile配置文件中配置环境变量</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br><span class="line"></span><br><span class="line">修改配置文件，进入到命令模式，按G切换到最后一行，按a/i/o进入插入模式，然后在最后加入如下内容 :</span><br><span class="line">export MAVEN_HOME=/usr/local/apache-maven-3.5.4</span><br><span class="line">export PATH=$JAVA_HOME/bin:$MAVEN_HOME/bin:$PATH</span><br><span class="line"></span><br><span class="line">然后按ESC进入到命令模式，输入 :wq 保存并退出</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095256964.png" alt="image-20220810095256964" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095256964.png" alt="image-20220810095256964"></p>
 <p>要想让配置的环境变量生效,还需要执行如下指令:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
 
 <p>输入mvn -v来查看版本是否安装成功</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095356926.png" alt="image-20220810095356926" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095356926.png" alt="image-20220810095356926"></p>
 <p><strong>4). 修改maven的settings.xml配置文件,配置本地仓库地址</strong></p>
 <p>A. 切换目录</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/apache-maven-3.5.4/conf</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095747557.png" alt="image-20220810095747557" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810095747557.png" alt="image-20220810095747557"></p>
 <p>B. 编辑settings.xml配置文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim settings.xml</span><br></pre></td></tr></table></figure>
 
 <p>在其中增加如下配置,配置本地仓库地址:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;localRepository&gt;/usr/local/repo&lt;/localRepository&gt;</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:/Users/%E9%99%88%E7%8E%89%E7%9A%93/AppData/Roaming/Typora/typora-user-images/image-20220810095644113.png" alt="image-20220810095644113" loading="lazy"></p>
+<p><img src="C:/Users/%E9%99%88%E7%8E%89%E7%9A%93/AppData/Roaming/Typora/typora-user-images/image-20220810095644113.png" alt="image-20220810095644113"></p>
 <p>并在settings.xml中的<mirrors>标签中,配置阿里云的私服:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span> </span><br></pre></td></tr></table></figure>
 
@@ -557,13 +557,13 @@ IconifyProviders = {
 <p>对于Shell脚本编写不作为本课程重点内容，直接使用课程资料中提供的脚本文件bootStart.sh即可。</p>
 </blockquote>
 <p>在&#x2F;usr&#x2F;local&#x2F;目录下创建一个目录 sh(mkdir sh)，并在sh目录下创建一个脚本bootStart.sh</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810103146731.png" alt="image-20220810103146731" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810103146731.png" alt="image-20220810103146731"></p>
 <p>代码如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">echo =================================</span><br><span class="line">echo  自动化部署脚本启动</span><br><span class="line">echo =================================</span><br><span class="line"></span><br><span class="line">echo 停止原来运行中的工程</span><br><span class="line">APP_NAME=demo</span><br><span class="line"></span><br><span class="line">tpid=`ps -ef|grep $APP_NAME|grep -v grep|grep -v kill|awk &#x27;&#123;print $2&#125;&#x27;`</span><br><span class="line">if [ $&#123;tpid&#125; ]; then</span><br><span class="line">    echo &#x27;Stop Process...&#x27;</span><br><span class="line">    kill -15 $tpid</span><br><span class="line">fi</span><br><span class="line">sleep 2</span><br><span class="line">tpid=`ps -ef|grep $APP_NAME|grep -v grep|grep -v kill|awk &#x27;&#123;print $2&#125;&#x27;`</span><br><span class="line">if [ $&#123;tpid&#125; ]; then</span><br><span class="line">    echo &#x27;Kill Process!&#x27;</span><br><span class="line">    kill -9 $tpid</span><br><span class="line">else</span><br><span class="line">    echo &#x27;Stop Success!&#x27;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">echo 准备从Git仓库拉取最新代码</span><br><span class="line">cd /usr/local/demo</span><br><span class="line"></span><br><span class="line">echo 开始从Git仓库拉取最新代码</span><br><span class="line">git pull</span><br><span class="line">echo 代码拉取完成</span><br><span class="line"></span><br><span class="line">echo 开始打包</span><br><span class="line">output=`mvn clean package -Dmaven.test.skip=true`</span><br><span class="line"></span><br><span class="line">cd target</span><br><span class="line"></span><br><span class="line">echo 启动项目</span><br><span class="line">nohup java -jar demo-1.0-SNAPSHOT.jar &amp;&gt; demo.log &amp;</span><br><span class="line">echo 项目启动完成</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>记得把项目都改成自己的</p>
 <p><strong>脚本解读：</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20210815154943654.png" alt="image-20210815154943654" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20210815154943654.png" alt="image-20210815154943654"></p>
 <h4 id="6-Linux权限"><a href="#6-Linux权限" class="headerlink" title="6 Linux权限"></a>6 Linux权限</h4><p>前面我们已经把Shell脚本准备好了，但是Shell脚本要想正常的执行，还需要给Shell脚本分配执行权限。 由于linux系统是一个多用户的操作系统，并且针对每一个用户，Linux会严格的控制操作权限。接下来，我们就需要介绍一下Linux系统的权限控制。</p>
 <blockquote>
 <p>1). &#x3D;&#x3D;chmod&#x3D;&#x3D;（英文全拼：change mode）命令是控制用户对文件的权限的命令</p>
@@ -573,9 +573,9 @@ IconifyProviders = {
 <p>5). 要执行Shell脚本需要有对此脚本文件的执行权限(x)，如果没有则不能执行</p>
 </blockquote>
 <p>Linux系统中权限描述如下: </p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810100241642.png" alt="image-20220810100241642" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810100241642.png" alt="image-20220810100241642"></p>
 <p>解析当前脚本的权限情况: </p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810100248115.png" alt="image-20220810100248115" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810100248115.png" alt="image-20220810100248115"></p>
 <p>chmod命令可以使用八进制数来指定权限(0 - 代表无 , 1 - 执行x , 2 - 写w , 4 - 读r):</p>
 <table>
 <thead>
@@ -644,17 +644,17 @@ IconifyProviders = {
 
 
 <p>为了方便测试，直接777，这里了可以看到bootStart.sh已经变绿了</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810103245640.png" alt="image-20220810103245640" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810103245640.png" alt="image-20220810103245640"></p>
 <p>权限解读: </p>
 <p>A. 第一个7，代表当前文件所有者root用户，对该文件具有读写执行权限；</p>
 <p>B. 第二个7，代表当前文件所有者所属组的用户，对该文件具有读写执行权限；</p>
 <p>B. 第三个7，代表其他用户，对该文件具有读写执行权限；</p>
 <p>执行该shell脚本:</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810103517747.png" alt="image-20220810103517747" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810103517747.png" alt="image-20220810103517747"></p>
 <p>&#x3D;&#x3D;注意： 在执行maven指令进行打包时，第一次执行可能会耗时比较长，因为在进行maven工程的打包时，需要到中央仓库下载工程依赖的jar包和插件(可以在settings.xml中配置阿里云私服加速下载)。&#x3D;&#x3D;</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810104439218.png" alt="image-20220810104439218" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810104439218.png" alt="image-20220810104439218"></p>
 <p>启动完成之后, 我们可以查看java进程：</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810110018275.png" alt="image-20220810110018275" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810110018275.png" alt="image-20220810110018275"></p>
 <p>&#x3D;&#x3D;注意：这里的Springboot程序内置的Tomcat会和我们安装的tomcat冲突，把我们的Tomcat关闭即可&#x3D;&#x3D;</p>
 <h4 id="8-设置静态IP"><a href="#8-设置静态IP" class="headerlink" title="8. 设置静态IP"></a>8. 设置静态IP</h4><p>我们目前安装的Linux操作系统，安装完毕之后并没有配置IP地址，默认IP地址是动态获取的，那如果我们使用该Linux服务器部署项目，IP动态获取的话，也就意味着，IP地址可能会发生变动，那我们访问项目的话就会非常繁琐，所以作为服务器，我们一般还需要把IP地址设置为静态的。 </p>
 <p><strong>1). 设置静态IP</strong></p>
@@ -662,19 +662,19 @@ IconifyProviders = {
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">TYPE</span>=<span class="string">Ethernet</span></span><br><span class="line"><span class="attr">PROXY_METHOD</span>=<span class="string">none</span></span><br><span class="line"><span class="attr">BROWSER_ONLY</span>=<span class="string">no</span></span><br><span class="line"><span class="attr">BOOTPROTO</span>=<span class="string">static</span></span><br><span class="line"><span class="attr">IPADDR</span>=<span class="string">&quot;192.168.2.100&quot;        # 设置的静态IP地址</span></span><br><span class="line"><span class="attr">NETMASK</span>=<span class="string">&quot;255.255.255.0&quot;         # 子网掩码</span></span><br><span class="line"><span class="attr">GATEWAY</span>=<span class="string">&quot;192.168.2.2&quot;         # 网关地址</span></span><br><span class="line"><span class="attr">DNS1</span>=<span class="string">&quot;192.168.2.2&quot;            # DNS服务器</span></span><br><span class="line"><span class="attr">DEFROUTE</span>=<span class="string">yes</span></span><br><span class="line"><span class="attr">IPV4_FAILURE_FATAL</span>=<span class="string">no</span></span><br><span class="line"><span class="attr">IPV6INIT</span>=<span class="string">yes</span></span><br><span class="line"><span class="attr">IPV6_AUTOCONF</span>=<span class="string">yes</span></span><br><span class="line"><span class="attr">IPV6_DEFROUTE</span>=<span class="string">yes</span></span><br><span class="line"><span class="attr">IPV6_FAILURE_FATAL</span>=<span class="string">no</span></span><br><span class="line"><span class="attr">IPV6_ADDR_GEN_MODE</span>=<span class="string">stable-privacy</span></span><br><span class="line"><span class="attr">NAME</span>=<span class="string">ens33</span></span><br><span class="line"><span class="attr">UUID</span>=<span class="string">afd0baa3-8bf4-4e26-8d20-5bc426b75fd6</span></span><br><span class="line"><span class="attr">DEVICE</span>=<span class="string">ens33</span></span><br><span class="line"><span class="attr">ONBOOT</span>=<span class="string">yes</span></span><br><span class="line"><span class="attr">ZONE</span>=<span class="string">public</span></span><br></pre></td></tr></table></figure>
 
 <p>上述我们所设置的网段为2，并不是随意指定的，需要和我们虚拟机中的虚拟网络编辑器中的NAT模式配置的网关保持一致。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810103921476.png" alt="image-20220810103921476" loading="lazy"></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810101454985.png" alt="image-20220810101454985" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810103921476.png" alt="image-20220810103921476"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810101454985.png" alt="image-20220810101454985"></p>
 <p><strong>2). 重启网络服务</strong></p>
 <p>ip地址修改完毕之后，需要重启网络服务，执行如下指令： </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart network</span><br></pre></td></tr></table></figure>
 
 
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810101549290.png" alt="image-20220810101549290" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810101549290.png" alt="image-20220810101549290"></p>
 <p>&#x3D;&#x3D;注意：重启完网络服务后ip地址已经发生了改变，此时FinalShell已经连接不上Linux系统，需要创建一个新连接才能连接到Linux。&#x3D;&#x3D;</p>
 <p>再次连接上Linux之后，我们再次查看IP地址，就可以看到我们所设置的静态IP：</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810101647418.png" alt="image-20220810101647418" loading="lazy"></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810101716057.png" alt="image-20220810101716057" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810101647418.png" alt="image-20220810101647418"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810101716057.png" alt="image-20220810101716057"></p>
 </div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://www.kdy.icu/posts/4078519207.html" title="Linux软件安装&amp;项目部署">https://www.kdy.icu/posts/4078519207.html</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul><script>document.addEventListener('copy', function (event) {
   const clipboardData = event.clipboardData || window.clipboardData;
   if (!clipboardData) { return; }

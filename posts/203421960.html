@@ -45,7 +45,7 @@ IconifyProviders = {
 <p>那么这些静态HTML页面还需要我们自己去编写吗？其实并不需要，我们可以通过专门的页面静态化技术帮我们生成所需的静态HTML页面，例如：Freemarker、thymeleaf等。</p>
 <h1 id="2-Freemarker介绍"><a href="#2-Freemarker介绍" class="headerlink" title="2.Freemarker介绍"></a>2.Freemarker介绍</h1><p>FreeMarker 是一款 <em>模板引擎</em>： 即<strong>一种基于模板和要改变的数据， 并用来生成输出文本(HTML网页，电子邮件，配置文件，源代码等)的通用工具。</strong> 它不是面向最终用户的，而是一个Java类库，是一款程序员可以嵌入他们所开发产品的组件。</p>
 <p>模板编写为FreeMarker Template Language (FTL)。它是简单的，专用的语言， <em>不是</em> 像PHP那样成熟的编程语言。 那就意味着要准备数据在真实编程语言中来显示，比如数据库查询和业务运算， 之后模板显示已经准备好的数据。<strong>在模板中，你可以专注于如何展现数据， 而在模板之外可以专注于要展示什么数据。</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/overview.png" alt="Figure" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/overview.png" alt="Figure"></p>
 <p>这种方式通常被称为 <a target="_blank" rel="noopener" href="http://freemarker.foofun.cn/gloss.html#gloss.MVC">MVC (模型 视图 控制器) 模式</a>，对于动态网页来说，是一种特别流行的模式。 它帮助从开发人员(Java 程序员)中分离出网页设计师(HTML设计师)。设计师无需面对模板中的复杂逻辑， 在没有程序员来修改或重新编译代码时，也可以修改页面的样式。</p>
 <p>而FreeMarker最初的设计，是被用来在MVC模式的Web开发框架中生成HTML页面的，它没有被绑定到 Servlet或HTML或任意Web相关的东西上。它也可以用于非Web应用环境中。</p>
 <h1 id="3-入门案例"><a href="#3-入门案例" class="headerlink" title="3.入门案例"></a>3.入门案例</h1><h2 id="3-1-环境搭建"><a href="#3-1-环境搭建" class="headerlink" title="3.1 环境搭建"></a>3.1 环境搭建</h2><p>创建maven工程并导入Freemarker的maven坐标</p>
@@ -93,14 +93,14 @@ IconifyProviders = {
 
 <p>在freemarker的判断中，可以使用&#x3D; 也可以使用&#x3D;&#x3D;</p>
 <p>运行效果：</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220708082115215.png" alt="image-20220708082115215" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220708082115215.png" alt="image-20220708082115215"></p>
 <p>如果Java代码中和模板文件中都对‘’success’’进行赋值，则会以模板文件中的值为主，但是更多的是在Java代码中对变量进行赋值，因为比较灵活。</p>
 <p>Java代码：</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220708082251768.png" alt="image-20220708082251768" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220708082251768.png" alt="image-20220708082251768"></p>
 <p>模板文件：</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220708082330120.png" alt="image-20220708082330120" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220708082330120.png" alt="image-20220708082330120"></p>
 <p>运行结果：</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220708082407019.png" alt="image-20220708082407019" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220708082407019.png" alt="image-20220708082407019"></p>
 <h2 id="4-4-list指令"><a href="#4-4-list指令" class="headerlink" title="4.4 list指令"></a>4.4 list指令</h2><p>list指令用于遍历</p>
 <p>（1）在模板文件中使用list指令进行遍历</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;#list goodsList as goods&gt;</span><br><span class="line">  商品名称： $&#123;goods.name&#125; 价格：$&#123;goods.price&#125;<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">&lt;/#list&gt;</span><br></pre></td></tr></table></figure>

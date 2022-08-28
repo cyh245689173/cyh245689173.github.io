@@ -82,7 +82,7 @@ IconifyProviders = {
 <p>1). 当前系统存在的问题</p>
 </blockquote>
 <p>之前我们已经实现了移动端菜品展示、点餐、购物车、下单等功能，但是由于移动端是面向所有的消费者的，请求压力相对比较大，而我们当前所有的数据查询都是从数据库MySQL中直接查询的，那么可能就存在如下问题： &#x3D;&#x3D;频繁访问数据库，数据库访问压力大，系统性能下降，用户体验较差。&#x3D;&#x3D;</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193224946.png" alt="image-20220810193224946" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193224946.png" alt="image-20220810193224946"></p>
 <blockquote>
 <p>2). 解决该问题的方法</p>
 </blockquote>
@@ -90,34 +90,34 @@ IconifyProviders = {
 <p>加入Redis做缓存之后，我们在进行数据查询时，就需要先查询缓存，如果缓存中有数据，直接返回，如果缓存中没有数据，则需要查询数据库，再将数据库查询的结果，缓存在redis中。</p>
 <h1 id="二、-环境搭建"><a href="#二、-环境搭建" class="headerlink" title="二、 环境搭建"></a>二、 环境搭建</h1><h3 id="2-1-版本控制"><a href="#2-1-版本控制" class="headerlink" title="2.1 版本控制"></a>2.1 版本控制</h3><p>接下来，我们就需要对我们的功能进行优化，但是需要说明的是，我们不仅仅要对上述提到的缓存进行优化，还需要对我们程序的各个方面进行优化。我们本章节主要是针对于缓存进行优化，为了方便的对我们各个优化版本的代码进行管理，我们使用Git来控制代码版本。 那么此时我们就需要将我们之前开发完成的代码提交到Git，并且推送到码云Gitee的远程仓库，执行步骤如下： </p>
 <p><strong>1). 创建Gitee远程仓库</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193036753.png" alt="image-20220810193036753" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193036753.png" alt="image-20220810193036753"></p>
 <p><strong>2). idea-创建本地仓库</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193522444.png" alt="image-20220810193522444" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193522444.png" alt="image-20220810193522444"></p>
 <p><strong>3). 准备忽略文件.gitignore</strong></p>
 <p>在我们的项目中, 有一些文件是无需提交的到git，比如: .idea，target&#x2F;，*.iml等。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193703687.png" alt="image-20220810193703687" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810193703687.png" alt="image-20220810193703687"></p>
 <p>忽略文件代码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">.git</span><br><span class="line">logs</span><br><span class="line">rebel.xml</span><br><span class="line">target/</span><br><span class="line">!.mvn/wrapper/maven-wrapper.jar</span><br><span class="line">log.path_IS_UNDEFINED</span><br><span class="line">.DS_Store</span><br><span class="line">offline_user.md</span><br><span class="line"></span><br><span class="line">### STS ###</span><br><span class="line">.apt_generated</span><br><span class="line">.classpath</span><br><span class="line">.factorypath</span><br><span class="line">.project</span><br><span class="line">.settings</span><br><span class="line">.springBeans</span><br><span class="line"></span><br><span class="line">### IntelliJ IDEA ###</span><br><span class="line">.idea</span><br><span class="line">*.iws</span><br><span class="line">*.iml</span><br><span class="line">*.ipr</span><br><span class="line"></span><br><span class="line">### NetBeans ###</span><br><span class="line">nbproject/private/</span><br><span class="line">build/</span><br><span class="line">nbbuild/</span><br><span class="line">dist/</span><br><span class="line">nbdist/</span><br><span class="line">.nb-gradle/</span><br><span class="line">generatorConfig.xml</span><br><span class="line"></span><br><span class="line">### nacos ###</span><br><span class="line">third-party/nacos/derby.log</span><br><span class="line">third-party/nacos/data/</span><br><span class="line">third-party/nacos/work/</span><br><span class="line"></span><br><span class="line">file/</span><br></pre></td></tr></table></figure>
 
 <p><strong>4). idea-提交并推送本地代码</strong></p>
 <p>A. 添加项目文件进暂存区</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194159338.png" alt="image-20220810194159338" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194159338.png" alt="image-20220810194159338"></p>
 <p>B. 提交代码</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194253288.png" alt="image-20220810194253288" loading="lazy"></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194417338.png" alt="image-20220810194417338" loading="lazy"></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194615417.png" alt="image-20220810194615417" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194253288.png" alt="image-20220810194253288"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194417338.png" alt="image-20220810194417338"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194615417.png" alt="image-20220810194615417"></p>
 <p>C.将代码推送至远程仓库</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194653916.png" alt="image-20220810194653916" loading="lazy"></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200751682.png" alt="image-20220810200751682" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810194653916.png" alt="image-20220810194653916"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200751682.png" alt="image-20220810200751682"></p>
 <p><strong>5). 查看gitee远程仓库</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200845451.png" alt="image-20220810200845451" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200845451.png" alt="image-20220810200845451"></p>
 <p><strong>6). 创建分支</strong></p>
 <p>目前默认git中只有一个主分支master，我们接下来进行缓存的优化，就不在master分支来操作了，我们需要在git上创建一个单独的分支v1.0，缓存的优化，我们就在该分支上进行操作。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200932712.png" alt="image-20220810200932712" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810200932712.png" alt="image-20220810200932712"></p>
 <p>当前创建的v1.0分支，是基于master分支创建出来的，所以目前master分支的代码， 和v1.0分支的代码是完全一样的，接下来把v1.0的代码也推送至远程仓库。</p>
 <p><strong>7). 推送分支代码到远程</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810201040026.png" alt="image-20220810201040026" loading="lazy"></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810201130380.png" alt="image-20220810201130380" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810201040026.png" alt="image-20220810201040026"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810201130380.png" alt="image-20220810201130380"></p>
 <h3 id="2-2-环境准备"><a href="#2-2-环境准备" class="headerlink" title="2.2 环境准备"></a>2.2 环境准备</h3><p><strong>1). 在项目的pom.xml文件中导入spring data redis的maven坐标</strong></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -128,19 +128,19 @@ IconifyProviders = {
 
 <p>&#x3D;&#x3D;注意: 引入上述依赖时,需要注意yml文件前面的缩进,上述配置应该配置在spring层级下面。&#x3D;&#x3D;</p>
 <p>这里如果redis没有设置密码的话直接将password注释就行了</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810204720697.png" alt="image-20220810204720697" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810204720697.png" alt="image-20220810204720697"></p>
 <p><strong>3). 编写Redis的配置类RedisConfig,定义RedisTemplate</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.cache.annotation.CachingConfigurerSupport;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.connection.RedisConnectionFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.serializer.StringRedisSerializer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisConfig</span> <span class="keyword">extends</span> <span class="title class_">CachingConfigurerSupport</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RedisTemplate&lt;Object, Object&gt; <span class="title function_">redisTemplate</span><span class="params">(RedisConnectionFactory connectionFactory)</span> &#123;</span><br><span class="line">        RedisTemplate&lt;Object, Object&gt; redisTemplate = <span class="keyword">new</span> <span class="title class_">RedisTemplate</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//默认的Key序列化器为：JdkSerializationRedisSerializer</span></span><br><span class="line">        redisTemplate.setKeySerializer(<span class="keyword">new</span> <span class="title class_">StringRedisSerializer</span>());</span><br><span class="line">        redisTemplate.setConnectionFactory(connectionFactory);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>解释说明:</strong> </p>
 <p>1). 在SpringBoot工程启动时, 会加载一个自动配置类 RedisAutoConfiguration, 在里面已经声明了RedisTemplate这个bean</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202310107.png" alt="image-20220810202310107" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202310107.png" alt="image-20220810202310107"></p>
 <p>上述框架默认声明的RedisTemplate用的key和value的序列化方式是默认的 JdkSerializationRedisSerializer，如果key采用这种方式序列化，最终我们在测试时通过redis的图形化界面查询不是很方便，如下形式：</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202318332.png" alt="image-20220810202318332" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202318332.png" alt="image-20220810202318332"></p>
 <p>2). 如果使用我们自定义的RedisTemplate, key的序列化方式使用的是StringRedisSerializer, 也就是字符串形式, 最终效果如下: </p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202330410.png" alt="image-20220810202330410" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202330410.png" alt="image-20220810202330410"></p>
 <p>3). 定义了两个bean会不会出现冲突呢? 答案是不会, 因为源码如下:</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202339873.png" alt="image-20220810202339873" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202339873.png" alt="image-20220810202339873"></p>
 <h1 id="三、-缓存短信验证码"><a href="#三、-缓存短信验证码" class="headerlink" title="三、 缓存短信验证码"></a>三、 缓存短信验证码</h1><h3 id="3-1-思路分析"><a href="#3-1-思路分析" class="headerlink" title="3.1 思路分析"></a>3.1 思路分析</h3><p>前面移动端手机验证码登录随机生成的验证码是保存在HttpSession中的。</p>
 <p>但是在实际的业务场景中，一般验证码都是需要设置过期时间的，如果存在HttpSession中就无法设置过期时间，此时就需要对这一块的功能进行优化。</p>
 <p>现在需要改造为将验证码缓存在Redis中，具体的实现思路如下：</p>
@@ -155,28 +155,28 @@ IconifyProviders = {
 <p>2). 在UserController的sendMsg方法中，将生成的验证码保存到Redis</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需要将生成的验证码保存到Redis,设置过期时间</span></span><br><span class="line">redisTemplate.opsForValue().set(phone, code, <span class="number">5</span>, TimeUnit.MINUTES);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202903597.png" alt="image-20220810202903597" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810202903597.png" alt="image-20220810202903597"></p>
 <p>3). 在UserController的login方法中，从Redis中获取生成的验证码，如果登录成功则删除Redis中缓存的验证码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从Redis中获取缓存的验证码</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">codeInSession</span> <span class="operator">=</span> redisTemplate.opsForValue().get(phone);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203208817.png" alt="image-20220810203208817" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203208817.png" alt="image-20220810203208817"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从Redis中删除缓存的验证码</span></span><br><span class="line">redisTemplate.delete(phone);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203200178.png" alt="image-20220810203200178" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203200178.png" alt="image-20220810203200178"></p>
 <h3 id="3-3-功能测试"><a href="#3-3-功能测试" class="headerlink" title="3.3 功能测试"></a>3.3 功能测试</h3><p><strong>1). 访问前端工程，获取验证码</strong></p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203834751.png" alt="image-20220810203834751" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203834751.png" alt="image-20220810203834751"></p>
 <p>后端验证码已经发过来了</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203802623.png" alt="image-20220810203802623" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203802623.png" alt="image-20220810203802623"></p>
 <p><strong>2).查看Redis中的数据</strong></p>
 <p>在Redis中查看发现可以查到</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203732233.png" alt="image-20220810203732233" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203732233.png" alt="image-20220810203732233"></p>
 <p><strong>3). 在登录界面填写验证码登录完成后,查看Redis中的数据是否删除</strong></p>
 <p>登录成功后再查询就已经查不到了，数据已经正常删除了</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203951457.png" alt="image-20220810203951457" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810203951457.png" alt="image-20220810203951457"></p>
 <h1 id="四、-缓存菜品信息"><a href="#四、-缓存菜品信息" class="headerlink" title="四、 缓存菜品信息"></a>四、 缓存菜品信息</h1><h3 id="4-1-实现思路"><a href="#4-1-实现思路" class="headerlink" title="4.1 实现思路"></a>4.1 实现思路</h3><p>前面我们已经实现了移动端菜品查看功能，对应的服务端方法为DishController的list方法，此方法会根据前端提交的查询条件(categoryId)进行数据库查询操作。</p>
 <p><strong>在高并发的情况下，频繁查询数据库会导致系统性能下降，服务端响应时间增长。现在需要对此方法进行缓存优化，提高系统的性能。</strong></p>
 <p>那么,我们又需要思考一个问题, 具体缓存几份数据呢, 所有的菜品缓存一份 , 还是说需要缓存多份呢? 我们可以看一下我们之前做的移动端效果: </p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210707234.png" alt="image-20220810210707234" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210707234.png" alt="image-20220810210707234"></p>
 <p>我们点击哪一个分类,展示的就是该分类下的菜品, 其他菜品无需展示。所以，这里面我们在缓存时，</p>
 <p>可以根据菜品的分类，缓存多份数据，页面在查询时，点击的是哪个分类，我们就查询该分类下的菜品缓存数据。</p>
 <p><strong>具体的实现思路如下：</strong></p>
@@ -211,15 +211,15 @@ IconifyProviders = {
 <p><strong>2). 在list方法中,查询数据库之前,先查询缓存, 缓存中有数据, 直接返回</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List&lt;DishDto&gt; dishDtoList = <span class="literal">null</span>;</span><br><span class="line"><span class="comment">//动态构造key</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;dish_&quot;</span> + dish.getCategoryId() + <span class="string">&quot;_&quot;</span> + dish.getStatus();<span class="comment">//dish_1397844391040167938_1</span></span><br><span class="line"><span class="comment">//先从redis中获取缓存数据</span></span><br><span class="line">dishDtoList = (List&lt;DishDto&gt;) redisTemplate.opsForValue().get(key);</span><br><span class="line"><span class="keyword">if</span>(dishDtoList != <span class="literal">null</span>)&#123;</span><br><span class="line">    <span class="comment">//如果存在，直接返回，无需查询数据库</span></span><br><span class="line">    <span class="keyword">return</span> R.success(dishDtoList);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210819953.png" alt="image-20220810210819953" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210819953.png" alt="image-20220810210819953"></p>
 <p><strong>3). 如果redis不存在，查询数据库，并将数据库查询结果，缓存在redis，并设置过期时间</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果不存在，需要查询数据库，将查询到的菜品数据缓存到Redis</span></span><br><span class="line">redisTemplate.opsForValue().set(key,dishDtoList,<span class="number">60</span>, TimeUnit.MINUTES);</span><br></pre></td></tr></table></figure>
 
 
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210832144.png" alt="image-20220810210832144" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210832144.png" alt="image-20220810210832144"></p>
 <h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p>第二次访问页面时数据已经存入了Redis</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210510964.png" alt="image-20220810210510964" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810210510964.png" alt="image-20220810210510964"></p>
 <h4 id="2-清理菜品缓存"><a href="#2-清理菜品缓存" class="headerlink" title="2 清理菜品缓存"></a>2 清理菜品缓存</h4><p>为了保证数据库中的数据和缓存中的数据一致，如果数据库中的数据发生变化，需要及时清理缓存数据。所以，我们需要在添加菜品、更新菜品时清空缓存数据。</p>
 <p><strong>1). 保存菜品,清空缓存</strong></p>
 <p>在保存菜品的方法save中，当菜品数据保存完毕之后，需要清空菜品的缓存。那么这里清理菜品缓存的方式存在两种：</p>
@@ -232,7 +232,7 @@ IconifyProviders = {
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//清理某个分类下面的菜品缓存数据</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;dish_&quot;</span> + dishDto.getCategoryId() + <span class="string">&quot;_1&quot;</span>;</span><br><span class="line">redisTemplate.delete(key);</span><br></pre></td></tr></table></figure>
 
 <p>此处, 我们推荐使用第二种清理的方式, 只清理当前菜品关联的分类下的菜品数据。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212220603.png" alt="image-20220810212220603" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212220603.png" alt="image-20220810212220603"></p>
 <p><strong>2). 更新菜品,清空缓存</strong></p>
 <p>在更新菜品的方法update中，当菜品数据更新完毕之后，需要清空菜品的缓存。这里清理缓存的方式和上述基本一致。</p>
 <p>A. 清理所有分类下的菜品缓存</p>
@@ -243,15 +243,15 @@ IconifyProviders = {
 <p>B. 清理当前添加菜品分类下的缓存</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//清理某个分类下面的菜品缓存数据</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;dish_&quot;</span> + dishDto.getCategoryId() + <span class="string">&quot;_1&quot;</span>;</span><br><span class="line">redisTemplate.delete(key);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212316093.png" alt="image-20220810212316093" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212316093.png" alt="image-20220810212316093"></p>
 <h5 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h5><p>修改菜品数据前</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212502538.png" alt="image-20220810212502538" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212502538.png" alt="image-20220810212502538"></p>
 <p>修改数据</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212444924.png" alt="image-20220810212444924" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212444924.png" alt="image-20220810212444924"></p>
 <p>修改数据后，少了一条数据</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212535707.png" alt="image-20220810212535707" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810212535707.png" alt="image-20220810212535707"></p>
 <h3 id="4-3-合并分支"><a href="#4-3-合并分支" class="headerlink" title="4.3 合并分支"></a>4.3 合并分支</h3><p>切换回master分支，然后和v1.0合并</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810213010639.png" alt="image-20220810213010639" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220810213010639.png" alt="image-20220810213010639"></p>
 <h1 id="五、-SpringCache"><a href="#五、-SpringCache" class="headerlink" title="五、 SpringCache"></a>五、 SpringCache</h1><h3 id="4-1-介绍"><a href="#4-1-介绍" class="headerlink" title="4.1 介绍"></a>4.1 介绍</h3><p><strong>Spring Cache</strong>是一个框架，实现了基于注解的缓存功能，只需要简单地加一个注解，就能实现缓存功能，大大简化我们在业务中操作缓存的代码。</p>
 <p>Spring Cache只是提供了一层抽象，底层可以切换不同的cache实现。具体就是通过<strong>CacheManager</strong>接口来统一不同的缓存技术。CacheManager是Spring提供的各种缓存技术抽象接口。</p>
 <p>针对不同的缓存技术需要实现不同的CacheManager：</p>
@@ -303,7 +303,7 @@ IconifyProviders = {
 <p>在spring boot项目中，使用缓存技术只需在项目中导入相关缓存技术的依赖包，并在启动类上使用@EnableCaching开启缓存支持即可。</p>
 <p>例如，使用Redis作为缓存技术，只需要导入Spring data Redis的maven坐标即可。</p>
 <h3 id="4-3-注解详解"><a href="#4-3-注解详解" class="headerlink" title="4.3 注解详解"></a>4.3 注解详解</h3><h4 id="1-EnableCaching"><a href="#1-EnableCaching" class="headerlink" title="1.@EnableCaching"></a>1.@EnableCaching</h4><p>在引导类上加该注解，就代表当前项目开启缓存注解功能。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811093015190.png" alt="image-20220811093015190" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811093015190.png" alt="image-20220811093015190"></p>
 <h4 id="2-CachePut注解"><a href="#2-CachePut注解" class="headerlink" title="2.@CachePut注解"></a>2.@CachePut注解</h4><p><strong>@CachePut 说明：</strong> </p>
 <ul>
 <li>作用: 将方法返回值，放入缓存</li>
@@ -390,14 +390,14 @@ IconifyProviders = {
 <p>2). application.yml中设置缓存过期时间</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span>  </span><br><span class="line">  <span class="attr">cache:</span></span><br><span class="line">    <span class="attr">redis:</span></span><br><span class="line">      <span class="attr">time-to-live:</span> <span class="number">1800000</span> <span class="comment">#设置缓存数据的过期时间</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811095709940.png" alt="image-20220811095709940" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811095709940.png" alt="image-20220811095709940"></p>
 <p>4). SetmealController的list方法上加入@Cacheable注解</p>
 <p>在进行套餐数据查询时，我们需要根据分类ID和套餐的状态进行查询，所以我们在缓存数据时，可以将套餐分类ID和套餐状态组合起来作为key，如： 1627182182_1 (1627182182为分类ID，1为状态)。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据条件查询套餐数据</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> setmeal</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/list&quot;)</span></span><br><span class="line"><span class="meta">@Cacheable(value = &quot;setmealCache&quot;, key = &quot;#setmeal.categoryId + &#x27;_&#x27;+#setmeal.status&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;List&lt;Setmeal&gt;&gt; <span class="title function_">list</span><span class="params">(Setmeal setmeal)</span> &#123;</span><br><span class="line">    LambdaQueryWrapper&lt;Setmeal&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(setmeal.getCategoryId() != <span class="literal">null</span>, Setmeal::getCategoryId, setmeal.getCategoryId());</span><br><span class="line">    queryWrapper.eq(setmeal.getStatus() != <span class="literal">null</span>, Setmeal::getStatus, setmeal.getStatus());</span><br><span class="line">    queryWrapper.orderByDesc(Setmeal::getUpdateTime);</span><br><span class="line"></span><br><span class="line">    List&lt;Setmeal&gt; list = setmealService.list(queryWrapper);</span><br><span class="line">    <span class="keyword">return</span> R.success(list);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PostMapping(&quot;/status/&#123;status&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">sale</span><span class="params">(<span class="meta">@PathVariable</span> <span class="type">int</span> status, String[] ids)</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (String id : ids) &#123;</span><br><span class="line">        <span class="type">Setmeal</span> <span class="variable">setmeal</span> <span class="operator">=</span> setmealService.getById(id);</span><br><span class="line">        setmeal.setStatus(status);</span><br><span class="line">        setmealService.updateById(setmeal);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> R.success(<span class="string">&quot;修改成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&#x3D;&#x3D;注意：因为 @Cacheable 会将方法的返回值R缓存在Redis中，而在Redis中存储对象，该对象是需要被序列化的，而对象要想被成功的序列化，就必须得实现 Serializable 接口。而当前我们定义的R，并未实现 Serializable 接口。&#x3D;&#x3D;</p>
 <p>所以，要解决该异常，只需要让R实现  Serializable 接口即可。如下：</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811095906342.png" alt="image-20220811095906342" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811095906342.png" alt="image-20220811095906342"></p>
 <h3 id="6-2-清理套餐数据"><a href="#6-2-清理套餐数据" class="headerlink" title="6.2 清理套餐数据"></a>6.2 清理套餐数据</h3><h4 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h4><p>为了保证数据库中数据与缓存数据的一致性，在我们添加套餐或者删除套餐数据之后，需要清空当前套餐缓存的全部数据。那么@CacheEvict注解如何清除某一份缓存下所有的数据呢，这里我们可以指定@CacheEvict中的一个属性 allEnties，将其设置为true即可。</p>
 <p><strong>1). 在delete方法上加注解@CacheEvict</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除套餐</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> ids</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@DeleteMapping</span></span><br><span class="line"><span class="meta">@CacheEvict(value = &quot;setmealCache&quot;,allEntries = true)</span> <span class="comment">//清除setmealCache名称下,所有的缓存数据</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">delete</span><span class="params">(<span class="meta">@RequestParam</span> List&lt;Long&gt; ids)</span>&#123;</span><br><span class="line">    log.info(<span class="string">&quot;ids:&#123;&#125;&quot;</span>,ids);</span><br><span class="line">    setmealService.removeWithDish(ids);</span><br><span class="line">    <span class="keyword">return</span> R.success(<span class="string">&quot;套餐数据删除成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -408,13 +408,13 @@ IconifyProviders = {
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 新增套餐</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> setmealDto</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@PostMapping</span></span><br><span class="line"><span class="meta">@CacheEvict(value = &quot;setmealCache&quot;,allEntries = true)</span> <span class="comment">//清除setmealCache名称下,所有的缓存数据</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">save</span><span class="params">(<span class="meta">@RequestBody</span> SetmealDto setmealDto)</span>&#123;</span><br><span class="line">    log.info(<span class="string">&quot;套餐信息：&#123;&#125;&quot;</span>,setmealDto);</span><br><span class="line"></span><br><span class="line">    setmealService.saveWithDish(setmealDto);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(<span class="string">&quot;新增套餐成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="6-3-提交推送代码"><a href="#6-3-提交推送代码" class="headerlink" title="6.3 提交推送代码"></a>6.3 提交推送代码</h3><p>将代码提交并推送到远程仓库</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811100224565.png" alt="image-20220811100224565" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811100224565.png" alt="image-20220811100224565"></p>
 <p>在idea中切换到master分支</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811100240771.png" alt="image-20220811100240771" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811100240771.png" alt="image-20220811100240771"></p>
 <p>然后将v1.0分支的代码合并到master。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811100312406.png" alt="image-20220811100312406" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811100312406.png" alt="image-20220811100312406"></p>
 <p>再将合并后的master分支的代码，推送到远程仓库。</p>
-<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811100557533.png" alt="image-20220811100557533" loading="lazy"></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/image-20220811100557533.png" alt="image-20220811100557533"></p>
 </div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://www.kdy.icu/posts/823734017.html" title="瑞吉外卖项目day07笔记">https://www.kdy.icu/posts/823734017.html</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul><script>document.addEventListener('copy', function (event) {
   const clipboardData = event.clipboardData || window.clipboardData;
   if (!clipboardData) { return; }
