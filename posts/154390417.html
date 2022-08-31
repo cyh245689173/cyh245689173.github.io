@@ -8,15 +8,15 @@ document.addEventListener("pjax:success", initScrollReveal);
 </script><link class="aplayer-style-marker" rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script class="aplayer-script-marker" src="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script class="meting-script-marker" src="https://fastly.jsdelivr.net/npm/meting@1/dist/Meting.min.js" defer></script><link rel="icon" type="image/png" href="/images/32x32.ico"><link rel="mask-icon" href="/images/32x32.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
     window.Yun = {}
     window.CONFIG = {"hostname":"www.kdy.icu","root":"/","title":"丸了鸭的博客","version":"1.10.4","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"想要搜些什么？","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":"auto","trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":["32, 242, 242"]},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
-  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="/atom.xml" title="丸了鸭的博客" type="application/atom+xml"><meta name="description" content="单例模式什么是单例？ 保证一个类只有一个实例，并且只提供一个全局访问点  那些地方用到了单例？ 网站的计数器，一般是使用单例模式实现的，否则难以同步。 应用程序的日志应用，一般都是单例模式实现。 多线程的线程池设计一般也是采用单例模式，因为线程池要对池中的线程进行控制。  单例优缺点优点： 在单例模式中，活动的单例只有一个实例，对单例类的所有实例化得到的都是相同的一个实例。这样就防止其它对象对自己">
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="/atom.xml" title="丸了鸭的博客" type="application/atom+xml"><meta name="description" content="单例模式什么是单例？ 保证一个类在任何情况下只有一个实例，该类构造⽅法必须是私有的、由⾃⼰创建⼀个静态变量存储实例，对外提供⼀个静态公有⽅法获取实例。   那些地方用到了单例？ 网站的计数器，一般是使用单例模式实现的，否则难以同步。 应用程序的日志应用，一般都是单例模式实现。 多线程的线程池设计一般也是采用单例模式，因为线程池要对池中的线程进行控制。   单例优缺点优点： 在单例模式中，活动的单例">
 <meta property="og:type" content="article">
 <meta property="og:title" content="单例模式学习">
 <meta property="og:url" content="https://www.kdy.icu/posts/154390417.html">
 <meta property="og:site_name" content="丸了鸭的博客">
-<meta property="og:description" content="单例模式什么是单例？ 保证一个类只有一个实例，并且只提供一个全局访问点  那些地方用到了单例？ 网站的计数器，一般是使用单例模式实现的，否则难以同步。 应用程序的日志应用，一般都是单例模式实现。 多线程的线程池设计一般也是采用单例模式，因为线程池要对池中的线程进行控制。  单例优缺点优点： 在单例模式中，活动的单例只有一个实例，对单例类的所有实例化得到的都是相同的一个实例。这样就防止其它对象对自己">
+<meta property="og:description" content="单例模式什么是单例？ 保证一个类在任何情况下只有一个实例，该类构造⽅法必须是私有的、由⾃⼰创建⼀个静态变量存储实例，对外提供⼀个静态公有⽅法获取实例。   那些地方用到了单例？ 网站的计数器，一般是使用单例模式实现的，否则难以同步。 应用程序的日志应用，一般都是单例模式实现。 多线程的线程池设计一般也是采用单例模式，因为线程池要对池中的线程进行控制。   单例优缺点优点： 在单例模式中，活动的单例">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-07-16T07:00:55.000Z">
-<meta property="article:modified_time" content="2022-08-20T12:31:20.000Z">
+<meta property="article:modified_time" content="2022-08-31T07:24:09.836Z">
 <meta property="article:author" content="丸了鸭">
 <meta name="twitter:card" content="summary"><script>(function() {
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -34,33 +34,36 @@ IconifyProviders = {
     // Wait for 1 second before switching API hosts
     rotate: 1000,
   },
-};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="丸了鸭"><img width="96" loading="lazy" src="/images/kedaya.jpg" alt="丸了鸭"><span class="site-author-status" title="再小的努力乘以365都很明显">😎</span></a><div class="site-author-name"><a href="/about/">丸了鸭</a></div><span class="site-name">丸了鸭的博客</span><sub class="site-subtitle">记录学习生活的点点滴滴</sub><div class="site-description">信手拈来的从容，都是厚积薄发的沉淀。</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">166</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">11</span></a></div><a class="site-state-item hty-icon-button" href="https://www.kdy.icu/" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/cyh245689173" title="GayHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=1696797616" title="网抑云音乐" target="_blank" style="color:#C20C0C"><span class="icon iconify" data-icon="ri:netease-cloud-music-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/248628386" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729090533.jpg" title="加我微信" target="_blank" style="color:#1AAD19"><span class="icon iconify" data-icon="ri:wechat-2-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="评论加友链啊" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E4%BE%8B%EF%BC%9F"><span class="toc-text">什么是单例？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%A3%E4%BA%9B%E5%9C%B0%E6%96%B9%E7%94%A8%E5%88%B0%E4%BA%86%E5%8D%95%E4%BE%8B%EF%BC%9F"><span class="toc-text">那些地方用到了单例？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">单例优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-text">缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%9A"><span class="toc-text">代码实现：</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://www.kdy.icu/posts/154390417.html"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="丸了鸭"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="丸了鸭的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">单例模式学习</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <span class="post-meta-icon-text">发表于</span> <time title="创建时间：2022-07-16 15:00:55" itemprop="dateCreated datePublished" datetime="2022-07-16T15:00:55+08:00">2022-07-16</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <span class="post-meta-icon-text">更新于</span> <time title="修改时间：2022-08-20 20:31:20" itemprop="dateModified" datetime="2022-08-20T20:31:20+08:00">2022-08-20</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">877</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">3m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E9%9D%A2%E8%AF%95/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">面试</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><h3 id="什么是单例？"><a href="#什么是单例？" class="headerlink" title="什么是单例？"></a>什么是单例？</h3><ul>
-<li>保证一个类只有一个实例，并且只提供一个全局访问点</li>
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="丸了鸭"><img width="96" loading="lazy" src="/images/kedaya.jpg" alt="丸了鸭"><span class="site-author-status" title="再小的努力乘以365都很明显">😎</span></a><div class="site-author-name"><a href="/about/">丸了鸭</a></div><span class="site-name">丸了鸭的博客</span><sub class="site-subtitle">记录学习生活的点点滴滴</sub><div class="site-description">信手拈来的从容，都是厚积薄发的沉淀。</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">167</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">11</span></a></div><a class="site-state-item hty-icon-button" href="https://www.kdy.icu/" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/cyh245689173" title="GayHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=1696797616" title="网抑云音乐" target="_blank" style="color:#C20C0C"><span class="icon iconify" data-icon="ri:netease-cloud-music-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/248628386" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729090533.jpg" title="加我微信" target="_blank" style="color:#1AAD19"><span class="icon iconify" data-icon="ri:wechat-2-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="评论加友链啊" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E4%BE%8B%EF%BC%9F"><span class="toc-text">什么是单例？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%A3%E4%BA%9B%E5%9C%B0%E6%96%B9%E7%94%A8%E5%88%B0%E4%BA%86%E5%8D%95%E4%BE%8B%EF%BC%9F"><span class="toc-text">那些地方用到了单例？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">单例优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-text">缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%9A"><span class="toc-text">代码实现：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">简单工厂模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="toc-text">工厂方法模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">抽象工厂模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">适配器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="toc-text">代理模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86%E5%92%8C%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">静态代理和动态代理的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-text">观察者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">观察者模式的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">装饰器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5-1"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E2%BD%A4%E5%9C%BA%E6%99%AF"><span class="toc-text">应⽤场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-text">和代理模式的区别：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F"><span class="toc-text">责任链模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E2%BD%A4%E5%9C%BA%E6%99%AF-1"><span class="toc-text">应⽤场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="toc-text">策略模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-%E6%A1%86%E6%9E%B6%E4%B8%AD%E2%BD%A4%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="toc-text">Spring 框架中⽤到了哪些设计模式？</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://www.kdy.icu/posts/154390417.html"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="丸了鸭"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="丸了鸭的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">单例模式学习</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <span class="post-meta-icon-text">发表于</span> <time title="创建时间：2022-07-16 15:00:55" itemprop="dateCreated datePublished" datetime="2022-07-16T15:00:55+08:00">2022-07-16</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <span class="post-meta-icon-text">更新于</span> <time title="修改时间：2022-08-31 15:24:09" itemprop="dateModified" datetime="2022-08-31T15:24:09+08:00">2022-08-31</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">3.3k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">11m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E9%9D%A2%E8%AF%95/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">面试</span></a></span></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><h3 id="什么是单例？"><a href="#什么是单例？" class="headerlink" title="什么是单例？"></a>什么是单例？</h3><ul>
+<li>保证一个类在任何情况下只有一个实例，该类<strong>构造⽅法必须是私有的</strong>、由⾃⼰创建⼀个静态变量存储实例，对<strong>外提供⼀个静态公有⽅法获取实例</strong>。</li>
 </ul>
+<hr>
 <h3 id="那些地方用到了单例？"><a href="#那些地方用到了单例？" class="headerlink" title="那些地方用到了单例？"></a>那些地方用到了单例？</h3><ol>
 <li>网站的计数器，一般是使用单例模式实现的，否则难以同步。</li>
 <li>应用程序的日志应用，一般都是单例模式实现。</li>
 <li>多线程的线程池设计一般也是采用单例模式，因为线程池要对池中的线程进行控制。</li>
 </ol>
+<hr>
 <h3 id="单例优缺点"><a href="#单例优缺点" class="headerlink" title="单例优缺点"></a>单例优缺点</h3><h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><ul>
 <li>在单例模式中，活动的单例只有一个实例，对单例类的所有实例化得到的都是相同的一个实例。这样就防止其它对象对自己的实例化，确保所有的对象都访问一个实例</li>
 <li>单例模式具有一定的伸缩性，类自己来控制实例化进程，类就在改变实例化进程上有相应的伸缩性。</li>
 <li>提供了对唯一实例的受控访问。</li>
-<li>由于在系统内存中只存在一个对象，因此可以节约系统资源，当需要频繁创建和销毁的对象时单例模式无疑可以提高系统的性能。</li>
+<li><strong>由于在系统内存中只存在一个对象，因此可以节约系统资源，当需要频繁创建和销毁的对象时单例模式无疑可以提高系统的性能。</strong></li>
 <li>允许可变数目的实例。</li>
 <li>避免对共享资源的多重占用。</li>
 </ul>
 <h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><ul>
 <li>不适用于变化的对象，如果同一类型的对象总是要在不同的用例场景发生变化，单例就会引起数据的错误，不能保存彼此的状态。</li>
-<li>由于单利模式中没有抽象层，因此单例类的扩展有很大的困难。</li>
+<li>由于<strong>单例模式中没有抽象层，因此单例类的扩展有很大的困难。</strong></li>
 <li>单例类的职责过重，在一定程度上违背了“单一职责原则”。</li>
 <li>滥用单例将带来一些负面问题，如为了节省资源将数据库连接池对象设计为的单例类，可能会导致共享连接池对象的程序过多而出现连接池溢出；如果实例化的对象长时间不被利用，系统会认为是垃圾而被回收，这将导致对象状态的丢失。</li>
 </ul>
+<hr>
 <h3 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h3><p>单例模式有好几种写法：</p>
 <ul>
-<li><p>饿汉式：类初始化时,会立即加载该对象，线程天生安全,调用效率高。</p>
+<li><p>饿汉式：类初始化时，会立即加载该对象，线程天生安全，调用效率高，但是类加载时就回初始化，浪费内存空间。</p>
 </li>
-<li><p>懒汉式：类初始化时,不会初始化该对象,真正需要使用的时候才会创建该对象,具备懒加载功能。</p>
+<li><p>懒汉式：类初始化时不会初始化该对象，真正需要使用的时候才会创建该对象，具备懒加载功能。</p>
 <ul>
 <li>简单懒汉式（在方法声明时加锁）</li>
 <li>DCL双重检验加锁（进阶懒汉式）</li>
@@ -87,6 +90,116 @@ IconifyProviders = {
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//静态内部类懒汉式    </span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">    <span class="comment">//使用静态内部类来实现懒加载（一定线程安全）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">LazyLoader</span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">singleton</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> LazyLoader.singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><h4 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h4><p>简单工厂模式是由一个工厂对象来创建实例，客户端不需要不关注创建逻辑，只需要提供传入工厂的参数</p>
+<p>适⽤于⼯⼚类<strong>负责创建对象较少</strong>的情况，缺点是如果要增加新产品，就需<br>要修改⼯⼚类的判断逻辑，<strong>违背开闭原则</strong>，且产品多的话会使⼯⼚类⽐较<br>复杂。</p>
+<hr>
+<h3 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h3><p>和简单工厂模式中工厂负责生产所有的产品相比，工厂方法模式将生成具体产品的任务分发给具体的产品工厂。也就是定义⼀个抽象⼯⼚，其<strong>定义了产品的⽣产接⼝，但不负责具体的产品，将⽣产任务交给不同的派⽣类⼯⼚。</strong>这样不⽤通过指定类型来创建对象了。</p>
+<hr>
+<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><p>简单⼯⼚模式和⼯⼚⽅法模式不管⼯⼚怎么拆分抽象，都<strong>只是针对⼀类产</strong><br><strong>品</strong>，如果要⽣成另⼀种产品，就⽐较难办了！<br>抽象⼯⼚模式通过在 AbstarctFactory 中<strong>增加创建产品的接⼝</strong>，并在具体⼦<br>⼯⼚中实现新加产品的创建。</p>
+<hr>
+<h2 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h2><p>在我们的应⽤程序中我们可能需要将两个不同接⼝的类来进⾏通信，在不<br>修改这两个类的前提下我们可能会需要某个中间件来完成这个衔接的过程。<br><strong>这个中间件就是适配器。</strong></p>
+<p>所谓适配器模式就是将⼀个类的接⼝，转换成客户期望的另⼀个接⼝。它可以让原本两个不兼容的接⼝能够⽆缝完成对接。</p>
+<p>作为中间件的适配器将⽬标类和适配者解耦，增加了类的透明性和可复⽤<br>性</p>
+<hr>
+<p><strong>优点：</strong></p>
+<ol>
+<li>提⾼了类的复⽤；</li>
+<li>组合若⼲关联对象形成对外提供统⼀服务的接⼝；</li>
+<li>扩展性、灵活性好。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>过多使⽤适配模式容易造成<strong>代码功能和逻辑意义的混淆。</strong></li>
+<li>部分语⾔对继承的限制，可能⾄多只能适配⼀个适配者类，⽽且⽬标类<br> 必须是抽象类。</li>
+</ol>
+<hr>
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><p>代理模式的本质是⼀个中间件，主要⽬的是解耦合服务提供者和使⽤者。<br><strong>使⽤者通过代理间接的访问服务提供者，便于后者的封装和控制。</strong></p>
+<p>是⼀种结构性模式。</p>
+<hr>
+<p><strong>代理模型有静态代理和动态代理。</strong></p>
+<ul>
+<li><p>静态代理：由程序员手<strong>动创建代理类</strong>或特定工具自动生成源代码再对其编译，在程序运行前代理类的 .class 文件就已经存在了。</p>
+<ul>
+<li>特点是需要⾃⼰写代理类，实现对应的接⼝，⽐较麻烦。</li>
+</ul>
+</li>
+<li><p>动态代理常⻅的⼜有两种实现⽅式：JDK动态代理和CGLIB代理</p>
+<ul>
+<li>JDK动态代理其实就是运<strong>⽤了反射的机制</strong>，⽽CGLIB代理则⽤的是利⽤ASM框架，通过修改其字节码⽣成⼦类来处理。3</li>
+<li>要实现静态代理需要将代理类硬编码在程序中，有一些代理一个代理就要负责一个类，这样代理模式可能会非常多，这就造成了很多不必要的资源浪费并且增加了很多的代码量。</li>
+<li>动态代理可以帮助我们仅仅在需要的时候再创建代理类，减少资源浪费，此外由于动态代理是一个<strong>模板的形式</strong>，也可以减少程序的代码量。</li>
+</ul>
+</li>
+</ul>
+<h3 id="静态代理和动态代理的区别"><a href="#静态代理和动态代理的区别" class="headerlink" title="静态代理和动态代理的区别"></a>静态代理和动态代理的区别</h3><ol>
+<li>灵活性 ：动态代理更加灵活，不需要必须实现接⼝，可以直接代理实<br> 现类，并且可以不需要针对每个⽬标类都创建⼀个代理类。</li>
+<li>另外，静态代理中，接⼝⼀旦新增加⽅法，⽬标对象和代理对象都要进⾏修改，这是⾮常麻烦的！</li>
+<li>JVM 层⾯ ：静态代理在编译时就将接⼝、实现类、代理类这些都变成<br> 了⼀个个实际的 class ⽂件。⽽动态代理是在运⾏时动态⽣成类字节<br> 码，并加载到 JVM 中的。</li>
+</ol>
+<hr>
+<h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>观察者模式主要⽤于处理对象间的⼀对多的关系，是⼀种对象⾏为模式。<br>该模式的实际应⽤场景⽐较容易确认，当⼀个对象状态发⽣变化时，所有该对象的关注者均能收到状态变化通知，以进⾏相应的处理。（类似于广播）</p>
+<hr>
+<h3 id="观察者模式的优缺点"><a href="#观察者模式的优缺点" class="headerlink" title="观察者模式的优缺点"></a>观察者模式的优缺点</h3><p><strong>优点：</strong></p>
+<ol>
+<li>被观察者和观察者之间是抽象耦合的；</li>
+<li>耦合度较低，两者之间的关联仅仅在于消息的通知；</li>
+<li>被观察者⽆需关⼼他的观察者；</li>
+<li>⽀持⼴播通信；</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>观察者只知道被观察对象发⽣了变化，但不知变化的过程和缘由；</li>
+<li>观察者同时也可能是被观察者，消息传递的链路可能会过⻓，完成所有通知花费时间较多；</li>
+<li>如果观察者和被观察者之间产⽣循环依赖，或者消息传递链路形成闭环，会导致⽆限循环；</li>
+</ol>
+<hr>
+<h2 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a>装饰器模式</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>装饰器模式主要对现有的类对象进⾏包裹和封装，以期望在不改变类对象及其类定义的情况下，为对象添加额外功能。是⼀种对象结构型模式。</p>
+<p>需要注意的是，该过程是通过调⽤被包裹之后的对象完成功能添加的，⽽不是直接修改现有对象的⾏为，相当于增加了中间层。</p>
+<h3 id="应⽤场景"><a href="#应⽤场景" class="headerlink" title="应⽤场景"></a>应⽤场景</h3><ul>
+<li>如果你希望在⽆需修改代码的情况下即可使⽤对象， 且希望在运⾏时为对象新增额外的⾏为， 可以使⽤装饰模式。</li>
+<li>装饰能将业务逻辑组织为层次结构， 你可为各层创建⼀个装饰， 在运⾏时<br>将各种不同逻辑组合成对象。 由于这些对象都遵循通⽤接⼝， 客户端代码<br>能以相同的⽅式使⽤这些对象。</li>
+<li>如果⽤继承来扩展对象⾏为的⽅案难以实现或者根本不可⾏， 你可以使⽤<br>该模式。</li>
+<li>许多编程语⾔使⽤ final 最终关键字来限制对某个类的进⼀步扩展。 复⽤最终类已有⾏为的唯⼀⽅法是使⽤装饰模式：⽤封装器对其进⾏封装。</li>
+</ul>
+<h3 id="和代理模式的区别："><a href="#和代理模式的区别：" class="headerlink" title="和代理模式的区别："></a>和代理模式的区别：</h3><p>可以看到，代理模式和装饰器博士都是给类或者对象进行功能的增强。</p>
+<ul>
+<li><p>但是代理模式的访问控制主要在于对目标类的透明访问，也就是说我们不需要知道目标类的具体情况，只需要知道代理类可以帮助我们完成想要的功能就对了；</p>
+</li>
+<li><p>而对于装饰者模式，我们是有一个目标类的对象的，这个对象可以完成特定的功能，但是不能满足我们的要求，所以需要对其进行增强。</p>
+</li>
+</ul>
+<p>也就是说，在代理模式中，<strong>目标类对于客户端是透明的，由代理类隐藏其具体信息并响应客户端请求</strong>；<strong>而装饰者中客户端对特定的目标类对象进行增强</strong>。</p>
+<p>所以，<strong>代理类与真实对象的关系常在编译时就确定，而装饰者在运行时递归构造。</strong></p>
+<hr>
+<h2 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h2><h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><ul>
+<li>⼀个请求沿着⼀条“链”传递，直到该“链”上的某个处理者处理它为⽌</li>
+<li>⼀个请求可以被多个处理者处理或处理者未明确指定时。</li>
+<li>它最原始的裸体结构： switch-case 语句。</li>
+</ul>
+<h3 id="应⽤场景-1"><a href="#应⽤场景-1" class="headerlink" title="应⽤场景"></a>应⽤场景</h3><ul>
+<li>当程序需要使⽤不同⽅式处理不同种类请求， ⽽且请求类型和顺序预<br>先未知时， 可以使⽤责任链模式。该模式能将多个处理者连接成⼀条<br>链。接收到请求后， 它会 “询问” 每个处理者是否能够对其进⾏处理。<br>这样所有处理者都有机会来处理请求。</li>
+<li>当必须按顺序执⾏多个处理者时， 可以使⽤该模式。⽆论你以何种顺序将处理者连接成⼀条链， 所有请求都会严格按照顺序通过链上的处理者。</li>
+</ul>
+<hr>
+<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>策略模式（Strategy Pattern）属于对象的⾏为模式。其⽤意是针对⼀组算法，将每⼀个算法封装到具有共同接⼝的独⽴的类中，从⽽使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发⽣变化。<br>其主要⽬的是通过定义相似的算法，替换 if else 语句写法，并且可以随时相互替换。</p>
+<hr>
+<h2 id="Spring-框架中⽤到了哪些设计模式？"><a href="#Spring-框架中⽤到了哪些设计模式？" class="headerlink" title="Spring 框架中⽤到了哪些设计模式？"></a>Spring 框架中⽤到了哪些设计模式？</h2><ul>
+<li>⼯⼚设计模式 : Spring 使⽤⼯⼚模式通过<ul>
+<li>BeanFactory 、 ApplicationContext 创建 bean 对象。</li>
+</ul>
+</li>
+<li>代理设计模式 : Spring AOP 功能的实现。</li>
+<li>单例设计模式 : Spring 中的 Bean 默认都是单例的。</li>
+<li>模板⽅法模式 : Spring 中 jdbcTemplate 、 hibernateTemplaTemplate 结尾的对数据库操作的类，它们就使⽤到了模板包装器设计模式 : 我们的项⽬需要连接多个数据库，⽽且每次访问中根据需要会去访问不同的数据库。这种模式让客户的需求能够动态切换不同的数据源。</li>
+<li>观察者模式: Spring 事件驱动模型就是观察者模式很经典。</li>
+<li>适配器模式 :Spring AOP 的增强或通知(Advice)使⽤到了spring MVC 中也是⽤到了适配器模式适配 Controller 。</li>
+</ul>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000040571286#%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86">一文搞懂代理模式</a></li>
+<li><a target="_blank" rel="noopener" href="https://snailclimb.gitee.io/javaguide-interview/#/./docs/e-1spring?id=spring-aop">javaguide</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/A1342772/article/details/91349142">https://blog.csdn.net/A1342772/article/details/91349142</a></li>
+</ul>
 </div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://www.kdy.icu/posts/154390417.html" title="单例模式学习">https://www.kdy.icu/posts/154390417.html</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul><script>document.addEventListener('copy', function (event) {
   const clipboardData = event.clipboardData || window.clipboardData;
   if (!clipboardData) { return; }

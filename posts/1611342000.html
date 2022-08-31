@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="丸了鸭"><meta name="copyright" content="丸了鸭"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>微服务学习笔记04 | 丸了鸭的博客</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link class="aplayer-style-marker" rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script class="aplayer-script-marker" src="https://fastly.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script class="meting-script-marker" src="https://fastly.jsdelivr.net/npm/meting@1/dist/Meting.min.js" defer></script><link rel="icon" type="image/png" href="/images/32x32.ico"><link rel="mask-icon" href="/images/32x32.ico" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"www.kdy.icu","root":"/","title":"丸了鸭的博客","version":"1.10.4","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"想要搜些什么？","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/search.xml"},"localsearch":{"enable":"auto","trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":["32, 242, 242"]},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="/atom.xml" title="丸了鸭的博客" type="application/atom+xml"><meta name="description" content="一、初识MQ1.1.同步和异步通讯微服务间通讯有同步和异步两种方式： 同步通讯：就像打电话，需要实时响应。 异步通讯：就像发邮件，不需要马上回复。  两种方式各有优劣，打电话可以立即得到响应，但是你却不能跟多个人同时通话。发送邮件可以同时与多个人收发邮件，但是往往响应会有延迟。 1.同步通讯我们之前学习的Feign调用就属于同步方式，虽然调用可以实时得到结果，但存在下面的问题：  总结： 同步调用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务学习笔记04">
+<meta property="og:url" content="https://www.kdy.icu/posts/1611342000.html">
+<meta property="og:site_name" content="丸了鸭的博客">
+<meta property="og:description" content="一、初识MQ1.1.同步和异步通讯微服务间通讯有同步和异步两种方式： 同步通讯：就像打电话，需要实时响应。 异步通讯：就像发邮件，不需要马上回复。  两种方式各有优劣，打电话可以立即得到响应，但是你却不能跟多个人同时通话。发送邮件可以同时与多个人收发邮件，但是往往响应会有延迟。 1.同步通讯我们之前学习的Feign调用就属于同步方式，虽然调用可以实时得到结果，但存在下面的问题：  总结： 同步调用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091154169.png">
+<meta property="og:image" content="c:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091319999.png">
+<meta property="og:image" content="c:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091336983.png">
+<meta property="og:image" content="c:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091827713.png">
+<meta property="og:image" content="c:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091958191.png">
+<meta property="og:image" content="c:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091454193.png">
+<meta property="og:image" content="c:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091518711.png">
+<meta property="article:published_time" content="2022-08-31T01:10:52.000Z">
+<meta property="article:modified_time" content="2022-08-31T01:20:02.226Z">
+<meta property="article:author" content="丸了鸭">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091154169.png"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="丸了鸭"><img width="96" loading="lazy" src="/images/kedaya.jpg" alt="丸了鸭"><span class="site-author-status" title="再小的努力乘以365都很明显">😎</span></a><div class="site-author-name"><a href="/about/">丸了鸭</a></div><span class="site-name">丸了鸭的博客</span><sub class="site-subtitle">记录学习生活的点点滴滴</sub><div class="site-description">信手拈来的从容，都是厚积薄发的沉淀。</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">167</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">11</span></a></div><a class="site-state-item hty-icon-button" href="https://www.kdy.icu/" title="文档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:settings-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/cyh245689173" title="GayHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=1696797616" title="网抑云音乐" target="_blank" style="color:#C20C0C"><span class="icon iconify" data-icon="ri:netease-cloud-music-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/248628386" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><span class="icon iconify" data-icon="ri:bilibili-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/9286/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729090533.jpg" title="加我微信" target="_blank" style="color:#1AAD19"><span class="icon iconify" data-icon="ri:wechat-2-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="评论加友链啊" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%88%9D%E8%AF%86MQ"><span class="toc-text">一、初识MQ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5%E9%80%9A%E8%AE%AF"><span class="toc-text">1.1.同步和异步通讯</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%90%8C%E6%AD%A5%E9%80%9A%E8%AE%AF"><span class="toc-text">1.同步通讯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%BC%82%E6%AD%A5%E9%80%9A%E8%AE%AF"><span class="toc-text">2.异步通讯</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E6%8A%80%E6%9C%AF%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-text">1.2.技术对比：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="toc-text">2.快速入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%AE%89%E8%A3%85RabbitMQ"><span class="toc-text">2.1.安装RabbitMQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-RabbitMQ%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B"><span class="toc-text">2.2.RabbitMQ消息模型</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https://www.kdy.icu/posts/1611342000.html"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="丸了鸭"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="丸了鸭的博客"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">微服务学习笔记04</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <span class="post-meta-icon-text">发表于</span> <time title="创建时间：2022-08-31 09:10:52" itemprop="dateCreated datePublished" datetime="2022-08-31T09:10:52+08:00">2022-08-31</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">1k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">3m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E5%90%8E%E7%AB%AF/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">后端</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">微服务</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h1 id="一、初识MQ"><a href="#一、初识MQ" class="headerlink" title="一、初识MQ"></a>一、初识MQ</h1><h2 id="1-1-同步和异步通讯"><a href="#1-1-同步和异步通讯" class="headerlink" title="1.1.同步和异步通讯"></a>1.1.同步和异步通讯</h2><p>微服务间通讯有同步和异步两种方式：</p>
+<p>同步通讯：就像打电话，需要<strong>实时响应。</strong></p>
+<p>异步通讯：就像发邮件，<strong>不需要马上回复。</strong></p>
+<p><img src="C:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091154169.png" alt="image-20220831091154169"></p>
+<p>两种方式各有优劣，打电话可以立即得到响应，但是你却不能跟多个人同时通话。发送邮件可以同时与多个人收发邮件，但是往往响应会有延迟。</p>
+<h3 id="1-同步通讯"><a href="#1-同步通讯" class="headerlink" title="1.同步通讯"></a>1.同步通讯</h3><p>我们之前学习的Feign调用就属于同步方式，虽然调用可以实时得到结果，但存在下面的问题：</p>
+<p><img src="C:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091319999.png" alt="image-20220831091319999"></p>
+<p>总结：</p>
+<p>同步调用的优点：</p>
+<ul>
+<li>时效性较强，可以立即得到结果</li>
+</ul>
+<p>同步调用的问题：</p>
+<ul>
+<li>耦合度高</li>
+<li>性能和吞吐能力下降</li>
+<li>有额外的资源消耗</li>
+<li>有级联失败问题</li>
+</ul>
+<h3 id="2-异步通讯"><a href="#2-异步通讯" class="headerlink" title="2.异步通讯"></a>2.异步通讯</h3><p>异步调用则可以避免上述问题：</p>
+<p>我们以购买商品为例，用户支付后需要调用订单服务完成订单状态修改，调用物流服务，从仓库分配响应的库存并准备发货。</p>
+<p>在事件模式中，支付服务是事件发布者（publisher），在支付完成后只需要发布一个支付成功的事件（event），事件中带上订单id。</p>
+<p>订单服务和物流服务是事件订阅者（Consumer），订阅支付成功的事件，监听到事件后完成自己业务即可。</p>
+<p>为了解除事件发布者与订阅者之间的耦合，两者并不是直接通信，而是有一个中间人（Broker）。发布者发布事件到Broker，不关心谁来订阅事件。订阅者从Broker订阅事件，不关心谁发来的消息。</p>
+<p><img src="C:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091336983.png" alt="image-20220831091336983"></p>
+<p>Broker 是一个像数据总线一样的东西，所有的服务要接收数据和发送数据都发到这个总线上，这个总线就像协议一样，让服务间的通讯变得标准和可控。</p>
+<p>好处：</p>
+<ul>
+<li><p>吞吐量提升：无需等待订阅者处理完成，响应更快速</p>
+</li>
+<li><p>故障隔离：服务没有直接调用，不存在级联失败问题</p>
+</li>
+<li><p>调用间没有阻塞，不会造成无效的资源占用</p>
+</li>
+<li><p>耦合度极低，每个服务都可以灵活插拔，可替换</p>
+</li>
+<li><p>流量削峰：不管发布事件的流量波动多大，都由Broker接收，订阅者可以按照自己的速度去处理事件</p>
+</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>架构复杂了，业务没有明显的流程线，不好管理</li>
+<li>需要依赖于Broker的可靠、安全、性能</li>
+</ul>
+<p>好在现在开源软件或云平台上 Broker 的软件是非常成熟的，比较常见的一种就是我们今天要学习的MQ技术。</p>
+<h2 id="1-2-技术对比："><a href="#1-2-技术对比：" class="headerlink" title="1.2.技术对比："></a>1.2.技术对比：</h2><p>MQ，中文是消息队列（MessageQueue），字面来看就是存放消息的队列。也就是事件驱动架构中的Broker。</p>
+<p>比较常见的MQ实现：</p>
+<ul>
+<li>ActiveMQ</li>
+<li>RabbitMQ</li>
+<li>RocketMQ</li>
+<li>Kafka</li>
+</ul>
+<p>几种常见MQ的对比：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>RabbitMQ</strong></th>
+<th><strong>ActiveMQ</strong></th>
+<th><strong>RocketMQ</strong></th>
+<th><strong>Kafka</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>公司&#x2F;社区</td>
+<td>Rabbit</td>
+<td>Apache</td>
+<td>阿里</td>
+<td>Apache</td>
+</tr>
+<tr>
+<td>开发语言</td>
+<td>Erlang</td>
+<td>Java</td>
+<td>Java</td>
+<td>Scala&amp;Java</td>
+</tr>
+<tr>
+<td>协议支持</td>
+<td>AMQP，XMPP，SMTP，STOMP</td>
+<td>OpenWire,STOMP，REST,XMPP,AMQP</td>
+<td>自定义协议</td>
+<td>自定义协议</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>高</td>
+<td>一般</td>
+<td>高</td>
+<td>高</td>
+</tr>
+<tr>
+<td>单机吞吐量</td>
+<td>一般</td>
+<td>差</td>
+<td>高</td>
+<td>非常高</td>
+</tr>
+<tr>
+<td>消息延迟</td>
+<td>微秒级</td>
+<td>毫秒级</td>
+<td>毫秒级</td>
+<td>毫秒以内</td>
+</tr>
+<tr>
+<td>消息可靠性</td>
+<td>高</td>
+<td>一般</td>
+<td>高</td>
+<td>一般</td>
+</tr>
+</tbody></table>
+<p>追求可用性：Kafka、 RocketMQ 、RabbitMQ</p>
+<p>追求可靠性：RabbitMQ、RocketMQ</p>
+<p>追求吞吐能力：RocketMQ、Kafka</p>
+<p>追求消息低延迟：RabbitMQ、Kafka</p>
+<h1 id="2-快速入门"><a href="#2-快速入门" class="headerlink" title="2.快速入门"></a>2.快速入门</h1><h2 id="2-1-安装RabbitMQ"><a href="#2-1-安装RabbitMQ" class="headerlink" title="2.1.安装RabbitMQ"></a>2.1.安装RabbitMQ</h2><p>在线拉取</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rabbitmq:3-management</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091827713.png" alt="image-20220831091827713"></p>
+<p>执行下面的命令来运行MQ容器：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line"> -e RABBITMQ_DEFAULT_USER=itcast \</span><br><span class="line"> -e RABBITMQ_DEFAULT_PASS=123321 \</span><br><span class="line"> --name mq \</span><br><span class="line"> --hostname mq1 \</span><br><span class="line"> -p 15672:15672 \</span><br><span class="line"> -p 5672:5672 \</span><br><span class="line"> -d \</span><br><span class="line"> rabbitmq:3-management</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091958191.png" alt="image-20220831091958191"></p>
+<p>MQ的基本结构：</p>
+<p><img src="C:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091454193.png" alt="image-20220831091454193"></p>
+<p>RabbitMQ中的一些角色：</p>
+<ul>
+<li>publisher：生产者</li>
+<li>consumer：消费者</li>
+<li>exchange个：交换机，负责消息路由</li>
+<li>queue：队列，存储消息</li>
+<li>virtualHost：虚拟主机，隔离不同租户的exchange、queue、消息的隔离</li>
+</ul>
+<h2 id="2-2-RabbitMQ消息模型"><a href="#2-2-RabbitMQ消息模型" class="headerlink" title="2.2.RabbitMQ消息模型"></a>2.2.RabbitMQ消息模型</h2><p>RabbitMQ官方提供了5个不同的Demo示例，对应了不同的消息模型：</p>
+<p><img src="C:/Users/%E4%B8%B8%E4%BA%86%E9%B8%AD/AppData/Roaming/Typora/typora-user-images/image-20220831091518711.png" alt="image-20220831091518711"></p>
+</div></section><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><span class="icon iconify" data-icon="ri:hand-coin-line"></span></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"><a href="/images/alipay.jpg"><img loading="lazy" src="/images/alipay.jpg" alt="支付宝" title="支付宝"></a><div><span style="color:#00A3EE"><span class="icon iconify" data-icon="ri:alipay-line"></span></span></div></div><div style="display:inline-block"><a href="/images/wechatpay.jpg"><img loading="lazy" src="/images/wechatpay.jpg" alt="微信支付" title="微信支付"></a><div><span style="color:#2DC100"><span class="icon iconify" data-icon="ri:wechat-pay-line"></span></span></div></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>丸了鸭</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://www.kdy.icu/posts/1611342000.html" title="微服务学习笔记04">https://www.kdy.icu/posts/1611342000.html</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><span class="icon iconify" data-icon="ri:creative-commons-line"></span><span class="icon iconify" data-icon="ri:creative-commons-by-line"></span><span class="icon iconify" data-icon="ri:creative-commons-nc-line"></span><span class="icon iconify" data-icon="ri:creative-commons-sa-line"></span></a> 许可协议。</li></ul><script>document.addEventListener('copy', function (event) {
+  const clipboardData = event.clipboardData || window.clipboardData;
+  if (!clipboardData) { return; }
+  const text = window.getSelection().toString();
+  if (text) {
+    event.preventDefault();
+    clipboardData.setData('text/plain', text + '\n\n本文作者：丸了鸭\n本文链接：https://www.kdy.icu/posts/1611342000.html\n版权声明：本博客所有文章除特别声明外，均默认采用 CC BY-NC-SA 4.0 许可协议。');
+  }
+});</script></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/posts/633931403.html" rel="next" title="剑指Offer 28 对称的二叉树"><span class="post-nav-text">剑指Offer 28 对称的二叉树</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>有没有什么要和我说的呢？</span><br></div><div id="tcomment"></div><script type="module">import { getScript } from '/js/utils.js'
+
+getScript("https://fastly.jsdelivr.net/npm/twikoo@latest/dist/twikoo.all.min.js", () => {
+  const twikooConfig = {"enable":true,"envId":"https://my-twikoo-omega.vercel.app/"}
+  twikooConfig.el = '#tcomment'
+  twikoo.init(twikooConfig)
+}, window.twikoo);</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2020 – 2022 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> 丸了鸭</span></div><div class="live-time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(*╹▽╹*)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2021-01-03T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = ` ${passDay} 天 ${passHour} 小时 ${passMinute} 分 ${passSecond} 秒`;
+}
+blog_live_time();
+</script></div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="想要搜些什么？" value=""></div><div class="search-result-container"></div></div><div class="aplayer no-destroy" id="aplayer" data-id="308168565" data-server="netease" data-type="playlist" data-fixed="true" data-theme="#0078E7" data-loop="all" data-order="list" data-preload="auto" data-volume="0.7" data-mutex data-lrctype="0" data-listmaxheight="340px" data-storagename="metingjs"></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
